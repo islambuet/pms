@@ -49,7 +49,7 @@ abstract class Root_Controller extends CI_Controller
         if($module_id)
         {
             $this->load->model("dashboard_model");
-            $data['tasks']=$this->dashboard_model->get_tasks(1);
+            $data['tasks']=$this->dashboard_model->get_tasks($module_id);
         }
         else
         {

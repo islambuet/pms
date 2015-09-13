@@ -13,12 +13,33 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery-ui/jquery-ui.theme.css">
 
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/css/jqx/jqx.base.css">
+
 </head>
 <body>
     <script src="<?php echo base_url(); ?>js/jquery-2.1.1.js"></script>
     <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>js/bootstrap-filestyle.min.js"></script>
     <script src="<?php echo base_url(); ?>js/jquery-ui.min.js"></script>
+
+    <!--    for jqx grid finish-->
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxcore.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.edit.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxbuttons.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxlistbox.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxmenu.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxdata.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxdatatable.js"></script>
+    <!--    for jqx grid end-->
 
 <!--    <script src="--><?php //echo base_url() ?><!--js/validator_js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>-->
 <!--    <script src="--><?php //echo base_url() ?><!--js/validator_js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>-->
