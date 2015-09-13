@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Home extends Root_Controller
+class Home extends Root_controller
 {
 	public function index($module_id=0)
 	{
