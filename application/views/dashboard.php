@@ -34,6 +34,6 @@
 </div>
 <div class="clearfix"></div>
 <div class="" id="sub-menu">
-
+<?php $this->load->view("sub_menu");?>
 </div>
 <div class="clearfix"></div>

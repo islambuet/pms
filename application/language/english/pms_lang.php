@@ -6,6 +6,9 @@ $lang['MSG_LOGIN_SUCCESS'] = 'Successfully Logged In';
 $lang['MSG_LOGOUT_SUCCESS'] = 'Successfully Logged out';
 
 //common
+$lang['YOU_DONT_HAVE_ACCESS'] = 'You cannot access this page';
+
+
 $lang['SELECT'] = 'Select';
 $lang['SERIAL'] = 'Serial';
 $lang['STATUS'] = 'Status';

@@ -1,7 +1,16 @@
 <?php
 class System_helper
 {
-    public static function pagination_config($base_url, $total_rows, $segment)
+    public static function get_parent_id_of_task($task_id)
+    {
+        $CI =& get_instance();
+        $CI->db->from($CI->config->item('table_task'));
+        $CI->db->where('id',$task_id);
+        $result=$CI->db->get()->row_array();
+        return $result['parent'];
+
+    }
+    /*public static function pagination_config($base_url, $total_rows, $segment)
     {
         $CI =& get_instance();
 
@@ -142,6 +151,6 @@ class System_helper
         $mpdf->Output();
         exit;
 
-    }
+    }*/
 
 }

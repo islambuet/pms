@@ -97,7 +97,7 @@ $autoload['helper'] = array('url','user','query','system');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = array('table','user_group');
 
 /*
 | -------------------------------------------------------------------

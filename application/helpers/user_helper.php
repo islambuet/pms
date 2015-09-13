@@ -6,7 +6,7 @@ class User_helper
     function __construct($id)
     {
         $CI = & get_instance();
-        $user = $CI->db->get_where('ait_user_login', array('user_id' => $id))->row();
+        $user = $CI->db->get_where($CI->config->item('table_users'), array('user_id' => $id))->row();
         if ($user)
         {
             foreach ($user as $key => $value)
@@ -18,7 +18,7 @@ class User_helper
     public static function login($username, $password)
     {
         $CI = & get_instance();
-        $user = $CI->db->get_where('ait_user_login', array('pms_group >'=>0,'user_name' => $username, 'user_pass' => md5(md5($password))))->row();
+        $user = $CI->db->get_where($CI->config->item('table_users'), array('pms_group >'=>0,'user_name' => $username, 'user_pass' => md5(md5($password))))->row();
         if ($user)
         {
             $CI->session->set_userdata("user_id", $user->user_id);
@@ -51,5 +51,18 @@ class User_helper
             }
 
         }
+    }
+    public static function get_permission($controller_name)
+    {
+        $CI = & get_instance();
+        $user=User_helper::get_user();
+        $CI->db->from($CI->config->item('table_user_group_role').' ugr');
+        $CI->db->select('ugr.*');
+
+        $CI->db->join($CI->config->item('table_task').' task','task.id = ugr.task_id','INNER');
+        $CI->db->like("controller",$controller_name,"after");
+        $CI->db->where("user_group_id",$user->pms_group);
+        $result=$CI->db->get()->row_array();
+        return $result;
     }
 }

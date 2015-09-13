@@ -12,7 +12,7 @@
         foreach($tasks as $task)
         {
             ?>
-            <div class="menu-item col-sm-2" data-menu-link="<?php echo base_url().$task['controller'];?>" title="<?php echo $task['name']; ?>">
+            <div class="menu-item col-sm-2" data-menu-link="<?php echo site_url($task['controller']);?>" title="<?php echo $task['name']; ?>">
                 <div class="menu_left pull-left">
                     <div class="menu_image">
                         <img alt="menu" src="<?php echo base_url().'images/'.$task['icon'];?>">
