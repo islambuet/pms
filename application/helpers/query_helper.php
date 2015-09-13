@@ -20,7 +20,7 @@ class Query_helper
                 'date'=>time()
             );
 
-            $CI->db->insert('rnd_history', $historyData);
+            $CI->db->insert($CI->config->item('table_history'), $historyData);
             return $id;
         }
         else
@@ -64,7 +64,7 @@ class Query_helper
                     'date'=>$time
                 );
 
-                $CI->db->insert('rnd_history', $historyData);
+                $CI->db->insert($CI->config->item('table_history'), $historyData);
             }
 
             return true;

@@ -5,16 +5,31 @@ $lang['MSG_USERNAME_PASSWORD_INVALID'] = 'Username and Password did not match or
 $lang['MSG_LOGIN_SUCCESS'] = 'Successfully Logged In';
 $lang['MSG_LOGOUT_SUCCESS'] = 'Successfully Logged out';
 
+//Action buttons
+$lang['ACTION_DASHBOARD'] = 'Dashboard';
+$lang['ACTION_NEW'] = 'New';
+$lang['ACTION_LOGOUT'] = 'Logout';
+$lang['ACTION_BACK'] = 'Back';
+$lang['ACTION_SAVE'] = 'Save';
+
 //common
 $lang['YOU_DONT_HAVE_ACCESS'] = 'You cannot access this page';
-
-
+$lang['ACTIVE'] = 'Active';
+$lang['INACTIVE'] = 'In-active';
+$lang['DELETE'] = 'delete';
 $lang['SELECT'] = 'Select';
+
+
+
+
+
+
+
+
 $lang['SERIAL'] = 'Serial';
 $lang['STATUS'] = 'Status';
 $lang['ACTION'] = 'Action';
-$lang['ACTIVE'] = 'Active';
-$lang['INACTIVE'] = 'In-active';
+
 $lang['MSG_SAVED_SUCCESS'] = 'Successfully Saved';
 $lang['MSG_NOT_SAVED_SUCCESS'] = 'Not Saved!';
 $lang['MSG_INVALID_INPUT'] = 'Invalid data entry';
@@ -48,12 +63,7 @@ $lang['MSG_THIS_PESTICIDE_OUT_OF_STOCK'] = 'This pesticide out of stock! try aga
 
 
 
-//Action buttons
-$lang['ACTION_DASHBOARD'] = 'Dashboard';
-$lang['ACTION_NEW'] = 'New';
-$lang['ACTION_LOGOUT'] = 'Logout';
-$lang['ACTION_BACK'] = 'Back';
-$lang['ACTION_SAVE'] = 'Save';
+
 
 //Create Crop
 $lang['LABEL_CROP_NAME'] = 'Crop Name';

@@ -47,16 +47,18 @@ class Sys_module_task_model extends CI_Model
             }
         }
     }
-    /*public function get_module_task_info($id)
+    public function get_module_task_info($id)
     {
-        $this->db->from($this->module_task_table);
+        $CI = & get_instance();
+        $this->db->from($CI->config->item('table_task'));
         $this->db->where('id',$id);
         $result=$this->db->get()->row_array();
         return $result;
     }
     public function get_modules()
     {
-        $this->db->from($this->module_task_table);
+        $CI = & get_instance();
+        $this->db->from($CI->config->item('table_task'));
         //$this->db->order_by('order');
         $this->db->order_by('ordering');
         $this->db->where('type','Module');
@@ -75,5 +77,5 @@ class Sys_module_task_model extends CI_Model
         }
         return $tree;
         //return $this->db->get_where('rnd_task',array("type"=>"MODULE"))->result_array();
-    }*/
+    }
 }

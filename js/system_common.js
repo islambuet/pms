@@ -132,18 +132,17 @@ $(document).ready(function()
         });
 
     });
+    $(document).on("click", "#button_action_save", function(event)
+    {
+        $($(this).attr('data-form')).submit();
+    });
     /*$(document).on("click", "#button_action_clear", function(event)
     {
 
         $($(this).attr('data-form')).trigger('reset');
 
     });
-    $(document).on("click", "#button_action_save", function(event)
-    {
-        $("#system_save_new_status").val(0);
-        $($(this).attr('data-form')).submit();
 
-    });
     $(document).on("click", "#button_action_save_new", function(event)
     {
         $("#system_save_new_status").val(1);
@@ -381,7 +380,7 @@ $(document).on("keyup", ".OnlyNumber", function()
 
 function turn_off_triggers()
 {
-    $(document).off("change", "#component_options");
+    /*$(document).off("change", "#component_options");
     $(document).off("click", "#checked");
     $(document).off("click", ".system_add_more_button");
     $(document).off("click", ".system_add_more_delete");
@@ -411,5 +410,5 @@ function turn_off_triggers()
     $(document).off("change", "#user_citycorporation_id");
     $(document).off("change", "#user_municipal_id");
     $(document).off("click", "#upload_button");
-    $(document).off("change", ".user_group");
+    $(document).off("change", ".user_group");*/
 }

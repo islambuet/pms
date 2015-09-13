@@ -1,12 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-    $data["link_back"]=base_url()."sys_module_task";
-    $this->load->view("action_buttons_edit",$data);
-
-//echo '<pre>';
-//print_r($cropInfo);
-//echo '</pre>';
+    $CI = & get_instance();
+    $action_data=array();
+    $action_data["action_back"]=base_url($CI->controller_url);
+    $action_data["action_save"]='#save_form';
+    $CI->load->view("action_buttons",$action_data);
 ?>
-<form class="form_valid" id="save_form" action="<?php echo base_url();?>sys_module_task/index/save" method="post">
+<form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <input type="hidden" id="id" name="id" value="<?php echo $module_task['id']; ?>" />
     <div class="row widget">
         <div class="widget-header">
@@ -18,7 +17,7 @@
 
         <div class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_NAME');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="task[name]" id="name" class="form-control" value="<?php echo $module_task['name']; ?>"/>
@@ -27,7 +26,7 @@
 
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_TYPE');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="type" name="task[type]" class="form-control" tabindex="-1">
@@ -51,11 +50,11 @@
 
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_PARENT');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_PARENT');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="parent" name="task[parent]" data-placeholder="Select" class="form-control" tabindex="-1">
-                    <option value="0"><?php echo $this->lang->line("SELECT"); ?></option>
+                    <option value="0"><?php echo $CI->lang->line("SELECT"); ?></option>
                     <?php
                     echo "<pre>";
                     print_r($modules);
@@ -74,7 +73,7 @@
 
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CONTROLLER_NAME');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CONTROLLER_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="task[controller]" id="controller" class="form-control" value="<?php echo $module_task['controller'] ?>" >
@@ -82,7 +81,7 @@
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_ORDER');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_ORDER');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="task[ordering]" id="ordering" class="form-control" value="<?php echo $module_task['ordering'] ?>" >
@@ -90,7 +89,7 @@
         </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
-                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_TYPE');?><span style="color:#FF0000">*</span></label>
+                <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <select id="status" name="task[status]" class="form-control" tabindex="-1">
@@ -100,20 +99,20 @@
                         if ($module_task['status'] == 1) {
                             echo "selected='selected'";
                         }
-                        ?> >Active
+                        ?> ><?php echo $CI->lang->line('ACTIVE') ?>
                     </option>
                     <option value="0"
                         <?php
                         if ($module_task['status'] == 0) {
                             echo "selected='selected'";
                         }
-                        ?> >In-Active</option>
+                        ?> ><?php echo $CI->lang->line('INACTIVE') ?></option>
                     <option value="99"
                         <?php
                         if ($module_task['status'] == 99) {
                             echo "selected='selected'";
                         }
-                        ?> >Delete</option>
+                        ?> ><?php echo $CI->lang->line('DELETE') ?></option>
                 </select>
             </div>
         </div>

@@ -5,7 +5,7 @@
     {
         $action_data["action_new"]=base_url($CI->controller_url."/index/add");
     }
-    $this->load->view("action_buttons",$action_data);
+    $CI->load->view("action_buttons",$action_data);
 ?>
 
 <div class="row widget">
@@ -19,10 +19,10 @@
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th><?php echo $this->lang->line("ID");?></th>
-                    <th><?php echo $this->lang->line("NAME");?></th>
-                    <th><?php echo $this->lang->line("TYPE");?></th>
-                    <th><?php echo $this->lang->line("STATUS");?></th>
+                    <th><?php echo $CI->lang->line("ID");?></th>
+                    <th><?php echo $CI->lang->line("NAME");?></th>
+                    <th><?php echo $CI->lang->line("TYPE");?></th>
+                    <th><?php echo $CI->lang->line("STATUS");?></th>
                 </tr>
             </thead>
 
@@ -36,7 +36,7 @@
                         <tr>
                             <td><?php echo $module_task['module_task']['id']; ?></td>
                             <td><?php echo $module_task['prefix'];?><a href="<?php echo site_url('sys_module_task/index/edit/'.$module_task['module_task']['id']);?>"><?php echo $module_task['module_task']['name']; ?></a></td>
-                            <td><?php if($module_task['module_task']['type']=='TASK'){echo $this->lang->line('TASK');}else{ echo $this->lang->line('MODULE');} ?></td>
+                            <td><?php if($module_task['module_task']['type']=='TASK'){echo $CI->lang->line('TASK');}else{ echo $CI->lang->line('MODULE');} ?></td>
                             <td><?php echo $module_task['module_task']['status']; ?></td>
 
                         </tr>
@@ -48,7 +48,7 @@
                     ?>
                     <tr>
                         <td colspan="20" class="text-center alert-danger">
-                            <?php echo $this->lang->line("NO_DATA_FOUND"); ?>
+                            <?php echo $CI->lang->line("NO_DATA_FOUND"); ?>
                         </td>
                     </tr>
                     <?php
