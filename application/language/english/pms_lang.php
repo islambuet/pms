@@ -19,34 +19,32 @@ $lang['INACTIVE'] = 'In-active';
 $lang['DELETE'] = 'delete';
 $lang['SELECT'] = 'Select';
 
-
-
-
-
-
-
-
 $lang['SERIAL'] = 'Serial';
 $lang['STATUS'] = 'Status';
 $lang['ACTION'] = 'Action';
-
+$lang['NO_DATA_FOUND']='No Data Found';
 $lang['MSG_SAVED_SUCCESS'] = 'Successfully Saved';
 $lang['MSG_NOT_SAVED_SUCCESS'] = 'Not Saved!';
 $lang['MSG_INVALID_INPUT'] = 'Invalid data entry';
 $lang['MSG_CREATE_SUCCESS'] = 'Successfully Saved Data!';
 $lang['MSG_UPDATE_SUCCESS'] = 'Successfully Updated!';
 $lang['MSG_NOT_UPDATED_SUCCESS'] = 'Not Updated!';
+
 $lang['LABEL_DATE']='Date';
 $lang['MSG_FILE_SIZE_ERROR']='File Size Error';
 $lang['MSG_FILE_TYPE_ERROR']='File Type Error';
-$lang['NO_DATA_FOUND']='No Data Found';
+
 $lang['LABEL_YES'] = 'Yes';
 $lang['LABEL_NO'] = 'No';
-$lang['LABEL_DAYS'] = 'Days';
-$lang['LABEL_TYPE_RND_CODE'] = 'Type R&D Code';
+
+
 $lang['LABEL_SELECT_YEAR'] = 'Select Year';
-$lang['LABEL_RANKING'] = 'Ranking';
-$lang['RANKING'] = 'Ranking';
+
+
+
+
+
+
 
 // CREATE BY MARAJ MASSAGE CAPTION
 ////////////////////////// FERTILISER

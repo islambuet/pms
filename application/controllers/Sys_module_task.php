@@ -70,7 +70,7 @@ class Sys_module_task extends Root_Controller
         {
             $data['module_task'] = $this->sys_module_task_model->get_module_task_info($id);
             $data['title']='Edit '.$data['module_task']['name'];
-            $ajax['system_page_url']=site_url("sys_module_task/index/edit/".$id);
+            $ajax['system_page_url']=site_url($this->controller_url."/index/edit/".$id);
         }
         else
         {
@@ -85,7 +85,7 @@ class Sys_module_task extends Root_Controller
                 'icon' => 'menu.png',
                 'status' => 1
             );
-            $ajax['system_page_url']=site_url("sys_module_task/index/add");
+            $ajax['system_page_url']=site_url($this->controller_url."/index/add");
         }
 
         //$data['crops'] = System_helper::get_ordered_crops();

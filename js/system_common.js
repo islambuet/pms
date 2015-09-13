@@ -411,4 +411,6 @@ function turn_off_triggers()
     $(document).off("change", "#user_municipal_id");
     $(document).off("click", "#upload_button");
     $(document).off("change", ".user_group");*/
+    $(document).off("click", ".task_name");
+    $(document).off("click", ".module_name");
 }
