@@ -1,6 +1,6 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
-
+$CI = & get_instance();
 ?>
 <html lang="en">
 <head>
@@ -46,6 +46,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
     <script type="text/javascript">
         var base_url = "<?php echo base_url(); ?>";
         var display_date_format = "dd-M-yy";
+        var SELCET_ONE_ITEM = "<?php echo $CI->lang->line('SELECT_ONE_ITEM'); ?>";
     </script>
     <header class="hidden-print">
 

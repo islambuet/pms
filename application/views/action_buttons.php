@@ -20,7 +20,17 @@
             <a class="btn" href="<?php echo $action_new; ?>"><?php echo $this->lang->line("ACTION_NEW"); ?></a>
         </div>
         <?php
-        }
+    }
+    ?>
+    <?php
+    if(isset($action_edit))
+    {
+        ?>
+        <div class="action_button"">
+            <button id="button_action_edit" class="btn" data-action-link="<?php echo $action_edit; ?>"><?php echo $this->lang->line("ACTION_EDIT"); ?></button>
+        </div>
+        <?php
+    }
     ?>
     <?php
     if(isset($action_back))

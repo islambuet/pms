@@ -136,48 +136,21 @@ $(document).ready(function()
     {
         $($(this).attr('data-form')).submit();
     });
-    /*$(document).on("click", "#button_action_clear", function(event)
+    $(document).on("click", "#button_action_edit", function(event)
     {
 
-        $($(this).attr('data-form')).trigger('reset');
-
-    });
-
-    $(document).on("click", "#button_action_save_new", function(event)
-    {
-        $("#system_save_new_status").val(1);
-        $($(this).attr('data-form')).submit();
-
-    });
-    $(document).on("click", ".button_action_batch", function(event)
-    {
-        if($(this).attr('id')=='button_action_delete')
-        {
-
-            var sure = confirm(DELETE_CONFIRM);
-            if(!sure)
-            {
-                return;
-            }
-        }
-        var jqxgrdi_id=$(this).attr('data-jqxgrid');
+        var jqxgrdi_id='#system_jqx_container';
 
         var selected_rows = $(jqxgrdi_id).jqxGrid('getselectedrowindexes');
         var selectedcount = selected_rows.length;
         if (selectedcount > 0)
         {
             var data=$(jqxgrdi_id).jqxGrid('getrows');
-            var ids=[];
-            for (var i = 0; i < selectedcount; i++)
-            {
-                ids.push(data[selected_rows[i]].id);
-            }
-
             $.ajax({
                 url: $(this).attr('data-action-link'),
                 type: 'POST',
                 dataType: "JSON",
-                data:{'selected_ids':ids},
+                data:{'id':data[selected_rows[0]].id},
                 success: function (data, status)
                 {
 
@@ -196,7 +169,21 @@ $(document).ready(function()
             alert(SELCET_ONE_ITEM);
         }
 
-    });*/
+    });
+    /*$(document).on("click", "#button_action_clear", function(event)
+    {
+
+        $($(this).attr('data-form')).trigger('reset');
+
+    });
+
+    $(document).on("click", "#button_action_save_new", function(event)
+    {
+        $("#system_save_new_status").val(1);
+        $($(this).attr('data-form')).submit();
+
+    });
+    */
 
     //load the current page content
     load_current_content();

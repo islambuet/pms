@@ -31,7 +31,7 @@ class Setup_create_crop extends Root_Controller
         }
         elseif($action=="edit")
         {
-            $this->system_edit();
+            $this->system_edit($id);
         }
         elseif($action=="save")
         {
@@ -65,112 +65,150 @@ class Setup_create_crop extends Root_Controller
         }
     }
 
-    public function system_add_edit($id)
+    public function system_add()
     {
-        $data['access_tasks']=$this->sys_user_role_model->get_my_tasks($id);
-        $data['role_status']=$this->sys_user_role_model->get_role_status($id);
-        $data['title']="Edit User Role";
-        $data['id']=$id;
-        $ajax['status']=true;
-        $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("sys_user_role/add_edit",$data,true));
-        $ajax['system_page_url']=site_url($this->controller_url."/index/edit/".$id);
-        $this->jsonReturn($ajax);
+        if(isset($this->permissions['add'])&&($this->permissions['add']==1))
+        {
+            $data['title']="Create New Crop";
+            $data['crop']['id']=0;
+            $data['crop']['crop_name']='';
+            $data['crop']['remarks']='';
+            $data['crop']['ordering']=99;
+            $data['crop']['status']=$this->config->item('system_status_active');
+            $ajax['status']=true;
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_create_crop/add_edit",$data,true));
+            if($this->message)
+            {
+                $ajax['system_message']=$this->message;
+            }
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/add');
+            $this->jsonReturn($ajax);
+        }
+        else
+        {
+            $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+            $this->jsonReturn($ajax);
+        }
+    }
+    public function system_edit($id)
+    {
+        if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+        {
+            if(($this->input->post('id')))
+            {
+                $crop_id=$this->input->post('id');
+            }
+            else
+            {
+                $crop_id=$id;
+            }
+
+            $data['crop']=Query_helper::get_info($this->config->item('table_crops'),'*',array('id ='.$crop_id),1);
+            $data['title']="Edit Crop (".$data['crop']['crop_name'].')';
+            $ajax['status']=true;
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_create_crop/add_edit",$data,true));
+            if($this->message)
+            {
+                $ajax['system_message']=$this->message;
+            }
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$crop_id);
+            $this->jsonReturn($ajax);
+        }
+        else
+        {
+            $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+            $this->jsonReturn($ajax);
+        }
     }
 
     public function system_save()
     {
         $user=User_helper::get_user();
-        $tasks=$this->input->post('tasks');
-        $user_group_id=$this->input->post('id');
-
-        $time=time();
-        $this->db->trans_start();  //DB Transaction Handle START
-
-        foreach($tasks as $task)
+        $id = $this->input->post("id");
+        if($id>0)
         {
-
-            $data=array();
-            if(isset($task['view'])&& ($task['view']==1))
+            if(!(isset($this->permissions['edit'])&&($this->permissions['edit']==1)))
             {
-                $data['view']=1;
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+                $this->jsonReturn($ajax);
+                die();
             }
-            else
-            {
-                $data['view']=0;
-            }
-            if(isset($task['add'])&& ($task['add']==1))
-            {
-                $data['add']=1;
-            }
-            else
-            {
-                $data['add']=0;
-            }
-            if(isset($task['edit'])&& ($task['edit']==1))
-            {
-                $data['edit']=1;
-            }
-            else
-            {
-                $data['edit']=0;
-            }
-            if(isset($task['delete'])&& ($task['delete']==1))
-            {
-                $data['delete']=1;
-            }
-            else
-            {
-                $data['delete']=0;
-            }
-            if(isset($task['report'])&& ($task['report']==1))
-            {
-                $data['report']=1;
-            }
-            else
-            {
-                $data['report']=0;
-            }
-            if(isset($task['print'])&& ($task['print']==1))
-            {
-                $data['print']=1;
-            }
-            else
-            {
-                $data['print']=0;
-            }
-            if(($data['add'])||($data['edit'])||($data['delete'])||($data['report'])||($data['print']))
-            {
-                $data['view']=1;
-            }
-            if($task['ugr_id']>0)
-            {
-                $data['modified_by']=$user->id;
-                $data['modification_date']=$time;
-                Query_helper::update($this->config->item('table_user_group_role'),$data,array("id = ".$task['ugr_id']));
-            }
-            else
-            {
-                $data['user_group_id']=$user_group_id;
-                $data['task_id']=$task['task_id'];
-                $data['created_by']=$user->id;
-                $data['creation_date']=$time;
-                Query_helper::add($this->config->item('table_user_group_role'),$data);
-            }
-
-        }
-        $this->db->trans_complete();   //DB Transaction Handle END
-
-        if ($this->db->trans_status() === TRUE)
-        {
-            $this->message=$this->lang->line("MSG_ROLE_ASSIGN_SUCCESS");
-            $this->system_list();
         }
         else
         {
+            if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
+            {
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+                $this->jsonReturn($ajax);
+                die();
+
+            }
+        }
+        if(!$this->check_validation())
+        {
             $ajax['status']=false;
-            $ajax['desk_message']=$this->lang->line("MSG_ROLE_ASSIGN_FAIL");
+            $ajax['system_message']=$this->message;
             $this->jsonReturn($ajax);
         }
+        else
+        {
+            $data = $this->input->post('crop');
+            $time=time();
+            if($id>0)
+            {
+                $data['modified_by']=$user->id;
+                $data['modification_date']=$time;
+                $this->db->trans_start();  //DB Transaction Handle START
+                Query_helper::update($this->config->item('table_crops'),$data,array("id = ".$id));
+                $this->db->trans_complete();   //DB Transaction Handle END
+
+                if ($this->db->trans_status() === TRUE)
+                {
+                    $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
+                    $this->system_list();
+                }
+                else
+                {
+                    $ajax['status']=false;
+                    $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
+                    $this->jsonReturn($ajax);
+
+                }
+            }
+            else
+            {
+                $data['created_by'] = $user->user_id;
+                $data['creation_date'] = $time;
+                $this->db->trans_start();  //DB Transaction Handle START
+                Query_helper::add($this->config->item('table_crops'),$data);
+                $this->db->trans_complete();   //DB Transaction Handle END
+                if ($this->db->trans_status() === TRUE)
+                {
+                    $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
+                    $this->system_list();
+                }
+                else
+                {
+                    $ajax['status']=false;
+                    $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
+                    $this->jsonReturn($ajax);
+                }
+            }
+        }
+    }
+    private function check_validation()
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('crop[crop_name]',$this->lang->line('LABEL_CROP_NAME'),'required');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->message=validation_errors();
+            return false;
+        }
+        return true;
     }
     public function get_crops()
     {

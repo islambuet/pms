@@ -8,6 +8,7 @@ $lang['MSG_LOGOUT_SUCCESS'] = 'Successfully Logged out';
 //Action buttons
 $lang['ACTION_DASHBOARD'] = 'Dashboard';
 $lang['ACTION_NEW'] = 'New';
+$lang['ACTION_EDIT'] = 'Edit';
 $lang['ACTION_LOGOUT'] = 'Logout';
 $lang['ACTION_BACK'] = 'Back';
 $lang['ACTION_SAVE'] = 'Save';
@@ -33,11 +34,8 @@ $lang['STATUS'] = 'Status';
 $lang['ACTION'] = 'Action';
 $lang['NO_DATA_FOUND']='No Data Found';
 $lang['MSG_SAVED_SUCCESS'] = 'Successfully Saved';
-$lang['MSG_NOT_SAVED_SUCCESS'] = 'Not Saved!';
+$lang['MSG_SAVED_FAIL'] = 'Failed to Save!';
 $lang['MSG_INVALID_INPUT'] = 'Invalid data entry';
-$lang['MSG_CREATE_SUCCESS'] = 'Successfully Saved Data!';
-$lang['MSG_UPDATE_SUCCESS'] = 'Successfully Updated!';
-$lang['MSG_NOT_UPDATED_SUCCESS'] = 'Not Updated!';
 
 $lang['LABEL_DATE']='Date';
 $lang['MSG_FILE_SIZE_ERROR']='File Size Error';
@@ -51,9 +49,11 @@ $lang['LABEL_SELECT_YEAR'] = 'Select Year';
 $lang['LABEL_NAME'] = 'Name';
 $lang['LABEL_ORDER'] = 'Ordering';
 $lang['LABEL_REMARKS'] = 'Remarks';
+$lang['SELECT_ONE_ITEM'] = 'Select a item';
 
 
-
+//Create Crop
+$lang['LABEL_CROP_NAME'] = 'Crop Name';
 
 
 // CREATE BY MARAJ MASSAGE CAPTION
@@ -73,17 +73,7 @@ $lang['MSG_THIS_PESTICIDE_OUT_OF_STOCK'] = 'This pesticide out of stock! try aga
 
 
 
-//Create Crop
-$lang['LABEL_CROP_NAME'] = 'Crop Name';
-$lang['LABEL_CROP_CODE'] = 'Crop Code';
-$lang['LABEL_CROP_WIDTH'] = 'Trail Bed width';
-$lang['LABEL_CROP_HEIGHT'] = 'Trail Bed length';
-$lang['LABEL_FLOWERING_TYPE'] = 'Fruit Type';
-$lang['LABEL_PLANTS_PER_HECTARE'] = 'Plants Per hectare';
-$lang['LABEL_SAMPLE_SIZE_RND'] = 'Sample Size for R&D (gm)';
-$lang['LABEL_GM'] = 'gm';
-$lang['LABEL_ORDERING'] = 'Ordering';
-$lang['LABEL_OPTIMUM_TRANSPLANTING_DATE'] = 'Optimum Transplanting Days';
+
 
 //Create Type
 $lang['LABEL_SELECT_CROP'] = 'Select Crop';

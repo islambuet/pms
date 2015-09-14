@@ -5,6 +5,10 @@
     {
         $action_data["action_new"]=base_url($CI->controller_url."/index/add");
     }
+    if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+    {
+        $action_data["action_edit"]=base_url($CI->controller_url."/index/edit");
+    }
     $CI->load->view("action_buttons",$action_data);
 ?>
 
