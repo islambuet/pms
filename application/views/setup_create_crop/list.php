@@ -32,12 +32,10 @@
             dataType: "json",
             dataFields: [
                 { name: 'id', type: 'int' },
-                { name: 'edit_link', type: 'string' },
-                { name: 'component_name', type: 'string' },
-                { name: 'description', type: 'string' },
-                { name: 'component_icon', type: 'string' },
+                { name: 'crop_name', type: 'string' },
+                { name: 'remarks', type: 'string' },
                 { name: 'ordering', type: 'string' },
-                { name: 'status_text', type: 'string' }
+                { name: 'status', type: 'int' }
             ],
             id: 'id',
             url: url
@@ -55,17 +53,16 @@
                 sortable: true,
                 showfilterrow: true,
                 columnsresize: true,
-                pagesize:10,
-                pagesizeoptions: ['10', '20', '30', '50','100','150'],
+                pagesize:50,
+                pagesizeoptions: ['20', '50', '100', '200','300','500'],
                 selectionmode: 'checkbox',
                 altrows: true,
                 autoheight: true,
                 columns: [
-                    { text: '<?php echo $CI->lang->line('NAME'); ?>', dataField: 'component_name',width:'15%'},
-                    { text: '<?php echo $CI->lang->line('DESCRIPTION'); ?>', dataField: 'description'},
-                    { text: '<?php echo $CI->lang->line('ICON'); ?>', dataField: 'component_icon',width:'25%'},
-                    { text: '<?php echo $CI->lang->line('ORDERING'); ?>', dataField: 'ordering',cellsalign: 'right',width:'70'},
-                    { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status_text',cellsalign: 'right',width:'70'}
+                    { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'crop_name',width:'15%'},
+                    { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks'},
+                    { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering',cellsalign: 'right',width:'100'},
+                    { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',cellsalign: 'right',width:'100'}
                 ]
             });
     });

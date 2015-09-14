@@ -12,6 +12,15 @@ $lang['ACTION_LOGOUT'] = 'Logout';
 $lang['ACTION_BACK'] = 'Back';
 $lang['ACTION_SAVE'] = 'Save';
 
+
+//****MODULE TASK//
+
+$lang['LABEL_PARENT'] = 'Parent';
+$lang['LABEL_CONTROLLER_NAME'] = 'Controller';
+
+$lang['TOTAL_TASK'] = 'Number of Tasks';
+//*****//
+
 //common
 $lang['YOU_DONT_HAVE_ACCESS'] = 'You cannot access this page';
 $lang['ACTIVE'] = 'Active';
@@ -39,8 +48,9 @@ $lang['LABEL_NO'] = 'No';
 
 
 $lang['LABEL_SELECT_YEAR'] = 'Select Year';
-
-
+$lang['LABEL_NAME'] = 'Name';
+$lang['LABEL_ORDER'] = 'Ordering';
+$lang['LABEL_REMARKS'] = 'Remarks';
 
 
 
@@ -137,7 +147,7 @@ $lang['LABEL_DESTINED_SOWING_DATE'] = 'Destined Sowing Date';
 $lang['LABEL_SOWING'] = 'Sowing';
 $lang['LABEL_SOWING_DATE'] = 'Sowing Date';
 $lang['LABEL_ADD_MORE'] = 'Add More';
-$lang['LABEL_REMARKS'] = 'Remarks';
+
 $lang['REMARKS'] = 'Remarks';
 $lang['LABEL_DELETE'] = 'Delete';
 $lang['LABEL_CROP_VARIETY'] = 'Crop Variety';
@@ -400,13 +410,7 @@ $lang['LABEL_NUM_COLUMNS'] = 'Number of varieties';
 $lang['LABEL_ROW_NO'] = 'Row No#';
 $lang['LABEL_LOAD_PLOT'] = 'Load Plot';
 
-//****MODULE TASK//
-$lang['LABEL_NAME'] = 'Name';
-$lang['LABEL_PARENT'] = 'Parent';
-$lang['LABEL_CONTROLLER_NAME'] = 'Controller';
-$lang['LABEL_ORDER'] = 'Ordering';
-$lang['TOTAL_TASK'] = 'Number of Tasks';
-//*****//
+
 
 
 

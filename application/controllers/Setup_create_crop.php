@@ -174,10 +174,8 @@ class Setup_create_crop extends Root_Controller
     }
     public function get_crops()
     {
-        $crops=array();
-
+        $crops=Query_helper::get_info($this->config->item('table_crops'),array('id','crop_name','remarks','status'),array());
         $this->jsonReturn($crops);
-
 
     }
 
