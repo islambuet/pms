@@ -7,4 +7,5 @@ $config['table_task'] = 'pms_task';
 $config['table_user_group_role'] = 'pms_user_group_role';
 $config['table_history'] = 'pms_history';
 $config['table_crops'] = 'pms_crops';
+$config['table_classifications'] = 'pms_classifications';
 
