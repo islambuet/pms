@@ -94,22 +94,22 @@
             <div class="col-sm-4 col-xs-8">
                 <select id="status" name="task[status]" class="form-control" tabindex="-1">
                     <!--<option value=""></option>-->
-                    <option value="1"
+                    <option value="<?php echo $CI->config->item('system_status_active'); ?>"
                         <?php
-                        if ($module_task['status'] == 1) {
+                        if ($module_task['status'] == $CI->config->item('system_status_active')) {
                             echo "selected='selected'";
                         }
                         ?> ><?php echo $CI->lang->line('ACTIVE') ?>
                     </option>
-                    <option value="0"
+                    <option value="<?php echo $CI->config->item('system_status_inactive'); ?>"
                         <?php
-                        if ($module_task['status'] == 0) {
+                        if ($module_task['status'] == $CI->config->item('system_status_inactive')) {
                             echo "selected='selected'";
                         }
                         ?> ><?php echo $CI->lang->line('INACTIVE') ?></option>
-                    <option value="99"
+                    <option value="<?php echo $CI->config->item('system_status_delete'); ?>"
                         <?php
-                        if ($module_task['status'] == 99) {
+                        if ($module_task['status'] == $CI->config->item('system_status_delete')) {
                             echo "selected='selected'";
                         }
                         ?> ><?php echo $CI->lang->line('DELETE') ?></option>

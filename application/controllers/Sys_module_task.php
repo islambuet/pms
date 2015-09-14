@@ -83,7 +83,7 @@ class Sys_module_task extends Root_Controller
                 'controller' => '',
                 'ordering' => 99,
                 'icon' => 'menu.png',
-                'status' => 1
+                'status' => $this->config->item('pms_status_active')
             );
             $ajax['system_page_url']=site_url($this->controller_url."/index/add");
         }

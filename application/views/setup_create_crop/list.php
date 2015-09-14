@@ -35,14 +35,13 @@
                 { name: 'crop_name', type: 'string' },
                 { name: 'remarks', type: 'string' },
                 { name: 'ordering', type: 'string' },
-                { name: 'status', type: 'int' }
+                { name: 'status', type: 'string' }
             ],
             id: 'id',
             url: url
         };
 
         var dataAdapter = new $.jqx.dataAdapter(source);
-
         // create jqxgrid.
         $("#system_jqx_container").jqxGrid(
             {
@@ -62,7 +61,7 @@
                     { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'crop_name',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks'},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering',cellsalign: 'right',width:'100'},
-                    { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',cellsalign: 'right',width:'100'}
+                    { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',filtertype: 'list',width:'150',cellsalign: 'right'}
                 ]
             });
     });
