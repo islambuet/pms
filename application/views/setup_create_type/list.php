@@ -65,8 +65,8 @@
                 autoheight: true,
                 columns: [
                     { text: '<?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?>', dataField: 'type_name',width:'15%'},
-                    { text: '<?php echo $CI->lang->line('LABEL_CLASSIFICATION_NAME'); ?>', dataField: 'classification_name',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_CROP_NAME'); ?>', dataField: 'crop_name',width:'15%'},
+                    { text: '<?php echo $CI->lang->line('LABEL_CLASSIFICATION_NAME'); ?>', dataField: 'classification_name',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks'},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering',cellsalign: 'right',width:'100'},
                     { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',filtertype: 'list',width:'150',cellsalign: 'right'}
