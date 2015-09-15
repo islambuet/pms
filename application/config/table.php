@@ -17,3 +17,4 @@ $config['table_variety_price_history'] = 'pms_variety_price_history';
 
 //location setup tables
 $config['table_zones'] = 'pms_zones';
+$config['table_territories'] = 'pms_territories';

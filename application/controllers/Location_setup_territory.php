@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Location_setup_zone extends Root_Controller
+class Location_setup_territory extends Root_Controller
 {
     private  $message;
     public $permissions;
@@ -10,12 +10,12 @@ class Location_setup_zone extends Root_Controller
     {
         parent::__construct();
         $this->message="";
-        $this->permissions=User_helper::get_permission('Location_setup_zone');
+        $this->permissions=User_helper::get_permission('Location_setup_territory');
         if(isset($this->permissions['task_id'])&&($this->permissions['task_id']>0))
         {
             $this->parent_module_id=System_helper::get_parent_id_of_task($this->permissions['task_id']);
         }
-        $this->controller_url='location_setup_zone';
+        $this->controller_url='location_setup_territory';
         //$this->load->model("sys_user_role_model");
     }
 
@@ -48,9 +48,9 @@ class Location_setup_zone extends Root_Controller
 
         if(isset($this->permissions['view'])&&($this->permissions['view']==1))
         {
-            $data['title']="Zone List";
+            $data['title']="Territory List";
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_zone/list",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_territory/list",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
@@ -69,14 +69,16 @@ class Location_setup_zone extends Root_Controller
     {
         if(isset($this->permissions['add'])&&($this->permissions['add']==1))
         {
-            $data['title']="Create New Zone";
-            $data['zone']['id']=0;
-            $data['zone']['zone_name']='';
-            $data['zone']['remarks']='';
-            $data['zone']['ordering']=99;
-            $data['zone']['status']=$this->config->item('system_status_active');
+            $data['title']="Create New Territory";
+            $data['territory']['id']=0;
+            $data['territory']['zone_id']=0;
+            $data['territory']['territory_name']='';
+            $data['territory']['remarks']='';
+            $data['territory']['ordering']=99;
+            $data['territory']['status']=$this->config->item('system_status_active');
+            $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_zone/add_edit",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_territory/add_edit",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
@@ -96,22 +98,23 @@ class Location_setup_zone extends Root_Controller
         {
             if(($this->input->post('id')))
             {
-                $crop_id=$this->input->post('id');
+                $territory_id=$this->input->post('id');
             }
             else
             {
-                $crop_id=$id;
+                $territory_id=$id;
             }
 
-            $data['zone']=Query_helper::get_info($this->config->item('table_zones'),'*',array('id ='.$crop_id),1);
-            $data['title']="Edit Zone (".$data['zone']['zone_name'].')';
+            $data['territory']=Query_helper::get_info($this->config->item('table_territories'),'*',array('id ='.$territory_id),1);
+            $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
+            $data['title']="Edit Territory (".$data['territory']['territory_name'].')';
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_zone/add_edit",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_territory/add_edit",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
             }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$crop_id);
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$territory_id);
             $this->jsonReturn($ajax);
         }
         else
@@ -154,14 +157,14 @@ class Location_setup_zone extends Root_Controller
         }
         else
         {
-            $data = $this->input->post('zone');
+            $data = $this->input->post('territory');
             $time=time();
             if($id>0)
             {
                 $data['modified_by']=$user->id;
                 $data['modification_date']=$time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::update($this->config->item('table_zones'),$data,array("id = ".$id));
+                Query_helper::update($this->config->item('table_territories'),$data,array("id = ".$id));
                 $this->db->trans_complete();   //DB Transaction Handle END
 
                 if ($this->db->trans_status() === TRUE)
@@ -182,7 +185,7 @@ class Location_setup_zone extends Root_Controller
                 $data['created_by'] = $user->user_id;
                 $data['creation_date'] = $time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::add($this->config->item('table_zones'),$data);
+                Query_helper::add($this->config->item('table_territories'),$data);
                 $this->db->trans_complete();   //DB Transaction Handle END
                 if ($this->db->trans_status() === TRUE)
                 {
@@ -201,7 +204,8 @@ class Location_setup_zone extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('zone[zone_name]',$this->lang->line('LABEL_ZONE_NAME'),'required');
+        $this->form_validation->set_rules('territory[territory_name]',$this->lang->line('LABEL_TERRITORY_NAME'),'required');
+        $this->form_validation->set_rules('territory[zone_id]',$this->lang->line('LABEL_ZONE_NAME'),'required');
 
         if($this->form_validation->run() == FALSE)
         {
@@ -212,8 +216,14 @@ class Location_setup_zone extends Root_Controller
     }
     public function get_crops()
     {
-        $crops=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name','remarks','status','ordering'),array('status !="'.$this->config->item('system_status_delete').'"'));
-        $this->jsonReturn($crops);
+        $this->db->from($this->config->item('table_territories').' territories');
+        $this->db->select('territories.id id,territories.territory_name territory_name');
+        $this->db->select('territories.remarks remarks,territories.status status,territories.ordering ordering');
+        $this->db->select('zones.zone_name zone_name');
+        $this->db->join($this->config->item('table_zones').' zones','zones.id = territories.zone_id','INNER');
+        $this->db->where('territories.status !=',$this->config->item('system_status_delete'));
+        $classifications=$this->db->get()->result_array();
+        $this->jsonReturn($classifications);
 
     }
 
