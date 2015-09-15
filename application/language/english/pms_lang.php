@@ -58,6 +58,8 @@ $lang['LABEL_CROP_NAME'] = 'Crop Name';
 $lang['LABEL_CLASSIFICATION_NAME'] = 'Classification Name';
 //create type
 $lang['LABEL_TYPE_NAME'] = 'Type Name';
+//create skin
+$lang['LABEL_SKIN_TYPE_NAME'] = 'Skin Type Name';
 
 
 
