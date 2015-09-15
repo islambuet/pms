@@ -11,4 +11,5 @@ $config['table_classifications'] = 'pms_classifications';
 $config['table_types'] = 'pms_types';
 $config['table_skin_types'] = 'pms_skin_types';
 $config['table_varieties'] = 'pms_varieties';
+$config['table_variety_price_history'] = 'pms_variety_price_history';
 

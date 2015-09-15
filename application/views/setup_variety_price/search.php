@@ -215,6 +215,34 @@
                 $('#variety_id_container').hide();
             }
         });
+        $(document).on("change","#variety_id",function()
+        {
+            $("#detail_container").html("");
+            var variety_id=$(this).val();
+            if(variety_id>0)
+            {
+
+                $.ajax({
+                    url: base_url+"<?php echo $CI->controller_url; ?>/index/edit",
+                    type: 'POST',
+                    dataType: "JSON",
+                    data:{variety_id:variety_id},
+                    success: function (data, status)
+                    {
+
+                    },
+                    error: function (xhr, desc, err)
+                    {
+                        console.log("error");
+
+                    }
+                });
+            }
+            else
+            {
+
+            }
+        });
 
 
     });
