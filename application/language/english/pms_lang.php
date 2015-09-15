@@ -60,6 +60,9 @@ $lang['LABEL_CLASSIFICATION_NAME'] = 'Classification Name';
 $lang['LABEL_TYPE_NAME'] = 'Type Name';
 //create skin
 $lang['LABEL_SKIN_TYPE_NAME'] = 'Skin Type Name';
+//create variety
+$lang['LABEL_VARIETY_NAME'] = 'Variety Name';
+$lang['LABEL_UNIT_PRICE'] = 'Price/Box';
 
 
 

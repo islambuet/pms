@@ -111,8 +111,8 @@ class Setup_create_skin extends Root_Controller
 
             $data['skin_type']=Query_helper::get_info($this->config->item('table_skin_types'),'*',array('id ='.$type_id),1);
             $data['crops']=Query_helper::get_info($this->config->item('table_crops'),array('id','crop_name'),array('status ="'.$this->config->item('system_status_active').'"'));
-            $data['classifications']=Query_helper::get_info($this->config->item('table_classifications'),array('id','classification_name'),array('id ='.$data['skin_type']['classification_id']));
-            $data['types']=Query_helper::get_info($this->config->item('table_types'),array('id','type_name'),array('id ='.$data['skin_type']['type_id']));
+            $data['classifications']=Query_helper::get_info($this->config->item('table_classifications'),array('id','classification_name'),array('crop_id ='.$data['skin_type']['crop_id']));
+            $data['types']=Query_helper::get_info($this->config->item('table_types'),array('id','type_name'),array('classification_id ='.$data['skin_type']['classification_id']));
             $data['title']="Edit Skin Type (".$data['skin_type']['skin_type_name'].')';
             $ajax['status']=true;
             $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_create_skin/add_edit",$data,true));

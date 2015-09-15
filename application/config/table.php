@@ -10,4 +10,5 @@ $config['table_crops'] = 'pms_crops';
 $config['table_classifications'] = 'pms_classifications';
 $config['table_types'] = 'pms_types';
 $config['table_skin_types'] = 'pms_skin_types';
+$config['table_varieties'] = 'pms_varieties';
 

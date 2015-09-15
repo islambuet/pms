@@ -371,4 +371,5 @@ function turn_off_triggers()
     $(document).off("click", ".module_name");
     $(document).off("change", "#crop_id");
     $(document).off("change", "#classification_id");
+    $(document).off("change", "#type_id");
 }
