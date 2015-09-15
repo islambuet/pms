@@ -367,37 +367,7 @@ $(document).on("keyup", ".OnlyNumber", function()
 
 function turn_off_triggers()
 {
-    /*$(document).off("change", "#component_options");
-    $(document).off("click", "#checked");
-    $(document).off("click", ".system_add_more_button");
-    $(document).off("click", ".system_add_more_delete");
-    $(document).off("click", ".system_add_more_edu_button");
-    $(document).off("click", ".system_add_more_edu_delete");
-    $(document).off("click", ".system_add_more_experience_button");
-    $(document).off("click", ".system_add_more_experience_delete");
     $(document).off("click", ".task_name");
     $(document).off("click", ".module_name");
-    $(document).off("click", ".component_name");
-    $(document).off("change", "#education_units");
-    $(document).off("change", "#user_type");
-    $(document).off("change", "#user_list");
-    $(document).off("change", "#teacher_resume");
-    $(document).off("change", "#teacher_picture");
-    $(document).off("change", "#select_all_subject");
-    $(document).off("change", "#faculty_options");
-    $(document).off("change", "#department_options");
-    $(document).off("change", "#teacher_options");
-    $(document).off("click", ".dueDates");
-
-    // G.O. Location
-    $(document).off("change", "#user_group_id");
-    $(document).off("change", "#user_division_id");
-    $(document).off("change", "#user_zilla_id");
-    $(document).off("change", "#user_upazila_id");
-    $(document).off("change", "#user_citycorporation_id");
-    $(document).off("change", "#user_municipal_id");
-    $(document).off("click", "#upload_button");
-    $(document).off("change", ".user_group");*/
-    $(document).off("click", ".task_name");
-    $(document).off("click", ".module_name");
+    $(document).off("change", "#crop_id");
 }

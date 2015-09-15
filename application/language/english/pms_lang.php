@@ -56,6 +56,8 @@ $lang['SELECT_ONE_ITEM'] = 'Select a item';
 $lang['LABEL_CROP_NAME'] = 'Crop Name';
 //create classification
 $lang['LABEL_CLASSIFICATION_NAME'] = 'Classification Name';
+//create type
+$lang['LABEL_TYPE_NAME'] = 'Type Name';
 
 
 
