@@ -372,4 +372,6 @@ function turn_off_triggers()
     $(document).off("change", "#crop_id");
     $(document).off("change", "#classification_id");
     $(document).off("change", "#type_id");
+    $(document).off("change", "#skin_type_id");
+    $(document).off("change", "#variety_id");
 }
