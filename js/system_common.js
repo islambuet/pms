@@ -367,6 +367,7 @@ $(document).on("keyup", ".OnlyNumber", function()
 
 function turn_off_triggers()
 {
+    //setup menu
     $(document).off("click", ".task_name");
     $(document).off("click", ".module_name");
     $(document).off("change", "#crop_id");
@@ -374,4 +375,7 @@ function turn_off_triggers()
     $(document).off("change", "#type_id");
     $(document).off("change", "#skin_type_id");
     $(document).off("change", "#variety_id");
+    //location setup menu
+    $(document).off("change", "#zone_id");
+
 }

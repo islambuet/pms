@@ -67,7 +67,10 @@ $lang['LABEL_UNIT_PRICE'] = 'Price/Box';
 
 //Create zone
 $lang['LABEL_ZONE_NAME'] = 'Zone';
+//Create Territory
 $lang['LABEL_TERRITORY_NAME'] = 'Territory';
+//Create District
+$lang['LABEL_DISTRICT_NAME'] = 'District';
 
 
 
