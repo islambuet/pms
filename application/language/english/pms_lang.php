@@ -71,6 +71,8 @@ $lang['LABEL_ZONE_NAME'] = 'Zone';
 $lang['LABEL_TERRITORY_NAME'] = 'Territory';
 //Create District
 $lang['LABEL_DISTRICT_NAME'] = 'District';
+//Create Upazila
+$lang['LABEL_UPAZILA_NAME'] = 'Upazila';
 
 
 

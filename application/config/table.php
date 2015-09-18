@@ -19,3 +19,4 @@ $config['table_variety_price_history'] = 'pms_variety_price_history';
 $config['table_zones'] = 'pms_zones';
 $config['table_territories'] = 'pms_territories';
 $config['table_districts'] = 'pms_districts';
+$config['table_upazilas'] = 'pms_upazilas';

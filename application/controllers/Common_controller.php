@@ -55,4 +55,13 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_districts_by_territoryid()
+    {
+        $territory_id = $this->input->post('territory_id');
+        $data['items']=Query_helper::get_info($this->config->item('table_districts'),array('id value','district_name text'),array('territory_id ='.$territory_id));
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#district_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }
