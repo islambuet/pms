@@ -50,7 +50,7 @@ class Location_setup_customer extends Root_Controller
         {
             $data['title']="Customer List";
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("Location_setup_customer/list",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_customer/list",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
@@ -91,7 +91,7 @@ class Location_setup_customer extends Root_Controller
             $data['upazilas']=array();
             $data['unions']=array();
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("Location_setup_customer/add_edit",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_customer/add_edit",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
@@ -126,7 +126,7 @@ class Location_setup_customer extends Root_Controller
             $data['unions']=Query_helper::get_info($this->config->item('table_unions'),array('id','union_name'),array('upazila_id ='.$data['customer']['upazila_id']));
             $data['title']="Edit Customer (".$data['customer']['customer_name'].')';
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("Location_setup_customer/add_edit",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("location_setup_customer/add_edit",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
