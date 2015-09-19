@@ -69,6 +69,7 @@
                 altrows: true,
                 autoheight: true,
                 columns: [
+                    { text: '<?php echo $CI->lang->line('LABEL_CUSTOMER_ID'); ?>', dataField: 'id',cellsalign: 'right',width:100},
                     { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'customer_name',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_CONTACT_NO'); ?>', dataField: 'contact_no',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_EMAIL'); ?>', dataField: 'email',width:'10%'},
@@ -77,7 +78,7 @@
                     { text: '<?php echo $CI->lang->line('LABEL_DISTRICT_NAME'); ?>', dataField: 'district_name',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_UPAZILA_NAME'); ?>', dataField: 'upazila_name',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_UNION_NAME'); ?>', dataField: 'union_name',width:'10%'},
-                    { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks'},
+                    { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering',cellsalign: 'right',width:'100'},
                     { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',filtertype: 'list',width:'150',cellsalign: 'right'}
                 ]

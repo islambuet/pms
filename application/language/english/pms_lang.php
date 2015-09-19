@@ -76,6 +76,7 @@ $lang['LABEL_UPAZILA_NAME'] = 'Upazila';
 //Create Union
 $lang['LABEL_UNION_NAME'] = 'Union';
 //Create Customer
+$lang['LABEL_CUSTOMER_ID'] = 'Customer Id';
 $lang['LABEL_OWNER_NAME'] = 'Owner name';
 $lang['LABEL_FATHER_NAME'] = 'Father\'s name';
 $lang['LABEL_EMAIL'] = 'E-mail';
