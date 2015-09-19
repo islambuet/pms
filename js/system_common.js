@@ -378,5 +378,6 @@ function turn_off_triggers()
     //location setup menu
     $(document).off("change", "#zone_id");
     $(document).off("change", "#territory_id");
+    $(document).off("change", "#district_id");
 
 }

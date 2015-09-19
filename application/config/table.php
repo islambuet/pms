@@ -20,3 +20,4 @@ $config['table_zones'] = 'pms_zones';
 $config['table_territories'] = 'pms_territories';
 $config['table_districts'] = 'pms_districts';
 $config['table_upazilas'] = 'pms_upazilas';
+$config['table_unions'] = 'pms_unions';

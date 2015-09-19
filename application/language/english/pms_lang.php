@@ -73,6 +73,8 @@ $lang['LABEL_TERRITORY_NAME'] = 'Territory';
 $lang['LABEL_DISTRICT_NAME'] = 'District';
 //Create Upazila
 $lang['LABEL_UPAZILA_NAME'] = 'Upazila';
+//Create Union
+$lang['LABEL_UNION_NAME'] = 'Union';
 
 
 

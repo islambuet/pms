@@ -64,4 +64,13 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_upazilas_by_districtid()
+    {
+        $district_id = $this->input->post('district_id');
+        $data['items']=Query_helper::get_info($this->config->item('table_upazilas'),array('id value','upazila_name text'),array('district_id ='.$district_id));
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#upazila_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }
