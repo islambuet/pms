@@ -73,4 +73,13 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_unions_by_upazilaid()
+    {
+        $upazila_id = $this->input->post('upazila_id');
+        $data['items']=Query_helper::get_info($this->config->item('table_unions'),array('id value','union_name text'),array('upazila_id ='.$upazila_id));
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#union_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }

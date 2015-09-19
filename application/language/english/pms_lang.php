@@ -75,6 +75,12 @@ $lang['LABEL_DISTRICT_NAME'] = 'District';
 $lang['LABEL_UPAZILA_NAME'] = 'Upazila';
 //Create Union
 $lang['LABEL_UNION_NAME'] = 'Union';
+//Create Customer
+$lang['LABEL_OWNER_NAME'] = 'Owner name';
+$lang['LABEL_FATHER_NAME'] = 'Father\'s name';
+$lang['LABEL_EMAIL'] = 'E-mail';
+$lang['LABEL_CONTACT_NO'] = 'Contact No.';
+$lang['LABEL_ADDRESS'] = 'Address';
 
 
 

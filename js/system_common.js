@@ -379,5 +379,6 @@ function turn_off_triggers()
     $(document).off("change", "#zone_id");
     $(document).off("change", "#territory_id");
     $(document).off("change", "#district_id");
+    $(document).off("change", "#upazila_id");
 
 }
