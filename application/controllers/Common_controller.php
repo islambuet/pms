@@ -82,4 +82,13 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_customers_by_unionid()
+    {
+        $union_id = $this->input->post('union_id');
+        $data['items']=Query_helper::get_info($this->config->item('table_customers'),array('id value','customer_name text'),array('union_id ='.$union_id));
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#customer_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }

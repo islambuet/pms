@@ -45,11 +45,13 @@ $lang['LABEL_YES'] = 'Yes';
 $lang['LABEL_NO'] = 'No';
 
 
-$lang['LABEL_SELECT_YEAR'] = 'Select Year';
+$lang['LABEL_YEAR'] = 'Year';
 $lang['LABEL_NAME'] = 'Name';
 $lang['LABEL_ORDER'] = 'Ordering';
 $lang['LABEL_REMARKS'] = 'Remarks';
 $lang['SELECT_ONE_ITEM'] = 'Select a item';
+$lang['LABEL_ADD_MORE'] = 'Add more';
+$lang['LABEL_QUANTITY'] = 'Quantity';
 
 
 //Create Crop
@@ -77,6 +79,7 @@ $lang['LABEL_UPAZILA_NAME'] = 'Upazila';
 $lang['LABEL_UNION_NAME'] = 'Union';
 //Create Customer
 $lang['LABEL_CUSTOMER_ID'] = 'Customer Id';
+$lang['LABEL_CUSTOMER_NAME'] = 'Customer Name';
 $lang['LABEL_OWNER_NAME'] = 'Owner name';
 $lang['LABEL_FATHER_NAME'] = 'Father\'s name';
 $lang['LABEL_EMAIL'] = 'E-mail';

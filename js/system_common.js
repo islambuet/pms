@@ -380,5 +380,8 @@ function turn_off_triggers()
     $(document).off("change", "#territory_id");
     $(document).off("change", "#district_id");
     $(document).off("change", "#upazila_id");
+    $(document).off("change", "#union_id");
+    $(document).off("change", "#customer_id");
+    $(document).off("change", "#year");
 
 }
