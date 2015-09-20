@@ -26,7 +26,7 @@ $lang['TOTAL_TASK'] = 'Number of Tasks';
 $lang['YOU_DONT_HAVE_ACCESS'] = 'You cannot access this page';
 $lang['ACTIVE'] = 'Active';
 $lang['INACTIVE'] = 'In-active';
-$lang['DELETE'] = 'delete';
+$lang['DELETE'] = 'Delete';
 $lang['SELECT'] = 'Select';
 
 $lang['SERIAL'] = 'Serial';

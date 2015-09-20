@@ -384,4 +384,8 @@ function turn_off_triggers()
     $(document).off("change", "#customer_id");
     $(document).off("change", "#year");
 
+    //addmore
+    $(document).off("click", ".system_add_more_button");
+    $(document).off("click", ".system_add_more_delete");
+
 }

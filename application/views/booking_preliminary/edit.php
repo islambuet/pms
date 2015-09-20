@@ -12,41 +12,41 @@
 <form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <input type="hidden" id="id" name="id" value="<?php echo $booking['id']; ?>" />
     <input type="hidden" id="booking[customer_id]" name="id" value="<?php echo $booking['customer_id']; ?>" />
-    <div style="" class="row show-grid">
-        <div class="col-xs-2">
+    <div id="system_add_more_container">
+        <div style="" class="row show-grid">
+            <div class="col-xs-2">
 
+            </div>
+            <div class="col-xs-3">
+                <label class="control-label text-center"><?php echo $CI->lang->line('LABEL_VARIETY_NAME');?></label>
+            </div>
+            <div class="col-xs-3">
+                <label class="control-label text-center"><?php echo $CI->lang->line('LABEL_QUANTITY');?></label>
+            </div>
+            <div class="col-xs-2">
+            </div>
         </div>
-        <div class="col-xs-8">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th><?php echo $CI->lang->line('LABEL_VARIETY_NAME'); ?></th>
-                        <th><?php echo $CI->lang->line('LABEL_QUANTITY'); ?></th>
-                    </tr>
+        <div style="" class="row show-grid">
+            <div class="col-xs-2">
 
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select name="booked_varieties[1][id]" class="form-control" tabindex="-1">
-                                <option value=""><?php echo $this->lang->line('SELECT');?></option>
-                                <?php
-                                foreach($varieties as $variety)
-                                {?>
-                                    <option value="<?php echo $variety['id']?>"><?php echo $variety['text'];?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" name="booked_varieties[1][quantity]" class="form-control validate[required]" value=""/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-xs-2">
+            </div>
+            <div class="col-xs-3">
+                <select name="booked_varieties[1][id]" class="form-control" tabindex="-1">
+                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                    <?php
+                    foreach($varieties as $variety)
+                    {?>
+                        <option value="<?php echo $variety['id']?>"><?php echo $variety['text'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" name="booked_varieties[1][quantity]" class="form-control" value=""/>
+            </div>
+            <div class="col-xs-2">
+            </div>
         </div>
     </div>
     <div class="row show-grid">
@@ -54,7 +54,7 @@
 
         </div>
         <div class="col-xs-4">
-            <button type="button" class="btn btn-warning desk_add_more_button"><?php echo $CI->lang->line('LABEL_ADD_MORE');?></button>
+            <button type="button" class="btn btn-warning system_add_more_button" data-current-id="1"><?php echo $CI->lang->line('LABEL_ADD_MORE');?></button>
         </div>
         <div class="col-xs-4">
 
@@ -84,3 +84,28 @@
         </div>
     </div>
 </form>
+<div id="system_add_more_content" style="display: none;">
+    <div style="" class="row show-grid">
+        <div class="col-xs-2">
+
+        </div>
+        <div class="col-xs-3">
+            <select name="booked_varieties[1][id]" class="form-control" tabindex="-1">
+                <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                <?php
+                foreach($varieties as $variety)
+                {?>
+                    <option value="<?php echo $variety['id']?>"><?php echo $variety['text'];?></option>
+                <?php
+                }
+                ?>
+            </select>
+        </div>
+        <div class="col-xs-3">
+            <input type="text" name="booked_varieties[1][quantity]" class="form-control" value=""/>
+        </div>
+        <div class="col-xs-2">
+            <button type="button" class="btn btn-danger system_add_more_delete"><?php echo $CI->lang->line('DELETE'); ?></button>
+        </div>
+    </div>
+</div>

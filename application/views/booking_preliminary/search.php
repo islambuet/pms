@@ -18,19 +18,18 @@
         </div>
         <div class="col-xs-4">
             <select id="year" class="form-control">
-                <option value=""><?php echo $this->lang->line('SELECT');?></option>
                 <?php
                 $current_year=date("Y",time());
                 for($i=$this->config->item("start_year");$i<=($current_year+1);$i++)
                 {?>
-                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                    <option value="<?php echo $i;?>" <?php if($i==$current_year){ echo "selected";}?>><?php echo $i;?></option>
                 <?php
                 }
                 ?>
             </select>
         </div>
     </div>
-    <div style="display:none;" class="row show-grid" id="zone_id_container">
+    <div class="row show-grid" id="zone_id_container">
         <div class="col-xs-4">
             <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_ZONE_NAME');?><span style="color:#FF0000">*</span></label>
         </div>
@@ -352,6 +351,33 @@
             {
 
             }
+        });
+        $(document).on("click", ".system_add_more_button", function(event)
+        {
+            var current_id=parseInt($(this).attr('data-current-id'));
+            current_id=current_id+1;
+            $(this).attr('data-current-id',current_id);
+            var html=$('#system_add_more_content').html();
+            $("#system_add_more_container").append(html);
+
+            console.log(current_id);
+            /*$('.desk_add_more_subject_content .desk_add_more_section_holder').attr('data-current-id',current_id);
+            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_row_id').attr('name','subject['+current_id+'][id]');
+            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_name').attr('name','subject['+current_id+'][subject_name]');
+            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_code').attr('name','subject['+current_id+'][subject_code]');
+
+            $('.desk_add_more_subject_content .desk_add_more_section_holder #group_row_id').attr('name','subject['+current_id+'][groups][group_id][]');
+            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_type').attr('name','subject['+current_id+'][groups][subject_type][]');
+            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_credit').attr('name','subject['+current_id+'][groups][subject_credit][]');
+
+            var html=$('.desk_add_more_subject_content').html();
+            $('#desk_add_more_subject_container').append(html);*/
+        });
+        // Delete more button for Education
+        $(document).on("click", ".system_add_more_delete", function(event)
+        {
+//            console.log('allah is one');
+            $(this).closest('.show-grid').remove();
         });
 
 
