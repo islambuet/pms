@@ -54,7 +54,7 @@ class Setup_variety_price extends Root_Controller
             {
                 $ajax['system_message']=$this->message;
             }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/add');
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/search');
             $this->jsonReturn($ajax);
         }
         else
