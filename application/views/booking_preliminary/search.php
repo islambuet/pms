@@ -357,21 +357,13 @@
             var current_id=parseInt($(this).attr('data-current-id'));
             current_id=current_id+1;
             $(this).attr('data-current-id',current_id);
+
+            $('#system_add_more_content .variety').attr('name','booked_varieties['+current_id+'][id]');
+            $('#system_add_more_content .quantity').attr('name','booked_varieties['+current_id+'][quantity]');
             var html=$('#system_add_more_content').html();
             $("#system_add_more_container").append(html);
-
             console.log(current_id);
-            /*$('.desk_add_more_subject_content .desk_add_more_section_holder').attr('data-current-id',current_id);
-            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_row_id').attr('name','subject['+current_id+'][id]');
-            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_name').attr('name','subject['+current_id+'][subject_name]');
-            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_code').attr('name','subject['+current_id+'][subject_code]');
 
-            $('.desk_add_more_subject_content .desk_add_more_section_holder #group_row_id').attr('name','subject['+current_id+'][groups][group_id][]');
-            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_type').attr('name','subject['+current_id+'][groups][subject_type][]');
-            $('.desk_add_more_subject_content .desk_add_more_section_holder #subject_credit').attr('name','subject['+current_id+'][groups][subject_credit][]');
-
-            var html=$('.desk_add_more_subject_content').html();
-            $('#desk_add_more_subject_container').append(html);*/
         });
         // Delete more button for Education
         $(document).on("click", ".system_add_more_delete", function(event)

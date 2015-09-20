@@ -104,16 +104,27 @@ class Booking_preliminary extends Root_Controller
     {
         $user=User_helper::get_user();
         $id = $this->input->post("id");
-
-        if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
+        if($id>0)
         {
-            $ajax['status']=false;
-            $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
-            $this->jsonReturn($ajax);
-            die();
-
+            if(!(isset($this->permissions['edit'])&&($this->permissions['edit']==1)))
+            {
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+                $this->jsonReturn($ajax);
+                die();
+            }
         }
+        else
+        {
+            if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
+            {
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
+                $this->jsonReturn($ajax);
+                die();
 
+            }
+        }
         if(!$this->check_validation())
         {
             $ajax['status']=false;
@@ -122,7 +133,11 @@ class Booking_preliminary extends Root_Controller
         }
         else
         {
-            $data = $this->input->post('variety');
+            echo '<PRE>';
+            print_r($this->input->post('booking'));
+            print_r($this->input->post('booked_varieties'));
+            echo '</PRE>';
+            /*$data = $this->input->post('variety');
             $time=time();
 
             {
@@ -150,20 +165,20 @@ class Booking_preliminary extends Root_Controller
                     $this->jsonReturn($ajax);
 
                 }
-            }
+            }*/
 
         }
     }
     private function check_validation()
     {
-        $this->load->library('form_validation');
+        /*$this->load->library('form_validation');
         $this->form_validation->set_rules('variety[unit_price]',$this->lang->line('LABEL_UNIT_PRICE'),'required|numeric');
 
         if($this->form_validation->run() == FALSE)
         {
             $this->message=validation_errors();
             return false;
-        }
+        }*/
         return true;
     }
 }

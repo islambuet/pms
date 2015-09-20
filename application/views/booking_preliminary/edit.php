@@ -11,7 +11,7 @@
     </div>
 <form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <input type="hidden" id="id" name="id" value="<?php echo $booking['id']; ?>" />
-    <input type="hidden" id="booking[customer_id]" name="id" value="<?php echo $booking['customer_id']; ?>" />
+    <input type="hidden" name="booking[customer_id]" value="<?php echo $booking['customer_id']; ?>" />
     <div id="system_add_more_container">
         <div style="" class="row show-grid">
             <div class="col-xs-2">
@@ -26,35 +26,46 @@
             <div class="col-xs-2">
             </div>
         </div>
-        <div style="" class="row show-grid">
-            <div class="col-xs-2">
+        <?php
+            if(sizeof($booked_varieties)>0)
+            {
 
-            </div>
-            <div class="col-xs-3">
-                <select name="booked_varieties[1][id]" class="form-control" tabindex="-1">
-                    <option value=""><?php echo $this->lang->line('SELECT');?></option>
-                    <?php
-                    foreach($varieties as $variety)
-                    {?>
-                        <option value="<?php echo $variety['id']?>"><?php echo $variety['text'];?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="col-xs-3">
-                <input type="text" name="booked_varieties[1][quantity]" class="form-control" value=""/>
-            </div>
-            <div class="col-xs-2">
-            </div>
-        </div>
+            }
+            else
+            {
+                ?>
+                    <div style="" class="row show-grid">
+                        <div class="col-xs-2">
+
+                        </div>
+                        <div class="col-xs-3">
+                            <select name="booked_varieties[0][id]" class="form-control variety" tabindex="-1">
+                                <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                                <?php
+                                foreach($varieties as $variety)
+                                {?>
+                                    <option value="<?php echo $variety['id']?>"><?php echo $variety['text'];?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" name="booked_varieties[0][quantity]" class="form-control quantity" value=""/>
+                        </div>
+                        <div class="col-xs-2">
+                        </div>
+                    </div>
+                <?php
+            }
+        ?>
     </div>
     <div class="row show-grid">
         <div class="col-xs-4">
 
         </div>
         <div class="col-xs-4">
-            <button type="button" class="btn btn-warning system_add_more_button" data-current-id="1"><?php echo $CI->lang->line('LABEL_ADD_MORE');?></button>
+            <button type="button" class="btn btn-warning system_add_more_button" data-current-id="<?php echo sizeof($booked_varieties);?>"><?php echo $CI->lang->line('LABEL_ADD_MORE');?></button>
         </div>
         <div class="col-xs-4">
 
@@ -90,7 +101,7 @@
 
         </div>
         <div class="col-xs-3">
-            <select name="booked_varieties[1][id]" class="form-control" tabindex="-1">
+            <select name="booked_varieties[<?php echo sizeof($booked_varieties);?>][id]" class="form-control variety" tabindex="-1">
                 <option value=""><?php echo $this->lang->line('SELECT');?></option>
                 <?php
                 foreach($varieties as $variety)
@@ -102,7 +113,7 @@
             </select>
         </div>
         <div class="col-xs-3">
-            <input type="text" name="booked_varieties[1][quantity]" class="form-control" value=""/>
+            <input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][quantity]" class="form-control quantity" value=""/>
         </div>
         <div class="col-xs-2">
             <button type="button" class="btn btn-danger system_add_more_delete"><?php echo $CI->lang->line('DELETE'); ?></button>
