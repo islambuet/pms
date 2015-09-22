@@ -65,21 +65,37 @@ class Booking_preliminary extends Root_Controller
             if(($this->input->post('customer_id')))
             {
                 $customer_id=$this->input->post('customer_id');
-            }
-            else
-            {
-                $customer_id=$id;
+                $year=$this->input->post('year');
+                $data_booking_info=Query_helper::get_info($this->config->item('table_bookings'),'*',array('customer_id ='.$customer_id,'year ='.$year),1);
+                if(isset($data_booking_info['id']))
+                {
+                    $id=$data_booking_info['id'];
+                }
+
             }
             /*$data['variety']=Query_helper::get_info($this->config->item('table_varieties'),'*',array('id ='.$variety_id),1);
 
             $data['title']="Change Variety price(".$data['variety']['variety_name'].')';*/
-            $ajax['status']=true;
-            $data['title']='New Booking';
-            $data['booking']['id']=0;
-            $data['booking']['customer_id']=$customer_id;
-            $data['booking']['status']=$this->config->item('system_status_active');
+            if($id>0)
+            {
+                $data['title']='Edit Booking('.$id.')';
+                $data['booking']=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$id),1);
+                $data['booked_varieties']=array();
+            }
+            else
+            {
+                $data['title']='New Booking';
+                $data['booking']['id']=0;
+                $data['booking']['customer_id']=$this->input->post('customer_id');
+                $data['booking']['year']=$this->input->post('year');
+                $data['booking']['remarks']='';
+                $data['booking']['status']=$this->config->item('system_status_active');
 
-            $data['booked_varieties']=array();
+                $data['booked_varieties']=array();
+
+            }
+            $ajax['status']=true;
+
 
             $data['varieties']=$this->booking_preliminary_model->get_all_varieties();
 
@@ -133,28 +149,22 @@ class Booking_preliminary extends Root_Controller
         }
         else
         {
-            echo '<PRE>';
+            /*echo '<PRE>';
             print_r($this->input->post('booking'));
             print_r($this->input->post('booked_varieties'));
-            echo '</PRE>';
-            /*$data = $this->input->post('variety');
+            echo '</PRE>';*/
+            $data = $this->input->post('booking');
             $time=time();
-
+            if($id>0)
             {
-                $data['modified_by']=$user->id;
+                $data['modified_by']=$user->user_id;
                 $data['modification_date']=$time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::update($this->config->item('table_varieties'),$data,array("id = ".$id));
-                $data_history=$this->input->post('variety');
-                $data_history['created_by'] = $user->user_id;
-                $data_history['creation_date'] = $time;
-                $data_history['variety_id']=$id;
-                Query_helper::add($this->config->item('table_variety_price_history'),$data_history);
+                Query_helper::update($this->config->item('table_bookings'),$data,array("id = ".$id));
                 $this->db->trans_complete();   //DB Transaction Handle END
 
                 if ($this->db->trans_status() === TRUE)
                 {
-
                     $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
                     $this->system_edit($id);
                 }
@@ -165,20 +175,66 @@ class Booking_preliminary extends Root_Controller
                     $this->jsonReturn($ajax);
 
                 }
-            }*/
+            }
+            else
+            {
+                $data['created_by'] = $user->user_id;
+                $data['creation_date'] = $time;
+                $this->db->trans_start();  //DB Transaction Handle START
+                $booking_id=Query_helper::add($this->config->item('table_bookings'),$data);
+                $this->db->trans_complete();   //DB Transaction Handle END
+                if ($this->db->trans_status() === TRUE)
+                {
+                    $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
+                    $this->system_edit($booking_id);
+                }
+                else
+                {
+                    $ajax['status']=false;
+                    $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
+                    $this->jsonReturn($ajax);
+                }
+            }
 
         }
     }
     private function check_validation()
     {
-        /*$this->load->library('form_validation');
-        $this->form_validation->set_rules('variety[unit_price]',$this->lang->line('LABEL_UNIT_PRICE'),'required|numeric');
-
-        if($this->form_validation->run() == FALSE)
+        $booked_varieties=$this->input->post('booked_varieties');
+        if(sizeof($booked_varieties)>0)
         {
-            $this->message=validation_errors();
+            $variety_ids=array();
+            foreach($booked_varieties as $variety)
+            {
+                if(!is_numeric($variety['quantity']))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_QUANTITY_MISSING");
+                    return false;
+                }
+                if(!(($variety['quantity'])>0))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_QUANTITY_INVALID");
+                    return false;
+                }
+                if(!(($variety['id'])>0))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_VARIETY_MISSING");
+                    return false;
+                }
+                $variety_ids[]=$variety['id'];
+                if(sizeof($variety_ids)!= sizeof(array_unique($variety_ids)))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_DUPLICATE_VARIETY");
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            $this->message=$this->lang->line("MSG_REQUIRED_BOOKING");
             return false;
-        }*/
+
+        }
         return true;
     }
 }

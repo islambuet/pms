@@ -12,6 +12,7 @@
 <form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <input type="hidden" id="id" name="id" value="<?php echo $booking['id']; ?>" />
     <input type="hidden" name="booking[customer_id]" value="<?php echo $booking['customer_id']; ?>" />
+    <input type="hidden" name="booking[year]" value="<?php echo $booking['year']; ?>" />
     <div id="system_add_more_container">
         <div style="" class="row show-grid">
             <div class="col-xs-2">
@@ -54,6 +55,7 @@
                             <input type="text" name="booked_varieties[0][quantity]" class="form-control quantity" value=""/>
                         </div>
                         <div class="col-xs-2">
+                            <button type="button" class="btn btn-danger system_add_more_delete"><?php echo $CI->lang->line('DELETE'); ?></button>
                         </div>
                     </div>
                 <?php
@@ -69,6 +71,14 @@
         </div>
         <div class="col-xs-4">
 
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_REMARKS');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="booking[remarks]" id="remarks" class="form-control validate[required]" value="<?php echo $booking['remarks'];?>"/>
         </div>
     </div>
     <div style="" class="row show-grid">

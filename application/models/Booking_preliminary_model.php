@@ -21,7 +21,7 @@ class Booking_preliminary_model extends CI_Model
         //$this->db->select('types.type_name type_name');
         //$this->db->select('stypes.skin_type_name skin_type_name');
         $this->db->select('varieties.id id');
-        $this->db->select('CONCAT(varieties.variety_name,"(",crops.crop_name,"-",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") text',false);
+        $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") text',false);
 
         $this->db->join($CI->config->item('table_crops').' crops','crops.id = varieties.crop_id','INNER');
         $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = varieties.classification_id','INNER');

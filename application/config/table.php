@@ -22,3 +22,6 @@ $config['table_districts'] = 'pms_districts';
 $config['table_upazilas'] = 'pms_upazilas';
 $config['table_unions'] = 'pms_unions';
 $config['table_customers'] = 'pms_customers';
+
+//bookings
+$config['table_bookings'] = 'pms_bookings';

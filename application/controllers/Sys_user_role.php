@@ -134,7 +134,7 @@ class Sys_user_role extends Root_Controller
             }
             if($task['ugr_id']>0)
             {
-                $data['modified_by']=$user->id;
+                $data['modified_by']=$user->user_id;
                 $data['modification_date']=$time;
                 Query_helper::update($this->config->item('table_user_group_role'),$data,array("id = ".$task['ugr_id']));
             }
@@ -142,7 +142,7 @@ class Sys_user_role extends Root_Controller
             {
                 $data['user_group_id']=$user_group_id;
                 $data['task_id']=$task['task_id'];
-                $data['created_by']=$user->id;
+                $data['created_by']=$user->user_id;
                 $data['creation_date']=$time;
                 Query_helper::add($this->config->item('table_user_group_role'),$data);
             }

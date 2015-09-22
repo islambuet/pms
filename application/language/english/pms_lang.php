@@ -86,6 +86,14 @@ $lang['LABEL_EMAIL'] = 'E-mail';
 $lang['LABEL_CONTACT_NO'] = 'Contact No.';
 $lang['LABEL_ADDRESS'] = 'Address';
 
+//booking
+$lang['MSG_REQUIRED_BOOKING'] = 'Minimum one variety required.';
+$lang['MSG_BOOKING_QUANTITY_MISSING'] = 'Invalid Quantity';
+$lang['MSG_BOOKING_QUANTITY_INVALID'] = 'Negative Quantity not allowed.';
+$lang['MSG_BOOKING_VARIETY_MISSING'] = 'Variety was not selected.';
+$lang['MSG_BOOKING_DUPLICATE_VARIETY'] = 'You cannot select same variety multiple times.';
+
+
 
 
 

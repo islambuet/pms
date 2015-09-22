@@ -167,7 +167,7 @@ class Location_setup_upazila extends Root_Controller
             $time=time();
             if($id>0)
             {
-                $data['modified_by']=$user->id;
+                $data['modified_by']=$user->user_id;
                 $data['modification_date']=$time;
                 $this->db->trans_start();  //DB Transaction Handle START
                 Query_helper::update($this->config->item('table_upazilas'),$data,array("id = ".$id));
