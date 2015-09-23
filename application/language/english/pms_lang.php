@@ -101,7 +101,14 @@ $lang['MSG_BOOKING_PAYMENT_MISSING'] = 'Invalid payment amount';
 $lang['MSG_BOOKING_PAYMENT_INVALID'] = 'Negative payment amount not allowed';
 $lang['MSG_BOOKING_PAYMENT_METHOD_INVALID'] = 'Payment method was not selected';
 $lang['MSG_BOOKING_PAYMENT_NUMBER_INVALID'] = 'C/P number was empty';
-$lang['MSG_BOOKING_PAYMENT_BANK_NAME_INVALID'] = 'Bank name was empty';
+$lang['LABEL_BOOKING_ID'] = 'Booking Id';
+$lang['LABEL_BOOKING_STATUS'] = 'Booking State';
+$lang['LABEL_PRELIMINARY_BOOKING_DATE'] = 'Preliminary booking date';
+$lang['LABEL_PERMANENT_BOOKING_DATE'] = 'Permanent booking date';
+$lang['LABEL_PRELIMINARY_REMARKS'] = 'Preliminary remarks';
+$lang['LABEL_PERMANENT_REMARKS'] = 'Permanent remarks';
+$lang['LABEL_CUSTOMER_LOCATION'] = 'Customer location';
+
 
 
 

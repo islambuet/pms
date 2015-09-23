@@ -176,7 +176,7 @@ class Booking_preliminary extends Root_Controller
                 $payment_info=$this->input->post('payment');
                 $payment_info['modified_by']=$user->user_id;
                 $payment_info['modification_date']=$time;
-                Query_helper::update($this->config->item('table_booking_payments'),$payment_info,array("booking_id = ".$id,'booking_status ="'.$this->config->item('booking_status_preliminary'.'"')));
+                Query_helper::update($this->config->item('table_booking_payments'),$payment_info,array("booking_id = ".$id,'booking_status ="'.$this->config->item('booking_status_preliminary').'"'));
 
                 $this->db->where('booking_id',$id);
                 $this->db->set('revision', 'revision+1', FALSE);
