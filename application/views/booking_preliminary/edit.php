@@ -110,7 +110,7 @@
     </div>
     <div class="row show-grid">
         <div class="col-xs-4">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_AMOUNT');?></label>
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_AMOUNT');?><span style="color:#FF0000">*</span></label>
         </div>
         <div class="col-sm-4 col-xs-8">
             <input type="text" name="payment[amount]" id="amount" class="form-control" value="<?php echo $payment['amount'];?>"/>
@@ -118,7 +118,25 @@
     </div>
     <div class="row show-grid">
         <div class="col-xs-4">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_PAYMENT_NUMBER');?></label>
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_PAYMENT_METHOD');?><span style="color:#FF0000">*</span></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <select name="payment[payment_method]" class="form-control">
+                <option value=""><?php echo $this->lang->line('SELECT');?></option>
+                <?php
+                foreach($CI->config->item('payment_method') as $key=>$payment_method)
+                {
+                    ?>
+                    <option value="<?php echo $key;?>" <?php if ($payment['payment_method'] == $key) {echo "selected='selected'";}?>><?php echo $payment_method;?></option>
+                <?php
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_PAYMENT_NUMBER');?><span style="color:#FF0000">*</span></label>
         </div>
         <div class="col-sm-4 col-xs-8">
             <input type="text" name="payment[payment_number]" id="payment_number" class="form-control" value="<?php echo $payment['payment_number'];?>"/>
@@ -126,7 +144,7 @@
     </div>
     <div class="row show-grid">
         <div class="col-xs-4">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_BANK_NAME');?></label>
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_BANK_NAME');?><span style="color:#FF0000">*</span></label>
         </div>
         <div class="col-sm-4 col-xs-8">
             <input type="text" name="payment[bank_name]" id="bank_name" class="form-control" value="<?php echo $payment['bank_name'];?>"/>

@@ -84,11 +84,7 @@ class Booking_preliminary extends Root_Controller
                 $data['title']='Edit Preliminary Booking( Booking id= '.$id.')';
                 $data['booking']=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$id),1);
                 $data['booked_varieties']=Query_helper::get_info($this->config->item('table_booked_varieties'),array('variety_id','quantity'),array('booking_id ='.$id,'revision =1'));
-
-                $data['payment']['amount']='';
-                $data['payment']['payment_method']='';
-                $data['payment']['payment_number']='';
-                $data['payment']['bank_name']='';
+                $data['payment']=Query_helper::get_info($this->config->item('table_booking_payments'),'*',array('booking_id ='.$id),1);
             }
             else
             {
@@ -175,6 +171,11 @@ class Booking_preliminary extends Root_Controller
                 $this->db->trans_start();  //DB Transaction Handle START
                 Query_helper::update($this->config->item('table_bookings'),$data,array("id = ".$id));
 
+                $payment_info=$this->input->post('payment');
+                $payment_info['modified_by']=$user->user_id;
+                $payment_info['modification_date']=$time;
+                Query_helper::update($this->config->item('table_booking_payments'),$payment_info,array("booking_id = ".$id));
+
                 $this->db->where('booking_id',$id);
                 $this->db->set('revision', 'revision+1', FALSE);
                 $this->db->update($this->config->item('table_booked_varieties'));
@@ -196,11 +197,17 @@ class Booking_preliminary extends Root_Controller
             }
             else
             {
+                $data['booking_status']=$this->config->item('booking_status_preliminary');
                 $data['created_by'] = $user->user_id;
                 $data['creation_date'] = $time;
                 $this->db->trans_start();  //DB Transaction Handle START
                 $booking_id=Query_helper::add($this->config->item('table_bookings'),$data);
                 $this->insert_booking_varieties($booking_id);
+                $payment_info=$this->input->post('payment');
+                $payment_info['created_by'] = $user->user_id;
+                $payment_info['creation_date'] = $time;
+                $payment_info['booking_id'] = $booking_id;
+                Query_helper::add($this->config->item('table_booking_payments'),$payment_info);
                 $this->db->trans_complete();   //DB Transaction Handle END
                 if ($this->db->trans_status() === TRUE)
                 {
@@ -221,6 +228,8 @@ class Booking_preliminary extends Root_Controller
     {
         $booked_varieties=$this->input->post('booked_varieties');
         $variety_prices=$this->booking_preliminary_model->get_variety_prices($this->selected_variety_ids);
+        $time=time();
+        $user=User_helper::get_user();
         foreach($booked_varieties as $variety)
         {
             $data=array();
@@ -229,6 +238,8 @@ class Booking_preliminary extends Root_Controller
             $data['quantity']=$variety['quantity'];
             $data['unit_price']=$variety_prices[$variety['id']]['unit_price'];
             $data['revision']=1;
+            $data['created_by'] = $user->user_id;
+            $data['creation_date'] = $time;
             Query_helper::add($this->config->item('table_booked_varieties'),$data);
         }
     }
@@ -272,6 +283,33 @@ class Booking_preliminary extends Root_Controller
             return false;
 
         }
+        $payment=$this->input->post('payment');
+        if(!is_numeric($payment['amount']))
+        {
+            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_MISSING");
+            return false;
+        }
+        if(!(($payment['amount'])>0))
+        {
+            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_INVALID");
+            return false;
+        }
+        if(!($payment['payment_method']))
+        {
+            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_METHOD_INVALID");
+            return false;
+        }
+        if(!($payment['payment_number']))
+        {
+            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_NUMBER_INVALID");
+            return false;
+        }
+        if(!($payment['bank_name']))
+        {
+            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_BANK_NAME_INVALID");
+            return false;
+        }
+
         return true;
     }
 }

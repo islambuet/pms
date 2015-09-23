@@ -97,6 +97,11 @@ $lang['LABEL_AMOUNT'] = 'Amount';
 $lang['LABEL_PAYMENT_METHOD'] = 'Method of payment';
 $lang['LABEL_PAYMENT_NUMBER'] = 'C/P Number';
 $lang['LABEL_BANK_NAME'] = 'Bank Name';
+$lang['MSG_BOOKING_PAYMENT_MISSING'] = 'Invalid payment amount';
+$lang['MSG_BOOKING_PAYMENT_INVALID'] = 'Negative payment amount not allowed';
+$lang['MSG_BOOKING_PAYMENT_METHOD_INVALID'] = 'Payment method was not selected';
+$lang['MSG_BOOKING_PAYMENT_NUMBER_INVALID'] = 'C/P number was empty';
+$lang['MSG_BOOKING_PAYMENT_BANK_NAME_INVALID'] = 'Bank name was empty';
 
 
 
