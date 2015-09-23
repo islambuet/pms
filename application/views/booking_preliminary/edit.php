@@ -73,6 +73,14 @@
     </div>
     <div class="row show-grid">
         <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_DATE');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="booking[preliminary_booking_date]" id="preliminary_booking_date" class="form-control datepicker" value="<?php echo System_helper::display_date($booking['preliminary_booking_date']);?>"/>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_REMARKS');?></label>
         </div>
         <div class="col-sm-4 col-xs-8">
@@ -176,3 +184,10 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+    jQuery(document).ready(function()
+    {
+        $( ".datepicker" ).datepicker({dateFormat : display_date_format});
+    });
+</script>

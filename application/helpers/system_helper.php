@@ -10,6 +10,30 @@ class System_helper
         return $result['parent'];
 
     }
+    public static function display_date($time)
+    {
+        if($time>0)
+        {
+            return date('d-M-Y',$time);
+        }
+        else
+        {
+            return '';
+        }
+
+    }
+    public static function get_time($str)
+    {
+        $time=strtotime($str);
+        if($time===false)
+        {
+            return 0;
+        }
+        else
+        {
+            return $time;
+        }
+    }
     /*public static function pagination_config($base_url, $total_rows, $segment)
     {
         $CI =& get_instance();
@@ -81,22 +105,7 @@ class System_helper
 
         return $rndCode;
     }
-    public static function display_date($date)
-    {
-        return date('d-M-Y',$date);
-    }
-    public static function get_time($str)
-    {
-        $time=strtotime($str);
-        if($time===false)
-        {
-            return 0;
-        }
-        else
-        {
-            return $time;
-        }
-    }
+
     
     public static function get_ordered_crops()
     {
