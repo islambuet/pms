@@ -81,18 +81,28 @@ class Booking_preliminary extends Root_Controller
             $data['title']="Change Variety price(".$data['variety']['variety_name'].')';*/
             if($id>0)
             {
-                $data['title']='Edit Booking('.$id.')';
+                $data['title']='Edit Preliminary Booking( Booking id= '.$id.')';
                 $data['booking']=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$id),1);
                 $data['booked_varieties']=Query_helper::get_info($this->config->item('table_booked_varieties'),array('variety_id','quantity'),array('booking_id ='.$id,'revision =1'));
+
+                $data['payment']['amount']='';
+                $data['payment']['payment_method']='';
+                $data['payment']['payment_number']='';
+                $data['payment']['bank_name']='';
             }
             else
             {
-                $data['title']='New Booking';
+                $data['title']='New Preliminary Booking';
                 $data['booking']['id']=0;
                 $data['booking']['customer_id']=$this->input->post('customer_id');
                 $data['booking']['year']=$this->input->post('year');
                 $data['booking']['remarks']='';
                 $data['booking']['status']=$this->config->item('system_status_active');
+
+                $data['payment']['amount']='';
+                $data['payment']['payment_method']='';
+                $data['payment']['payment_number']='';
+                $data['payment']['bank_name']='';
 
                 $data['booked_varieties']=array(array('variety_id'=>'','quantity'=>''));
 

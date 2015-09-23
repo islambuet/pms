@@ -92,6 +92,11 @@ $lang['MSG_BOOKING_QUANTITY_MISSING'] = 'Invalid Quantity';
 $lang['MSG_BOOKING_QUANTITY_INVALID'] = 'Negative Quantity not allowed.';
 $lang['MSG_BOOKING_VARIETY_MISSING'] = 'Variety was not selected.';
 $lang['MSG_BOOKING_DUPLICATE_VARIETY'] = 'You cannot select same variety multiple times.';
+$lang['LABEL_PRELIMINARY_PAYMENT'] = 'Pre Advanced Payment';
+$lang['LABEL_AMOUNT'] = 'Amount';
+$lang['LABEL_PAYMENT_METHOD'] = 'Method of payment';
+$lang['LABEL_PAYMENT_NUMBER'] = 'C/P Number';
+$lang['LABEL_BANK_NAME'] = 'Bank Name';
 
 
 

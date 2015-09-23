@@ -3,13 +3,14 @@
 ?>
 
 
+
+<form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <div class="widget-header">
         <div class="title">
             <?php echo $title; ?>
         </div>
         <div class="clearfix"></div>
     </div>
-<form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <input type="hidden" id="id" name="id" value="<?php echo $booking['id']; ?>" />
     <input type="hidden" name="booking[customer_id]" value="<?php echo $booking['customer_id']; ?>" />
     <input type="hidden" name="booking[year]" value="<?php echo $booking['year']; ?>" />
@@ -99,6 +100,36 @@
                     }
                     ?> ><?php echo $CI->lang->line('INACTIVE') ?></option>
             </select>
+        </div>
+    </div>
+    <div class="widget-header">
+        <div class="title">
+            <?php echo $CI->lang->line('LABEL_PRELIMINARY_PAYMENT'); ?>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_AMOUNT');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="payment[amount]" id="amount" class="form-control" value="<?php echo $payment['amount'];?>"/>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_PAYMENT_NUMBER');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="payment[payment_number]" id="payment_number" class="form-control" value="<?php echo $payment['payment_number'];?>"/>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_BANK_NAME');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="payment[bank_name]" id="bank_name" class="form-control" value="<?php echo $payment['bank_name'];?>"/>
         </div>
     </div>
 </form>
