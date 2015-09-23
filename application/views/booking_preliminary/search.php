@@ -362,10 +362,9 @@
             $('#system_add_more_content .quantity').attr('name','booked_varieties['+current_id+'][quantity]');
             var html=$('#system_add_more_content').html();
             $("#system_add_more_container").append(html);
-            console.log(current_id);
 
         });
-        // Delete more button for Education
+        // Delete more button
         $(document).on("click", ".system_add_more_delete", function(event)
         {
 //            console.log('allah is one');

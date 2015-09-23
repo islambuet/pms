@@ -34,4 +34,20 @@ class Booking_preliminary_model extends CI_Model
         return $varieties;
 
     }
+    public function  get_variety_prices($variety_ids)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_varieties').' varieties');
+        $this->db->select('id,unit_price');
+        $this->db->where_in('id',$variety_ids);
+        $results=$CI->db->get()->result_array();
+        $varieties=array();
+        foreach($results as $result)
+        {
+            $varieties[$result['id']]=$result;
+        }
+
+        return $varieties;
+
+    }
 }

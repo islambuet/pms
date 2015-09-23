@@ -6,6 +6,9 @@ class Booking_preliminary extends Root_Controller
     public $permissions;
     public $controller_url;
     public $parent_module_id=0;
+    private $selected_variety_ids=array();
+    //this variable is set before save with selected variety ids
+    //used to get price
     public function __construct()
     {
         parent::__construct();
@@ -80,7 +83,7 @@ class Booking_preliminary extends Root_Controller
             {
                 $data['title']='Edit Booking('.$id.')';
                 $data['booking']=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$id),1);
-                $data['booked_varieties']=array();
+                $data['booked_varieties']=Query_helper::get_info($this->config->item('table_booked_varieties'),array('variety_id','quantity'),array('booking_id ='.$id,'revision =1'));
             }
             else
             {
@@ -91,7 +94,7 @@ class Booking_preliminary extends Root_Controller
                 $data['booking']['remarks']='';
                 $data['booking']['status']=$this->config->item('system_status_active');
 
-                $data['booked_varieties']=array();
+                $data['booked_varieties']=array(array('variety_id'=>'','quantity'=>''));
 
             }
             $ajax['status']=true;
@@ -161,6 +164,11 @@ class Booking_preliminary extends Root_Controller
                 $data['modification_date']=$time;
                 $this->db->trans_start();  //DB Transaction Handle START
                 Query_helper::update($this->config->item('table_bookings'),$data,array("id = ".$id));
+
+                $this->db->where('booking_id',$id);
+                $this->db->set('revision', 'revision+1', FALSE);
+                $this->db->update($this->config->item('table_booked_varieties'));
+                $this->insert_booking_varieties($id);
                 $this->db->trans_complete();   //DB Transaction Handle END
 
                 if ($this->db->trans_status() === TRUE)
@@ -182,6 +190,7 @@ class Booking_preliminary extends Root_Controller
                 $data['creation_date'] = $time;
                 $this->db->trans_start();  //DB Transaction Handle START
                 $booking_id=Query_helper::add($this->config->item('table_bookings'),$data);
+                $this->insert_booking_varieties($booking_id);
                 $this->db->trans_complete();   //DB Transaction Handle END
                 if ($this->db->trans_status() === TRUE)
                 {
@@ -198,9 +207,25 @@ class Booking_preliminary extends Root_Controller
 
         }
     }
+    private function insert_booking_varieties($booking_id)
+    {
+        $booked_varieties=$this->input->post('booked_varieties');
+        $variety_prices=$this->booking_preliminary_model->get_variety_prices($this->selected_variety_ids);
+        foreach($booked_varieties as $variety)
+        {
+            $data=array();
+            $data['booking_id']=$booking_id;
+            $data['variety_id']=$variety['id'];
+            $data['quantity']=$variety['quantity'];
+            $data['unit_price']=$variety_prices[$variety['id']]['unit_price'];
+            $data['revision']=1;
+            Query_helper::add($this->config->item('table_booked_varieties'),$data);
+        }
+    }
     private function check_validation()
     {
         $booked_varieties=$this->input->post('booked_varieties');
+
         if(sizeof($booked_varieties)>0)
         {
             $variety_ids=array();
@@ -222,12 +247,14 @@ class Booking_preliminary extends Root_Controller
                     return false;
                 }
                 $variety_ids[]=$variety['id'];
-                if(sizeof($variety_ids)!= sizeof(array_unique($variety_ids)))
-                {
-                    $this->message=$this->lang->line("MSG_BOOKING_DUPLICATE_VARIETY");
-                    return false;
-                }
+
             }
+            if(sizeof($variety_ids)!= sizeof(array_unique($variety_ids)))
+            {
+                $this->message=$this->lang->line("MSG_BOOKING_DUPLICATE_VARIETY");
+                return false;
+            }
+            $this->selected_variety_ids=$variety_ids;
         }
         else
         {
