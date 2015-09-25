@@ -72,7 +72,7 @@
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_QUANTITY'); ?>',dataField: 'total_quantity',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PRICE'); ?>',dataField: 'total_price',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PRELIMINARY_PAYMENT'); ?>',dataField: 'preliminary_payment',width:'100',cellsalign: 'right'},
-                    { text: '<?php echo $CI->lang->line('LABEL_PERMANENT_PAYMENT'); ?>',dataField: 'permanent_payment',width:'100',cellsalign: 'right'},
+                    { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PERMANENT_PAYMENT'); ?>',dataField: 'permanent_payment',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_ADVANCED_PAYMENT'); ?>',dataField: 'total_payment',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_PRELIMINARY_BOOKING_DATE'); ?>', dataField: 'preliminary_booking_date'},
                     { text: '<?php echo $CI->lang->line('LABEL_PERMANENT_BOOKING_DATE'); ?>', dataField: 'permanent_booking_date'},

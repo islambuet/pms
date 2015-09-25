@@ -18,7 +18,7 @@ class Booking_permanent_model extends CI_Model
         $this->db->select('bv.booking_id');
         $this->db->group_by('bv.booking_id');
         $this->db->where('bv.revision',1);
-        $results=$CI->db->get()->result_array();
+        $results=$this->db->get()->result_array();
         $booked_varieties=array();
         foreach($results as $result)
         {
@@ -30,7 +30,7 @@ class Booking_permanent_model extends CI_Model
 
         $this->db->from($CI->config->item('table_booking_payments').' bp');
         $this->db->select('bp.booking_id,bp.amount,bp.booking_status');
-        $results=$CI->db->get()->result_array();
+        $results=$this->db->get()->result_array();
         foreach($results as $result)
         {
             if($result['booking_status']==$CI->config->item('booking_status_preliminary'))
@@ -51,7 +51,7 @@ class Booking_permanent_model extends CI_Model
 
         $this->db->join($CI->config->item('table_customers').' customers','customers.id = bookings.customer_id','INNER');
 
-        $results=$CI->db->get()->result_array();
+        $results=$this->db->get()->result_array();
         $bookings=array();
         foreach($results as $result)
         {
@@ -66,6 +66,37 @@ class Booking_permanent_model extends CI_Model
         }
         return $bookings;
 
+    }
+    public function get_booking_info($id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_bookings').' bookings');
+        $this->db->select('bookings.*');
+        $this->db->select('customers.customer_name');
+        $this->db->join($CI->config->item('table_customers').' customers','customers.id = bookings.customer_id','INNER');
+        $this->db->where('bookings.id',$id);
+        $result=$this->db->get()->row_array();
+        return $result;
+    }
+    public function get_preliminary_payment($id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_booking_payments').' bp');
+        $this->db->select('bp.*');
+        $this->db->where('booking_id',$id);
+        $this->db->where('booking_status',$CI->config->item('booking_status_preliminary'));
+        $results=$this->db->get()->row_array();
+        return $results;
+    }
+    public function get_permanent_payment($id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_booking_payments').' bp');
+        $this->db->select('bp.*');
+        $this->db->where('booking_id',$id);
+        $this->db->where('booking_status',$CI->config->item('booking_status_permanent'));
+        $results=$this->db->get()->row_array();
+        return $results;
     }
 
 }
