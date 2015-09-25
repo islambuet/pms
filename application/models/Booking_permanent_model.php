@@ -98,5 +98,23 @@ class Booking_permanent_model extends CI_Model
         $results=$this->db->get()->row_array();
         return $results;
     }
+    public function get_booked_varieties($booking_id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_booked_varieties').' bv');
+        $this->db->select('bv.*');
+        $this->db->select('CONCAT(varieties.variety_name," (",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") text',false);
+
+        $this->db->join($CI->config->item('table_varieties').' varieties','varieties.id = bv.variety_id','INNER');
+
+        $this->db->join($CI->config->item('table_crops').' crops','crops.id = varieties.crop_id','INNER');
+        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = varieties.classification_id','INNER');
+        $this->db->join($CI->config->item('table_types').' types','types.id =varieties.type_id','INNER');
+        $this->db->join($CI->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
+        $this->db->where('bv.revision',1);
+        $this->db->where('bv.booking_id',$booking_id);
+        $results=$this->db->get()->result_array();
+        return $results;
+    }
 
 }

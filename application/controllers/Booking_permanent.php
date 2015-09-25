@@ -75,6 +75,7 @@ class Booking_permanent extends Root_Controller
 
             $data['booking']=$this->booking_permanent_model->get_booking_info($booking_id);
             $data['payment_preliminary']=$this->booking_permanent_model->get_preliminary_payment($booking_id);
+            $data['booked_varieties']=$this->booking_permanent_model->get_booked_varieties($booking_id);
             $permanent_info=$this->booking_permanent_model->get_permanent_payment($booking_id);
             if($permanent_info)
             {

@@ -52,6 +52,7 @@ $lang['LABEL_REMARKS'] = 'Remarks';
 $lang['SELECT_ONE_ITEM'] = 'Select a item';
 $lang['LABEL_ADD_MORE'] = 'Add more';
 $lang['LABEL_QUANTITY'] = 'Quantity';
+$lang['LABEL_TOTAL'] = 'Total';
 
 
 //Create Crop

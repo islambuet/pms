@@ -40,6 +40,44 @@
                 <label class="control-label"><?php echo $payment_preliminary['amount'];?></label>
             </div>
         </div>
+        <div class="row show-grid">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-8">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center"><?php echo $CI->lang->line('LABEL_VARIETY_NAME');?></th>
+                            <th class="text-center"><?php echo $CI->lang->line('LABEL_QUANTITY');?></th>
+                            <th class="text-center"><?php echo $CI->lang->line('LABEL_UNIT_PRICE');?></th>
+                            <th class="text-center"><?php echo $CI->lang->line('LABEL_TOTAL');?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $total=0;
+                            foreach($booked_varieties as $variety)
+                            {
+                                ?>
+                                <tr>
+                                    <td><?php echo $variety['text']; ?></td>
+                                    <td class="text-right"><?php echo $variety['quantity']; ?></td>
+                                    <td class="text-right"><?php echo $variety['unit_price']; ?></td>
+                                    <td class="text-right"><?php echo $variety['quantity']*$variety['unit_price']; ?></td>
+                                </tr>
+                                <?php
+                                $total+=$variety['quantity']*$variety['unit_price'];
+                            }
+                        ?>
+                        <tr>
+                            <td colspan="3" class="text-right"><?php echo $CI->lang->line('LABEL_TOTAL'); ?></td>
+                            <td class="text-right"><?php echo $total; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="widget-header">
             <div class="title">
                 <?php echo $CI->lang->line('LABEL_PERMANENT_PAYMENT'); ?>
