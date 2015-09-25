@@ -12,6 +12,38 @@ class Booking_permanent_model extends CI_Model
     public function get_list()
     {
         $CI =& get_instance();
+        $this->db->from($CI->config->item('table_booked_varieties').' bv');
+        $this->db->select('SUM(bv.quantity) total_quantity',false);
+        $this->db->select('SUM(bv.unit_price*bv.quantity) total_price',false);
+        $this->db->select('bv.booking_id');
+        $this->db->group_by('bv.booking_id');
+        $this->db->where('bv.revision',1);
+        $results=$CI->db->get()->result_array();
+        $booked_varieties=array();
+        foreach($results as $result)
+        {
+            $result['preliminary_payment']=0;
+            $result['permanent_payment']=0;
+            $booked_varieties[$result['booking_id']]=$result;
+
+        }
+
+        $this->db->from($CI->config->item('table_booking_payments').' bp');
+        $this->db->select('bp.booking_id,bp.amount,bp.booking_status');
+        $results=$CI->db->get()->result_array();
+        foreach($results as $result)
+        {
+            if($result['booking_status']==$CI->config->item('booking_status_preliminary'))
+            {
+                $booked_varieties[$result['booking_id']]['preliminary_payment']=$result['amount'];
+            }
+            elseif($result['booking_status']==$CI->config->item('booking_status_permanent'))
+            {
+                $booked_varieties[$result['booking_id']]['permanent_payment']=$result['amount'];
+            }
+
+
+        }
 
         $this->db->from($CI->config->item('table_bookings').' bookings');
         $this->db->select('bookings.*');
@@ -23,6 +55,11 @@ class Booking_permanent_model extends CI_Model
         $bookings=array();
         foreach($results as $result)
         {
+            $result['total_quantity']=$booked_varieties[$result['id']]['total_quantity'];
+            $result['total_price']=$booked_varieties[$result['id']]['total_price'];
+            $result['preliminary_payment']=$booked_varieties[$result['id']]['preliminary_payment'];
+            $result['permanent_payment']=$booked_varieties[$result['id']]['permanent_payment'];
+            $result['total_payment']=$result['preliminary_payment']+$result['permanent_payment'];
             $result['preliminary_booking_date']=System_helper::display_date($result['preliminary_booking_date']);
             $result['permanent_booking_date']=System_helper::display_date($result['permanent_booking_date']);
             $bookings[]=$result;

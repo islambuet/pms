@@ -33,13 +33,15 @@
             dataFields: [
                 { name: 'id', type: 'int' },
                 { name: 'customer_name', type: 'string' },
-                { name: 'customer_location', type: 'string' },
                 { name: 'year', type: 'int' },
                 { name: 'booking_status', type: 'string' },
+                { name: 'total_quantity', type: 'number' },
+                { name: 'total_price', type: 'number' },
+                { name: 'preliminary_payment', type: 'number' },
+                { name: 'permanent_payment', type: 'number' },
+                { name: 'total_payment', type: 'number' },
                 { name: 'preliminary_booking_date', type: 'string' },
                 { name: 'permanent_booking_date', type: 'string' },
-                { name: 'remarks', type: 'string' },
-                { name: 'permanent_remarks', type: 'string' },
                 { name: 'status', type: 'string' }
             ],
             id: 'id',
@@ -65,13 +67,15 @@
                 columns: [
                     { text: '<?php echo $CI->lang->line('LABEL_BOOKING_ID'); ?>', dataField: 'id',width:'50',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_CUSTOMER_NAME'); ?>', dataField: 'customer_name'},
-                    { text: '<?php echo $CI->lang->line('LABEL_CUSTOMER_LOCATION'); ?>', dataField: 'customer_location'},
                     { text: '<?php echo $CI->lang->line('LABEL_YEAR'); ?>', dataField: 'year',filtertype: 'list',width:'50',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_BOOKING_STATUS'); ?>',filtertype: 'list', dataField: 'booking_status',width:'100',cellsalign: 'right'},
+                    { text: '<?php echo $CI->lang->line('LABEL_TOTAL_QUANTITY'); ?>',dataField: 'total_quantity',width:'100',cellsalign: 'right'},
+                    { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PRICE'); ?>',dataField: 'total_price',width:'100',cellsalign: 'right'},
+                    { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PRELIMINARY_PAYMENT'); ?>',dataField: 'preliminary_payment',width:'100',cellsalign: 'right'},
+                    { text: '<?php echo $CI->lang->line('LABEL_PERMANENT_PAYMENT'); ?>',dataField: 'permanent_payment',width:'100',cellsalign: 'right'},
+                    { text: '<?php echo $CI->lang->line('LABEL_TOTAL_ADVANCED_PAYMENT'); ?>',dataField: 'total_payment',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_PRELIMINARY_BOOKING_DATE'); ?>', dataField: 'preliminary_booking_date'},
                     { text: '<?php echo $CI->lang->line('LABEL_PERMANENT_BOOKING_DATE'); ?>', dataField: 'permanent_booking_date'},
-                    { text: '<?php echo $CI->lang->line('LABEL_PRELIMINARY_REMARKS'); ?>', dataField: 'remarks'},
-                    { text: '<?php echo $CI->lang->line('LABEL_PERMANENT_REMARKS'); ?>', dataField: 'permanent_remarks'},
                     { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',filtertype: 'list',width:'150',cellsalign: 'right'}
                 ]
             });

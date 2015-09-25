@@ -108,7 +108,11 @@ $lang['LABEL_PERMANENT_BOOKING_DATE'] = 'Permanent booking date';
 $lang['LABEL_PRELIMINARY_REMARKS'] = 'Preliminary remarks';
 $lang['LABEL_PERMANENT_REMARKS'] = 'Permanent remarks';
 $lang['LABEL_CUSTOMER_LOCATION'] = 'Customer location';
-
+$lang['LABEL_TOTAL_QUANTITY'] = 'Total Quantity';
+$lang['LABEL_TOTAL_PRICE'] = 'Total Amount Tk';
+$lang['LABEL_TOTAL_PRELIMINARY_PAYMENT'] = 'Pre Adv Tk.';
+$lang['LABEL_PERMANENT_PAYMENT'] = 'Final Adv Tk';
+$lang['LABEL_TOTAL_ADVANCED_PAYMENT'] = 'Total Adv Tk';
 
 
 
