@@ -53,7 +53,8 @@ $lang['SELECT_ONE_ITEM'] = 'Select a item';
 $lang['LABEL_ADD_MORE'] = 'Add more';
 $lang['LABEL_QUANTITY'] = 'Quantity';
 $lang['LABEL_TOTAL'] = 'Total';
-
+$lang['LABEL_SEARCH'] = 'Search';
+$lang['MSG_BOOKING_NOT_FOUND'] = 'Booking Id not found';
 
 //Create Crop
 $lang['LABEL_CROP_NAME'] = 'Crop Name';
@@ -115,6 +116,8 @@ $lang['LABEL_TOTAL_PRICE'] = 'Total Amount Tk';
 $lang['LABEL_TOTAL_PRELIMINARY_PAYMENT'] = 'Pre Adv Tk.';
 $lang['LABEL_TOTAL_PERMANENT_PAYMENT'] = 'Final Adv Tk';
 $lang['LABEL_TOTAL_ADVANCED_PAYMENT'] = 'Total Adv Tk';
+$lang['LABEL_PAYMENT_FOR'] = 'Payment For';
+$lang['LABEL_MORE_PAYMENT'] = 'Add more Payment';
 
 
 

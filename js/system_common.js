@@ -387,5 +387,6 @@ function turn_off_triggers()
     //addmore
     $(document).off("click", ".system_add_more_button");
     $(document).off("click", ".system_add_more_delete");
+    $(document).off("click", "#button_search");
 
 }
