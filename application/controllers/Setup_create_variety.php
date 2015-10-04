@@ -112,6 +112,22 @@ class Setup_create_variety extends Root_Controller
             }
 
             $data['variety']=Query_helper::get_info($this->config->item('table_varieties'),'*',array('id ='.$variety_id),1);
+
+            $this->db->from($this->config->item('table_varieties').' varieties');
+            $this->db->select('varieties.*');
+            $this->db->select('stypes.type_id type_id');
+            $this->db->select('types.classification_id classification_id');
+            $this->db->select('classifications.crop_id crop_id');
+
+
+            $this->db->join($this->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
+            $this->db->join($this->config->item('table_types').' types','types.id =stypes.type_id','INNER');
+            $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+            $this->db->join($this->config->item('table_crops').' crops','crops.id = classifications.crop_id','INNER');
+
+            $this->db->where('varieties.id',$variety_id);
+            $data['variety']=$this->db->get()->row_array();
+
             $data['crops']=Query_helper::get_info($this->config->item('table_crops'),array('id','crop_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['classifications']=Query_helper::get_info($this->config->item('table_classifications'),array('id','classification_name'),array('crop_id ='.$data['variety']['crop_id']));
             $data['types']=Query_helper::get_info($this->config->item('table_types'),array('id','type_name'),array('classification_id ='.$data['variety']['classification_id']));
@@ -213,9 +229,6 @@ class Setup_create_variety extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('variety[crop_id]',$this->lang->line('LABEL_CROP_NAME'),'required');
-        $this->form_validation->set_rules('variety[classification_id]',$this->lang->line('LABEL_CLASSIFICATION_NAME'),'required');
-        $this->form_validation->set_rules('variety[type_id]',$this->lang->line('LABEL_TYPE_NAME'),'required');
         $this->form_validation->set_rules('variety[skin_type_id]',$this->lang->line('LABEL_SKIN_TYPE_NAME'),'required');
         $this->form_validation->set_rules('variety[variety_name]',$this->lang->line('LABEL_VARIETY_NAME'),'required');
 
@@ -227,20 +240,23 @@ class Setup_create_variety extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$this->db->from($this->config->item('table_skin_types').' stypes');
         $this->db->from($this->config->item('table_varieties').' varieties');
-        $this->db->select('varieties.id id,varieties.variety_name variety_name,varieties.unit_price');
+        $this->db->select('varieties.id id,varieties.variety_name variety_name');
         $this->db->select('varieties.remarks remarks,varieties.status status,varieties.ordering ordering');
         $this->db->select('crops.crop_name crop_name');
         $this->db->select('classifications.classification_name classification_name');
         $this->db->select('types.type_name type_name');
         $this->db->select('stypes.skin_type_name skin_type_name');
-        $this->db->join($this->config->item('table_crops').' crops','crops.id = varieties.crop_id','INNER');
-        $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = varieties.classification_id','INNER');
-        $this->db->join($this->config->item('table_types').' types','types.id =varieties.type_id','INNER');
         $this->db->join($this->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
+        $this->db->join($this->config->item('table_types').' types','types.id =stypes.type_id','INNER');
+        $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+        $this->db->join($this->config->item('table_crops').' crops','crops.id = classifications.crop_id','INNER');
+
+
+
         $this->db->where('varieties.status !=',$this->config->item('system_status_delete'));
         $varieties=$this->db->get()->result_array();
         $this->jsonReturn($varieties);

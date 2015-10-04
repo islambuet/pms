@@ -214,7 +214,7 @@ class Setup_create_classification extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         $this->db->from($this->config->item('table_classifications').' classifications');
         $this->db->select('classifications.id id,classifications.classification_name classification_name');

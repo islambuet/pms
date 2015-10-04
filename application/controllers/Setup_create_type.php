@@ -106,8 +106,13 @@ class Setup_create_type extends Root_Controller
             {
                 $type_id=$id;
             }
+            $this->db->from($this->config->item('table_types').' types');
+            $this->db->select('types.*');
+            $this->db->select('classifications.crop_id crop_id');
+            $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+            $this->db->where('types.id',$type_id);
+            $data['type']=$this->db->get()->row_array();
 
-            $data['type']=Query_helper::get_info($this->config->item('table_types'),'*',array('id ='.$type_id),1);
             $data['crops']=Query_helper::get_info($this->config->item('table_crops'),array('id','crop_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['classifications']=Query_helper::get_info($this->config->item('table_classifications'),array('id','classification_name'),array('crop_id ='.$data['type']['crop_id']));
             $data['title']="Edit Type (".$data['type']['type_name'].')';
@@ -207,7 +212,6 @@ class Setup_create_type extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('type[crop_id]',$this->lang->line('LABEL_CROP_NAME'),'required');
         $this->form_validation->set_rules('type[classification_id]',$this->lang->line('LABEL_CLASSIFICATION_NAME'),'required');
         $this->form_validation->set_rules('type[type_name]',$this->lang->line('LABEL_TYPE_NAME'),'required');
 
@@ -219,7 +223,7 @@ class Setup_create_type extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$this->db->from($this->config->item('table_classifications').' classifications');
         $this->db->from($this->config->item('table_types').' types');
@@ -227,8 +231,8 @@ class Setup_create_type extends Root_Controller
         $this->db->select('types.remarks remarks,types.status status,types.ordering ordering');
         $this->db->select('crops.crop_name crop_name');
         $this->db->select('classifications.classification_name classification_name');
-        $this->db->join($this->config->item('table_crops').' crops','crops.id = types.crop_id','INNER');
         $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+        $this->db->join($this->config->item('table_crops').' crops','crops.id = classifications.crop_id','INNER');
         $this->db->where('types.status !=',$this->config->item('system_status_delete'));
         $classifications=$this->db->get()->result_array();
         $this->jsonReturn($classifications);

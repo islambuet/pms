@@ -19,7 +19,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CROP_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="crop_id" name="variety[crop_id]" class="form-control" tabindex="-1">
+                <select id="crop_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($crops as $crop)
@@ -36,7 +36,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CLASSIFICATION_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="classification_id" name="variety[classification_id]" class="form-control" tabindex="-1">
+                <select id="classification_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($classifications as $classification)
@@ -53,7 +53,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TYPE_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="type_id" name="variety[type_id]" class="form-control" tabindex="-1">
+                <select id="type_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($types as $type)
@@ -87,7 +87,7 @@
                 <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_VARIETY_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <input type="text" name="variety[variety_name]" id="crop_name" class="form-control validate[required]" value="<?php echo $variety['variety_name'];?>"/>
+                <input type="text" name="variety[variety_name]" id="variety_id" class="form-control validate[required]" value="<?php echo $variety['variety_name'];?>"/>
             </div>
         </div>
 

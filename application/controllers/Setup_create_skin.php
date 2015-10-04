@@ -102,14 +102,25 @@ class Setup_create_skin extends Root_Controller
         {
             if(($this->input->post('id')))
             {
-                $type_id=$this->input->post('id');
+                $skin_id=$this->input->post('id');
             }
             else
             {
-                $type_id=$id;
+                $skin_id=$id;
             }
 
-            $data['skin_type']=Query_helper::get_info($this->config->item('table_skin_types'),'*',array('id ='.$type_id),1);
+            //$data['skin_type']=Query_helper::get_info($this->config->item('table_skin_types'),'*',array('id ='.$type_id),1);
+
+            $this->db->from($this->config->item('table_skin_types').' stypes');
+            $this->db->select('stypes.*');
+            $this->db->select('types.classification_id classification_id');
+            $this->db->select('classifications.crop_id crop_id');
+            $this->db->join($this->config->item('table_types').' types','types.id = stypes.type_id','INNER');
+            $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+            $this->db->where('stypes.id',$skin_id);
+            $data['skin_type']=$this->db->get()->row_array();
+
+
             $data['crops']=Query_helper::get_info($this->config->item('table_crops'),array('id','crop_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['classifications']=Query_helper::get_info($this->config->item('table_classifications'),array('id','classification_name'),array('crop_id ='.$data['skin_type']['crop_id']));
             $data['types']=Query_helper::get_info($this->config->item('table_types'),array('id','type_name'),array('classification_id ='.$data['skin_type']['classification_id']));
@@ -120,7 +131,7 @@ class Setup_create_skin extends Root_Controller
             {
                 $ajax['system_message']=$this->message;
             }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$type_id);
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$skin_id);
             $this->jsonReturn($ajax);
         }
         else
@@ -210,8 +221,6 @@ class Setup_create_skin extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('skin_type[crop_id]',$this->lang->line('LABEL_CROP_NAME'),'required');
-        $this->form_validation->set_rules('skin_type[classification_id]',$this->lang->line('LABEL_CLASSIFICATION_NAME'),'required');
         $this->form_validation->set_rules('skin_type[type_id]',$this->lang->line('LABEL_TYPE_NAME'),'required');
         $this->form_validation->set_rules('skin_type[skin_type_name]',$this->lang->line('LABEL_SKIN_TYPE_NAME'),'required');
 
@@ -223,7 +232,7 @@ class Setup_create_skin extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$this->db->from($this->config->item('table_types').' types');
         $this->db->from($this->config->item('table_skin_types').' stypes');
@@ -232,9 +241,11 @@ class Setup_create_skin extends Root_Controller
         $this->db->select('crops.crop_name crop_name');
         $this->db->select('classifications.classification_name classification_name');
         $this->db->select('types.type_name type_name');
-        $this->db->join($this->config->item('table_crops').' crops','crops.id = stypes.crop_id','INNER');
-        $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = stypes.classification_id','INNER');
         $this->db->join($this->config->item('table_types').' types','types.id = stypes.type_id','INNER');
+        $this->db->join($this->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+        $this->db->join($this->config->item('table_crops').' crops','crops.id = classifications.crop_id','INNER');
+
+
         $this->db->where('stypes.status !=',$this->config->item('system_status_delete'));
         $classifications=$this->db->get()->result_array();
         $this->jsonReturn($classifications);
