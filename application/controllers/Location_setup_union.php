@@ -111,7 +111,18 @@ class Location_setup_union extends Root_Controller
                 $union_id=$id;
             }
 
-            $data['union']=Query_helper::get_info($this->config->item('table_unions'),'*',array('id ='.$union_id),1);
+            //$data['union']=Query_helper::get_info($this->config->item('table_unions'),'*',array('id ='.$union_id),1);
+            $this->db->from($this->config->item('table_unions').' unions');
+            $this->db->select('unions.*');
+            $this->db->select('territories.zone_id zone_id');
+            $this->db->select('districts.territory_id territory_id');
+            $this->db->select('upazilas.district_id district_id');
+            $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+            $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+            $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+            $this->db->where('unions.id',$union_id);
+            $data['union']=$this->db->get()->row_array();
+
             $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['territories']=Query_helper::get_info($this->config->item('table_territories'),array('id','territory_name'),array('zone_id ='.$data['union']['zone_id']));
             $data['districts']=Query_helper::get_info($this->config->item('table_districts'),array('id','district_name'),array('territory_id ='.$data['union']['territory_id']));
@@ -213,9 +224,6 @@ class Location_setup_union extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('union[zone_id]',$this->lang->line('LABEL_ZONE_NAME'),'required');
-        $this->form_validation->set_rules('union[territory_id]',$this->lang->line('LABEL_TERRITORY_NAME'),'required');
-        $this->form_validation->set_rules('union[district_id]',$this->lang->line('LABEL_DISTRICT_NAME'),'required');
         $this->form_validation->set_rules('union[upazila_id]',$this->lang->line('LABEL_UPAZILA_NAME'),'required');
         $this->form_validation->set_rules('union[union_name]',$this->lang->line('LABEL_UNION_NAME'),'required');
 
@@ -226,7 +234,7 @@ class Location_setup_union extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$this->db->from($this->config->item('table_upazilas').' upazilas');
         $this->db->from($this->config->item('table_unions').' unions');
@@ -236,10 +244,13 @@ class Location_setup_union extends Root_Controller
         $this->db->select('territories.territory_name territory_name');
         $this->db->select('districts.district_name district_name');
         $this->db->select('upazilas.upazila_name upazila_name');
-        $this->db->join($this->config->item('table_zones').' zones','zones.id = unions.zone_id','INNER');
-        $this->db->join($this->config->item('table_territories').' territories','territories.id = unions.territory_id','INNER');
-        $this->db->join($this->config->item('table_districts').' districts','districts.id = unions.district_id','INNER');
         $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+        $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+        $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+        $this->db->join($this->config->item('table_zones').' zones','zones.id = territories.zone_id','INNER');
+
+
+
         $this->db->where('unions.status !=',$this->config->item('system_status_delete'));
         $districts=$this->db->get()->result_array();
         $this->jsonReturn($districts);

@@ -23,11 +23,14 @@ class Booking_preliminary_model extends CI_Model
         $this->db->select('varieties.id id');
         $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") text',false);
 
-        $this->db->join($CI->config->item('table_crops').' crops','crops.id = varieties.crop_id','INNER');
-        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = varieties.classification_id','INNER');
-        $this->db->join($CI->config->item('table_types').' types','types.id =varieties.type_id','INNER');
         $this->db->join($CI->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
-        $this->db->where('varieties.status !=',$CI->config->item('system_status_delete'));
+        $this->db->join($CI->config->item('table_types').' types','types.id =stypes.type_id','INNER');
+        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+        $this->db->join($CI->config->item('table_crops').' crops','crops.id = classifications.crop_id','INNER');
+
+
+
+        $this->db->where('varieties.status',$CI->config->item('system_status_active'));
         $this->db->order_by('varieties.ordering');
         $varieties=$CI->db->get()->result_array();
 

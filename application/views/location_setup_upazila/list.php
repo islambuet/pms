@@ -28,7 +28,7 @@
     $(document).ready(function ()
     {
         turn_off_triggers();
-        var url = "<?php echo base_url($CI->controller_url.'/get_crops');?>";
+        var url = "<?php echo base_url($CI->controller_url.'/get_items');?>";
 
         // prepare the data
         var source =

@@ -210,7 +210,7 @@ class Location_setup_zone extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         $crops=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name','remarks','status','ordering'),array('status !="'.$this->config->item('system_status_delete').'"'));
         $this->jsonReturn($crops);

@@ -107,7 +107,16 @@ class Location_setup_district extends Root_Controller
                 $district_id=$id;
             }
 
-            $data['district']=Query_helper::get_info($this->config->item('table_districts'),'*',array('id ='.$district_id),1);
+            //$data['district']=Query_helper::get_info($this->config->item('table_districts'),'*',array('id ='.$district_id),1);
+
+            $this->db->from($this->config->item('table_districts').' districts');
+            $this->db->select('districts.*');
+            $this->db->select('territories.zone_id zone_id');
+            $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+            $this->db->where('districts.id',$district_id);
+            $data['district']=$this->db->get()->row_array();
+
+
             $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['territories']=Query_helper::get_info($this->config->item('table_territories'),array('id','territory_name'),array('zone_id ='.$data['district']['zone_id']));
             $data['title']="Edit District (".$data['district']['district_name'].')';
@@ -208,8 +217,7 @@ class Location_setup_district extends Root_Controller
     {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('district[district_name]',$this->lang->line('LABEL_DISTRICT_NAME'),'required');
-        $this->form_validation->set_rules('district[zone_id]',$this->lang->line('LABEL_ZONE_NAME'),'required');
-        $this->form_validation->set_rules('district[territory_id]',$this->lang->line('LABEL_ZONE_NAME'),'required');
+        $this->form_validation->set_rules('district[territory_id]',$this->lang->line('LABEL_TERRITORY_NAME'),'required');
 
         if($this->form_validation->run() == FALSE)
         {
@@ -218,15 +226,16 @@ class Location_setup_district extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         $this->db->from($this->config->item('table_districts').' districts');
         $this->db->select('districts.id id,districts.district_name district_name');
         $this->db->select('districts.remarks remarks,districts.status status,districts.ordering ordering');
         $this->db->select('zones.zone_name zone_name');
         $this->db->select('territories.territory_name territory_name');
-        $this->db->join($this->config->item('table_zones').' zones','zones.id = districts.zone_id','INNER');
         $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+        $this->db->join($this->config->item('table_zones').' zones','zones.id = territories.zone_id','INNER');
+
         $this->db->where('districts.status !=',$this->config->item('system_status_delete'));
         $districts=$this->db->get()->result_array();
         $this->jsonReturn($districts);

@@ -109,7 +109,21 @@ class Location_setup_upazila extends Root_Controller
                 $upazila_id=$id;
             }
 
-            $data['upazila']=Query_helper::get_info($this->config->item('table_upazilas'),'*',array('id ='.$upazila_id),1);
+            //$data['upazila']=Query_helper::get_info($this->config->item('table_upazilas'),'*',array('id ='.$upazila_id),1);
+
+            $this->db->from($this->config->item('table_upazilas').' upazilas');
+            $this->db->select('upazilas.*');
+
+            $this->db->select('territories.zone_id zone_id');
+            $this->db->select('districts.territory_id territory_id');
+            $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+            $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+
+
+            $this->db->where('upazilas.id',$upazila_id);
+            $data['upazila']=$this->db->get()->row_array();
+
+
             $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['territories']=Query_helper::get_info($this->config->item('table_territories'),array('id','territory_name'),array('zone_id ='.$data['upazila']['zone_id']));
             $data['districts']=Query_helper::get_info($this->config->item('table_districts'),array('id','district_name'),array('territory_id ='.$data['upazila']['territory_id']));
@@ -211,8 +225,6 @@ class Location_setup_upazila extends Root_Controller
     {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('upazila[upazila_name]',$this->lang->line('LABEL_UPAZILA_NAME'),'required');
-        $this->form_validation->set_rules('upazila[zone_id]',$this->lang->line('LABEL_ZONE_NAME'),'required');
-        $this->form_validation->set_rules('upazila[territory_id]',$this->lang->line('LABEL_TERRITORY_NAME'),'required');
         $this->form_validation->set_rules('upazila[district_id]',$this->lang->line('LABEL_DISTRICT_NAME'),'required');
 
         if($this->form_validation->run() == FALSE)
@@ -222,7 +234,7 @@ class Location_setup_upazila extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$this->db->from($this->config->item('table_districts').' districts');
         $this->db->from($this->config->item('table_upazilas').' upazilas');
@@ -231,9 +243,9 @@ class Location_setup_upazila extends Root_Controller
         $this->db->select('zones.zone_name zone_name');
         $this->db->select('territories.territory_name territory_name');
         $this->db->select('districts.district_name district_name');
-        $this->db->join($this->config->item('table_zones').' zones','zones.id = upazilas.zone_id','INNER');
-        $this->db->join($this->config->item('table_territories').' territories','territories.id = upazilas.territory_id','INNER');
         $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+        $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+        $this->db->join($this->config->item('table_zones').' zones','zones.id = territories.zone_id','INNER');
         $this->db->where('upazilas.status !=',$this->config->item('system_status_delete'));
         $districts=$this->db->get()->result_array();
         $this->jsonReturn($districts);

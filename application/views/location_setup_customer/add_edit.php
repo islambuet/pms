@@ -19,7 +19,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_ZONE_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="zone_id" name="customer[zone_id]" class="form-control" tabindex="-1">
+                <select id="zone_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($zones as $zone)
@@ -36,7 +36,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_TERRITORY_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="territory_id" name="customer[territory_id]" class="form-control" tabindex="-1">
+                <select id="territory_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($territories as $territory)
@@ -53,7 +53,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_DISTRICT_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="district_id" name="customer[district_id]" class="form-control" tabindex="-1">
+                <select id="district_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($districts as $district)
@@ -70,7 +70,7 @@
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_UPAZILA_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <select id="upazila_id" name="customer[upazila_id]" class="form-control" tabindex="-1">
+                <select id="upazila_id" class="form-control" tabindex="-1">
                     <option value=""><?php echo $this->lang->line('SELECT');?></option>
                     <?php
                     foreach($upazilas as $upazila)

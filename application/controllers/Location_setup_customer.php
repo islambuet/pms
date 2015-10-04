@@ -118,7 +118,20 @@ class Location_setup_customer extends Root_Controller
                 $customer_id=$id;
             }
 
-            $data['customer']=Query_helper::get_info($this->config->item('table_customers'),'*',array('id ='.$customer_id),1);
+            //$data['customer']=Query_helper::get_info($this->config->item('table_customers'),'*',array('id ='.$customer_id),1);
+            $this->db->from($this->config->item('table_customers').' customers');
+            $this->db->select('customers.*');
+            $this->db->select('territories.zone_id zone_id');
+            $this->db->select('districts.territory_id territory_id');
+            $this->db->select('upazilas.district_id district_id');
+            $this->db->select('unions.upazila_id upazila_id');
+            $this->db->join($this->config->item('table_unions').' unions','unions.id = customers.union_id','INNER');
+            $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+            $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+            $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+            $this->db->where('customers.id',$customer_id);
+            $data['customer']=$this->db->get()->row_array();
+
             $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['territories']=Query_helper::get_info($this->config->item('table_territories'),array('id','territory_name'),array('zone_id ='.$data['customer']['zone_id']));
             $data['districts']=Query_helper::get_info($this->config->item('table_districts'),array('id','district_name'),array('territory_id ='.$data['customer']['territory_id']));
@@ -221,10 +234,6 @@ class Location_setup_customer extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('customer[zone_id]',$this->lang->line('LABEL_ZONE_NAME'),'required');
-        $this->form_validation->set_rules('customer[territory_id]',$this->lang->line('LABEL_TERRITORY_NAME'),'required');
-        $this->form_validation->set_rules('customer[district_id]',$this->lang->line('LABEL_DISTRICT_NAME'),'required');
-        $this->form_validation->set_rules('customer[upazila_id]',$this->lang->line('LABEL_UPAZILA_NAME'),'required');
         $this->form_validation->set_rules('customer[union_id]',$this->lang->line('LABEL_UNION_NAME'),'required');
         $this->form_validation->set_rules('customer[customer_name]',$this->lang->line('LABEL_NAME'),'required');
         $this->form_validation->set_rules('customer[contact_no]',$this->lang->line('LABEL_CONTACT_NO'),'required');
@@ -237,7 +246,7 @@ class Location_setup_customer extends Root_Controller
         }
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$this->db->from($this->config->item('table_unions').' unions');
         $this->db->from($this->config->item('table_customers').' customers');
@@ -248,11 +257,11 @@ class Location_setup_customer extends Root_Controller
         $this->db->select('districts.district_name district_name');
         $this->db->select('upazilas.upazila_name upazila_name');
         $this->db->select('unions.union_name union_name');
-        $this->db->join($this->config->item('table_zones').' zones','zones.id = customers.zone_id','INNER');
-        $this->db->join($this->config->item('table_territories').' territories','territories.id = customers.territory_id','INNER');
-        $this->db->join($this->config->item('table_districts').' districts','districts.id = customers.district_id','INNER');
-        $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = customers.upazila_id','INNER');
         $this->db->join($this->config->item('table_unions').' unions','unions.id = customers.union_id','INNER');
+        $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+        $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+        $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+        $this->db->join($this->config->item('table_zones').' zones','zones.id = territories.zone_id','INNER');
         $this->db->where('customers.status !=',$this->config->item('system_status_delete'));
         $districts=$this->db->get()->result_array();
         $this->jsonReturn($districts);
