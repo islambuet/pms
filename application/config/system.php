@@ -18,6 +18,10 @@ $config['payment_method']['cash']='Cash';
 $config['payment_method']['mobile_banking']='Mobile Banking';
 $config['payment_method']['others']='Others';
 
+$config['consignment_status']['ready']='Ready';
+$config['consignment_status']['complete']='Completed';
+$config['consignment_status']['allocation']='Allocation';
+
 
 
 

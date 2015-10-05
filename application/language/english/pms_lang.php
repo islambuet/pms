@@ -67,7 +67,8 @@ $lang['LABEL_SKIN_TYPE_NAME'] = 'Skin Type Name';
 //create variety
 $lang['LABEL_VARIETY_NAME'] = 'Variety Name';
 $lang['LABEL_UNIT_PRICE'] = 'Price/Box';
-
+//Consignment
+$lang['LABEL_CONSIGNMENT_NAME'] = 'Consignment Name';
 
 //Create zone
 $lang['LABEL_ZONE_NAME'] = 'Zone';

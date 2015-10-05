@@ -14,6 +14,7 @@ $config['table_types'] = 'pms_types';
 $config['table_skin_types'] = 'pms_skin_types';
 $config['table_varieties'] = 'pms_varieties';
 //$config['table_variety_price_history'] = 'pms_variety_price_history';
+$config['table_consignment'] = 'pms_consignment';
 
 //location setup tables
 $config['table_zones'] = 'pms_zones';
