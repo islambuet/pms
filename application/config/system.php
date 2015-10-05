@@ -12,7 +12,11 @@ $config['booking_status_other']='Other';
 $config['payment_method']['cheque']='Cheque';
 $config['payment_method']['pay_order']='Pay Order';
 $config['payment_method']['bank_guarantee']='Bank Guarantee';
-
+$config['payment_method']['online_payment']='Online Payment';
+$config['payment_method']['dd']='DD';
+$config['payment_method']['cash']='Cash';
+$config['payment_method']['mobile_banking']='Mobile Banking';
+$config['payment_method']['others']='Others';
 
 
 
