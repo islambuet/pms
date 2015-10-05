@@ -234,7 +234,7 @@ class Booking_preliminary extends Root_Controller
     private function insert_booking_varieties($booking_id)
     {
         $booked_varieties=$this->input->post('booked_varieties');
-        $variety_prices=$this->booking_preliminary_model->get_variety_prices($this->selected_variety_ids);
+        //$variety_prices=$this->booking_preliminary_model->get_variety_prices($this->selected_variety_ids);
         $time=time();
         $user=User_helper::get_user();
         foreach($booked_varieties as $variety)
@@ -243,7 +243,7 @@ class Booking_preliminary extends Root_Controller
             $data['booking_id']=$booking_id;
             $data['variety_id']=$variety['id'];
             $data['quantity']=$variety['quantity'];
-            $data['unit_price']=$variety_prices[$variety['id']]['unit_price'];
+            //$data['unit_price']=$variety_prices[$variety['id']]['unit_price'];
             $data['revision']=1;
             $data['created_by'] = $user->user_id;
             $data['creation_date'] = $time;
