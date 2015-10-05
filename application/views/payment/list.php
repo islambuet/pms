@@ -15,6 +15,7 @@
             <thead>
             <tr>
                 <th class="text-center"><?php echo $CI->lang->line('LABEL_PAYMENT_FOR');?></th>
+                <th class="text-center"><?php echo $CI->lang->line('LABEL_REMARKS');?></th>
                 <th class="text-center"><?php echo $CI->lang->line('LABEL_DATE');?></th>
                 <th class="text-center"><?php echo $CI->lang->line('LABEL_TOTAL');?></th>
             </tr>
@@ -40,6 +41,7 @@
                         <?php
                     }
                     ?>
+                    <td class="text-right"><?php echo System_helper::display_date($payment['remarks']); ?></td>
                     <td class="text-right"><?php echo System_helper::display_date($payment['payment_date']); ?></td>
                     <td class="text-right"><?php echo $payment['amount']; ?></td>
                 </tr>
@@ -48,7 +50,7 @@
             }
             ?>
             <tr>
-                <td colspan="2" class="text-right"><?php echo $CI->lang->line('LABEL_TOTAL'); ?></td>
+                <td colspan="3" class="text-right"><?php echo $CI->lang->line('LABEL_TOTAL'); ?></td>
                 <td class="text-right"><?php echo $total; ?></td>
             </tr>
             <tr>
