@@ -220,7 +220,7 @@ class Booking_permanent extends Root_Controller
 
         return true;
     }
-    public function get_crops()
+    public function get_items()
     {
         //$crops=Query_helper::get_info($this->config->item('table_crops'),array('id','crop_name','remarks','status','ordering'),array('status !="'.$this->config->item('system_status_delete').'"'));
         $items=$this->booking_permanent_model->get_list();

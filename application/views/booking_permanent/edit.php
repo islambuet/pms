@@ -49,8 +49,8 @@
                         <tr>
                             <th class="text-center"><?php echo $CI->lang->line('LABEL_VARIETY_NAME');?></th>
                             <th class="text-center"><?php echo $CI->lang->line('LABEL_QUANTITY');?></th>
-                            <th class="text-center"><?php echo $CI->lang->line('LABEL_UNIT_PRICE');?></th>
-                            <th class="text-center"><?php echo $CI->lang->line('LABEL_TOTAL');?></th>
+<!--                            <th class="text-center">--><?php //echo $CI->lang->line('LABEL_UNIT_PRICE');?><!--</th>-->
+<!--                            <th class="text-center">--><?php //echo $CI->lang->line('LABEL_TOTAL');?><!--</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -62,17 +62,17 @@
                                 <tr>
                                     <td><?php echo $variety['text']; ?></td>
                                     <td class="text-right"><?php echo $variety['quantity']; ?></td>
-                                    <td class="text-right"><?php echo $variety['unit_price']; ?></td>
-                                    <td class="text-right"><?php echo $variety['quantity']*$variety['unit_price']; ?></td>
+<!--                                    <td class="text-right">--><?php //echo $variety['unit_price']; ?><!--</td>-->
+<!--                                    <td class="text-right">--><?php //echo $variety['quantity']*$variety['unit_price']; ?><!--</td>-->
                                 </tr>
                                 <?php
-                                $total+=$variety['quantity']*$variety['unit_price'];
+                                //$total+=$variety['quantity']*$variety['unit_price'];
                             }
                         ?>
-                        <tr>
-                            <td colspan="3" class="text-right"><?php echo $CI->lang->line('LABEL_TOTAL'); ?></td>
-                            <td class="text-right"><?php echo $total; ?></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td colspan="3" class="text-right">--><?php //echo $CI->lang->line('LABEL_TOTAL'); ?><!--</td>-->
+<!--                            <td class="text-right">--><?php //echo $total; ?><!--</td>-->
+<!--                        </tr>-->
                     </tbody>
                 </table>
             </div>

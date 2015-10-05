@@ -24,7 +24,7 @@
     $(document).ready(function ()
     {
         turn_off_triggers();
-        var url = "<?php echo base_url($CI->controller_url.'/get_crops');?>";
+        var url = "<?php echo base_url($CI->controller_url.'/get_items');?>";
 
         // prepare the data
         var source =
@@ -36,7 +36,6 @@
                 { name: 'year', type: 'int' },
                 { name: 'booking_status', type: 'string' },
                 { name: 'total_quantity', type: 'number' },
-                { name: 'total_price', type: 'number' },
                 { name: 'preliminary_payment', type: 'number' },
                 { name: 'permanent_payment', type: 'number' },
                 { name: 'total_payment', type: 'number' },
@@ -70,7 +69,6 @@
                     { text: '<?php echo $CI->lang->line('LABEL_YEAR'); ?>', dataField: 'year',filtertype: 'list',width:'50',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_BOOKING_STATUS'); ?>',filtertype: 'list', dataField: 'booking_status',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_QUANTITY'); ?>',dataField: 'total_quantity',width:'100',cellsalign: 'right'},
-                    { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PRICE'); ?>',dataField: 'total_price',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PRELIMINARY_PAYMENT'); ?>',dataField: 'preliminary_payment',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_PERMANENT_PAYMENT'); ?>',dataField: 'permanent_payment',width:'100',cellsalign: 'right'},
                     { text: '<?php echo $CI->lang->line('LABEL_TOTAL_ADVANCED_PAYMENT'); ?>',dataField: 'total_payment',width:'100',cellsalign: 'right'},

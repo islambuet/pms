@@ -14,7 +14,6 @@ class Booking_permanent_model extends CI_Model
         $CI =& get_instance();
         $this->db->from($CI->config->item('table_booked_varieties').' bv');
         $this->db->select('SUM(bv.quantity) total_quantity',false);
-        $this->db->select('SUM(bv.unit_price*bv.quantity) total_price',false);
         $this->db->select('bv.booking_id');
         $this->db->group_by('bv.booking_id');
         $this->db->where('bv.revision',1);
@@ -56,7 +55,7 @@ class Booking_permanent_model extends CI_Model
         foreach($results as $result)
         {
             $result['total_quantity']=$booked_varieties[$result['id']]['total_quantity'];
-            $result['total_price']=$booked_varieties[$result['id']]['total_price'];
+            //$result['total_price']=$booked_varieties[$result['id']]['total_price'];
             $result['preliminary_payment']=$booked_varieties[$result['id']]['preliminary_payment'];
             $result['permanent_payment']=$booked_varieties[$result['id']]['permanent_payment'];
             $result['total_payment']=$result['preliminary_payment']+$result['permanent_payment'];
@@ -107,10 +106,11 @@ class Booking_permanent_model extends CI_Model
 
         $this->db->join($CI->config->item('table_varieties').' varieties','varieties.id = bv.variety_id','INNER');
 
-        $this->db->join($CI->config->item('table_crops').' crops','crops.id = varieties.crop_id','INNER');
-        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = varieties.classification_id','INNER');
-        $this->db->join($CI->config->item('table_types').' types','types.id =varieties.type_id','INNER');
         $this->db->join($CI->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
+        $this->db->join($CI->config->item('table_types').' types','types.id =stypes.type_id','INNER');
+        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+        $this->db->join($CI->config->item('table_crops').' crops','crops.id = classifications.crop_id','INNER');
+
         $this->db->where('bv.revision',1);
         $this->db->where('bv.booking_id',$booking_id);
         $results=$this->db->get()->result_array();
