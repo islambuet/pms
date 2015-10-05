@@ -37,7 +37,6 @@
             dataFields: [
                 { name: 'id', type: 'int' },
                 { name: 'variety_name', type: 'string' },
-                { name: 'unit_price', type: 'numeric' },
                 { name: 'skin_type_name', type: 'string' },
                 { name: 'type_name', type: 'string' },
                 { name: 'classification_name', type: 'string' },
@@ -68,7 +67,6 @@
                 autoheight: true,
                 columns: [
                     { text: '<?php echo $CI->lang->line('LABEL_VARIETY_NAME'); ?>', dataField: 'variety_name',width:'15%'},
-                    { text: '<?php echo $CI->lang->line('LABEL_UNIT_PRICE'); ?>', dataField: 'unit_price',cellsalign: 'right',width:'5%'},
                     { text: '<?php echo $CI->lang->line('LABEL_CROP_NAME'); ?>', dataField: 'crop_name',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_CLASSIFICATION_NAME'); ?>', dataField: 'classification_name',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_TYPE_NAME'); ?>', dataField: 'type_name',width:'15%'},
