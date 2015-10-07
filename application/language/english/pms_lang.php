@@ -120,6 +120,9 @@ $lang['LABEL_TOTAL_ADVANCED_PAYMENT'] = 'Total Adv Tk';
 $lang['LABEL_PAYMENT_FOR'] = 'Payment For';
 $lang['LABEL_MORE_PAYMENT'] = 'Add more Payment';
 
+$lang['LABEL_CONTAINER_NAME'] = 'Container Name';
+$lang['LABEL_MORE_CONTAINER'] = 'Add more Container';
+
 
 
 

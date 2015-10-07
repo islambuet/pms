@@ -41,7 +41,7 @@
                         <?php
                     }
                     ?>
-                    <td class="text-right"><?php echo System_helper::display_date($payment['remarks']); ?></td>
+                    <td class="text-right"><?php echo $payment['remarks']; ?></td>
                     <td class="text-right"><?php echo System_helper::display_date($payment['payment_date']); ?></td>
                     <td class="text-right"><?php echo $payment['amount']; ?></td>
                 </tr>

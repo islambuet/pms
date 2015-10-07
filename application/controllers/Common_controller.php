@@ -91,4 +91,13 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_consignments_by_year()
+    {
+        $year = $this->input->post('year');
+        $data['items']=Query_helper::get_info($this->config->item('table_consignment'),array('id value','consignment_name text'),array('year ='.$year,'status ="'.$this->config->item('system_status_active').'"'));
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#consignment_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }

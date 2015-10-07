@@ -375,6 +375,7 @@ function turn_off_triggers()
     $(document).off("change", "#type_id");
     $(document).off("change", "#skin_type_id");
     $(document).off("change", "#variety_id");
+    $(document).off("change", "#consignment_id");
     //location setup menu
     $(document).off("change", "#zone_id");
     $(document).off("change", "#territory_id");
