@@ -101,33 +101,26 @@ class Setup_container extends Root_Controller
             $this->jsonReturn($ajax);
         }
     }
-    public function system_add($booking_id)
+    public function system_add($consignment_id)
     {
         if(isset($this->permissions['add'])&&($this->permissions['add']==1))
         {
-            $booking_info=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$booking_id),1);
-            if(sizeof($booking_info)>0)
-            {
-                $ajax['status']=true;
-                $data['title']="New Payment for booking id(".$booking_id.")";
-                $data['payment']['id']=0;
-                $data['payment']['booking_id']=$booking_id;
-                $data['payment']['amount']='';
-                $data['payment']['payment_method']='';
-                $data['payment']['payment_number']='';
-                $data['payment']['bank_name']='';
-                $data['payment']['remarks']='';
-                $data['payment']['payment_date']=time();
-                $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("payment/add_edit",$data,true));
-                $ajax['system_page_url']=site_url($this->controller_url.'/index/add/'.$booking_id);
-                $this->jsonReturn($ajax);
-            }
-            else
-            {
-                $ajax['status']=false;
-                $ajax['system_message']='Invalid Booking';
-                $this->jsonReturn($ajax);
-            }
+
+            $ajax['status']=true;
+            $data['title']="New Container";
+            $data['container']['id']=0;
+            $data['container']['consignment_id']=$consignment_id;
+            $data['container']['container_name']='';
+            $data['container']['remarks']='';
+            $data['container']['status']=$this->config->item('system_status_active');
+
+            $data['container_varieties']=array(array('variety_id'=>'','quantity'=>''));
+            $data['varieties']=System_helper::get_all_varieties_for_dropdown();
+
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_container/add_edit",$data,true));
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/add/'.$consignment_id);
+            $this->jsonReturn($ajax);
+
 
         }
         else
@@ -136,24 +129,29 @@ class Setup_container extends Root_Controller
             $this->jsonReturn($ajax);
         }
     }
-    public function system_edit($payment_id)
+    public function system_edit($container_id)
     {
         if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
         {
-            $payment=Query_helper::get_info($this->config->item('table_booking_payments'),'*',array('id ='.$payment_id),1);
-            if(sizeof($payment)>0)
+            $container=Query_helper::get_info($this->config->item('table_container'),'*',array('id ='.$container_id),1);
+            if(sizeof($container)>0)
             {
                 $ajax['status']=true;
-                $data['title']="Edit Payment";
-                $data['payment']=$payment;
-                $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("payment/add_edit",$data,true));
-                $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$payment_id);
+                $data['title']="Edit Container";
+                $data['container']=$container;
+
+                $data['container_varieties']=Query_helper::get_info($this->config->item('table_container_varieties'),array('variety_id','quantity'),array('container_id ='.$container_id,'revision =1'));
+
+                $data['varieties']=System_helper::get_all_varieties_for_dropdown();
+
+                $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_container/add_edit",$data,true));
+                $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$container_id);
                 $this->jsonReturn($ajax);
             }
             else
             {
                 $ajax['status']=false;
-                $ajax['system_message']='Invalid Payment';
+                $ajax['system_message']='Invalid Container';
                 $this->jsonReturn($ajax);
             }
 
@@ -199,21 +197,27 @@ class Setup_container extends Root_Controller
         else
         {
 
-            $data = $this->input->post('payment');
-            $data['payment_date']=System_helper::get_time($data['payment_date']);
+            $data = $this->input->post('container');
+
             $time=time();
             if($id>0)
             {
                 $data['modified_by']=$user->user_id;
                 $data['modification_date']=$time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::update($this->config->item('table_booking_payments'),$data,array("id = ".$id));
+                Query_helper::update($this->config->item('table_container'),$data,array("id = ".$id));
+
+                $this->db->where('container_id',$id);
+                $this->db->set('revision', 'revision+1', FALSE);
+                $this->db->update($this->config->item('table_container_varieties'));
+                $this->insert_container_varieties($id);
+
                 $this->db->trans_complete();   //DB Transaction Handle END
 
                 if ($this->db->trans_status() === TRUE)
                 {
                     $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
-                    $this->system_search($data['booking_id']);
+                    $this->system_search($data['consignment_id']);
                 }
                 else
                 {
@@ -225,16 +229,16 @@ class Setup_container extends Root_Controller
             }
             else
             {
-                $data['booking_status']=$this->config->item('booking_status_other');
                 $data['created_by'] = $user->user_id;
                 $data['creation_date'] = $time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::add($this->config->item('table_booking_payments'),$data);
+                $container_id=Query_helper::add($this->config->item('table_container'),$data);
+                $this->insert_container_varieties($container_id);
                 $this->db->trans_complete();   //DB Transaction Handle END
                 if ($this->db->trans_status() === TRUE)
                 {
                     $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
-                    $this->system_search($data['booking_id']);
+                    $this->system_search($data['consignment_id']);
                 }
                 else
                 {
@@ -246,30 +250,70 @@ class Setup_container extends Root_Controller
 
         }
     }
+    private function insert_container_varieties($container_id)
+    {
+        $booked_varieties=$this->input->post('container_varieties');
+        //$variety_prices=$this->booking_preliminary_model->get_variety_prices($this->selected_variety_ids);
+        $time=time();
+        $user=User_helper::get_user();
+        foreach($booked_varieties as $variety)
+        {
+            $data=array();
+            $data['container_id']=$container_id;
+            $data['variety_id']=$variety['id'];
+            $data['quantity']=$variety['quantity'];
+            //$data['unit_price']=$variety_prices[$variety['id']]['unit_price'];
+            $data['revision']=1;
+            $data['created_by'] = $user->user_id;
+            $data['creation_date'] = $time;
+            Query_helper::add($this->config->item('table_container_varieties'),$data);
+        }
+    }
     private function check_validation()
     {
-        $payment=$this->input->post('payment');
-        if(!is_numeric($payment['amount']))
+        $container=$this->input->post('container');
+        if(!($container['container_name']))
         {
-            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_MISSING");
+            $this->message=$this->lang->line("MSG_CONTAINER_NAME_INVALID");
             return false;
         }
-        if(!(($payment['amount'])>0))
-        {
-            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_INVALID");
-            return false;
-        }
-        if(!($payment['payment_method']))
-        {
-            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_METHOD_INVALID");
-            return false;
-        }
-        /*if(!($payment['payment_number']))
-        {
-            $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_NUMBER_INVALID");
-            return false;
-        }*/
+        $booked_varieties=$this->input->post('container_varieties');
 
+        if(sizeof($booked_varieties)>0)
+        {
+            $variety_ids=array();
+            foreach($booked_varieties as $variety)
+            {
+                if(!is_numeric($variety['quantity']))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_QUANTITY_MISSING");
+                    return false;
+                }
+                if(!(($variety['quantity'])>0))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_QUANTITY_INVALID");
+                    return false;
+                }
+                if(!(($variety['id'])>0))
+                {
+                    $this->message=$this->lang->line("MSG_BOOKING_VARIETY_MISSING");
+                    return false;
+                }
+                $variety_ids[]=$variety['id'];
+
+            }
+            if(sizeof($variety_ids)!= sizeof(array_unique($variety_ids)))
+            {
+                $this->message=$this->lang->line("MSG_BOOKING_DUPLICATE_VARIETY");
+                return false;
+            }
+            $this->selected_variety_ids=$variety_ids;
+        }
+        else
+        {
+            $this->message=$this->lang->line("MSG_REQUIRED_BOOKING");
+            return false;
+        }
         return true;
     }
 }

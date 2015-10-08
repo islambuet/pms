@@ -122,6 +122,7 @@ $lang['LABEL_MORE_PAYMENT'] = 'Add more Payment';
 
 $lang['LABEL_CONTAINER_NAME'] = 'Container Name';
 $lang['LABEL_MORE_CONTAINER'] = 'Add more Container';
+$lang['LABEL_VARIETY_QUANTITY'] = 'Variety Quantity';
 
 
 

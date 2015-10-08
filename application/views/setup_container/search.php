@@ -51,17 +51,12 @@
 </div>
     <div class="row widget" id="detail_container">
        <?php
-       /*if($booking_id)
+       if($consignment_id>0)
        {
-           $payments=Query_helper::get_info($CI->config->item('table_booking_payments'),'*',array('booking_id ='.$booking_id));
-           if((sizeof($payments))>0)
-           {
-               $data['title']="Payment History";
-               $data['payments']=$payments;
-               $data['booking_id']=$booking_id;
-               $CI->load->view('payment/list',$data);
-           }
-       }*/
+           $data['containers']=Query_helper::get_info($CI->config->item('table_container'),'*',array('consignment_id ='.$consignment_id));
+           $data['consignment_id']=$consignment_id;
+           $CI->load->view('setup_container/list',$data);
+       }
        ?>
     </div>
     <div class="clearfix"></div>
