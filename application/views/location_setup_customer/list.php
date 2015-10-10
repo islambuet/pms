@@ -37,6 +37,7 @@
             dataFields: [
                 { name: 'id', type: 'int' },
                 { name: 'customer_name', type: 'string' },
+                { name: 'customer_custom_id', type: 'string' },
                 { name: 'contact_no', type: 'string' },
                 { name: 'email', type: 'string' },
                 { name: 'union_name', type: 'string' },
@@ -69,7 +70,7 @@
                 altrows: true,
                 autoheight: true,
                 columns: [
-                    { text: '<?php echo $CI->lang->line('LABEL_CUSTOMER_ID'); ?>', dataField: 'id',cellsalign: 'right',width:100},
+                    { text: '<?php echo $CI->lang->line('LABEL_CUSTOMER_ID'); ?>', dataField: 'customer_custom_id',cellsalign: 'right',width:100},
                     { text: '<?php echo $CI->lang->line('LABEL_NAME'); ?>', dataField: 'customer_name',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_CONTACT_NO'); ?>', dataField: 'contact_no',width:'10%'},
                     { text: '<?php echo $CI->lang->line('LABEL_EMAIL'); ?>', dataField: 'email',width:'10%'},

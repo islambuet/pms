@@ -77,6 +77,7 @@ class Location_setup_customer extends Root_Controller
             $data['customer']['upazila_id']=0;
             $data['customer']['union_id']=0;
             $data['customer']['customer_name']='';
+            $data['customer']['customer_custom_id']='';
             $data['customer']['owner_name']='';
             $data['customer']['father_name']='';
             $data['customer']['address']='';
@@ -250,7 +251,7 @@ class Location_setup_customer extends Root_Controller
     {
         //$this->db->from($this->config->item('table_unions').' unions');
         $this->db->from($this->config->item('table_customers').' customers');
-        $this->db->select('customers.id id,customers.customer_name customer_name,customers.email,customers.contact_no');
+        $this->db->select('customers.id id,customers.customer_custom_id,customers.customer_name customer_name,customers.email,customers.contact_no');
         $this->db->select('customers.remarks remarks,customers.status status,customers.ordering ordering');
         $this->db->select('zones.zone_name zone_name');
         $this->db->select('territories.territory_name territory_name');

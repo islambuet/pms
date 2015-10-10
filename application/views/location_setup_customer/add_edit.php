@@ -104,7 +104,15 @@
                 <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_NAME');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <input type="text" name="customer[customer_name]" id="zone_name" class="form-control validate[required]" value="<?php echo $customer['customer_name'];?>"/>
+                <input type="text" name="customer[customer_name]" id="customer_name" class="form-control validate[required]" value="<?php echo $customer['customer_name'];?>"/>
+            </div>
+        </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CUSTOMER_ID');?><span style="color:#FF0000">*</span></label>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <input type="text" name="customer[customer_custom_id]" id="customer_custom_id" class="form-control validate[required]" value="<?php echo $customer['customer_custom_id'];?>"/>
             </div>
         </div>
 
