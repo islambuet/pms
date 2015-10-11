@@ -95,12 +95,15 @@ $lang['MSG_BOOKING_QUANTITY_MISSING'] = 'Invalid Quantity';
 $lang['MSG_BOOKING_QUANTITY_INVALID'] = 'Negative Quantity not allowed.';
 $lang['MSG_BOOKING_VARIETY_MISSING'] = 'Variety was not selected.';
 $lang['MSG_BOOKING_DUPLICATE_VARIETY'] = 'You cannot select same variety multiple times.';
+$lang['MSG_EDIT_PRIMARY'] = 'Please edit primary booking.';
+
 $lang['LABEL_PRELIMINARY_PAYMENT'] = 'Pre Advanced Payment';
 $lang['LABEL_PERMANENT_PAYMENT'] = 'Permanent Advanced Payment';
 $lang['LABEL_AMOUNT'] = 'Amount';
 $lang['LABEL_PAYMENT_METHOD'] = 'Method of payment';
-$lang['LABEL_PAYMENT_NUMBER'] = 'C/P Number';
+$lang['LABEL_PAYMENT_NUMBER'] = 'Number';
 $lang['LABEL_BANK_NAME'] = 'Bank Name';
+$lang['LABEL_BRANCH_NAME'] = 'Branch Name';
 $lang['MSG_BOOKING_PAYMENT_MISSING'] = 'Invalid payment amount';
 $lang['MSG_BOOKING_PAYMENT_INVALID'] = 'Negative payment amount not allowed';
 $lang['MSG_BOOKING_PAYMENT_METHOD_INVALID'] = 'Payment method was not selected';
@@ -119,6 +122,8 @@ $lang['LABEL_TOTAL_PERMANENT_PAYMENT'] = 'Final Adv Tk';
 $lang['LABEL_TOTAL_ADVANCED_PAYMENT'] = 'Total Adv Tk';
 $lang['LABEL_PAYMENT_FOR'] = 'Payment For';
 $lang['LABEL_MORE_PAYMENT'] = 'Add more Payment';
+
+
 
 $lang['LABEL_CONTAINER_NAME'] = 'Container Name';
 $lang['LABEL_MORE_CONTAINER'] = 'Add more Container';

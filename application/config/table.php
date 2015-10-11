@@ -13,7 +13,6 @@ $config['table_classifications'] = 'pms_classifications';
 $config['table_types'] = 'pms_types';
 $config['table_skin_types'] = 'pms_skin_types';
 $config['table_varieties'] = 'pms_varieties';
-//$config['table_variety_price_history'] = 'pms_variety_price_history';
 $config['table_consignment'] = 'pms_consignment';
 $config['table_container'] = 'pms_container';
 $config['table_container_varieties'] = 'pms_container_varieties';
@@ -28,5 +27,5 @@ $config['table_customers'] = 'pms_customers';
 
 //bookings
 $config['table_bookings'] = 'pms_bookings';
-$config['table_booked_varieties'] = 'pms_booked_varieties';
-$config['table_booking_payments'] = 'pms_booking_payments';
+$config['table_preliminary_varieties'] = 'pms_preliminary_varieties';
+$config['table_payments'] = 'pms_payments';

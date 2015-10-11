@@ -358,10 +358,12 @@
             current_id=current_id+1;
             $(this).attr('data-current-id',current_id);
 
+            $('#system_add_more_content .date').attr('name','booked_varieties['+current_id+'][date]');
             $('#system_add_more_content .variety').attr('name','booked_varieties['+current_id+'][id]');
             $('#system_add_more_content .quantity').attr('name','booked_varieties['+current_id+'][quantity]');
             var html=$('#system_add_more_content').html();
             $("#system_add_more_container").append(html);
+            $("#system_add_more_container .date").datepicker({dateFormat : display_date_format});
 
         });
         // Delete more button

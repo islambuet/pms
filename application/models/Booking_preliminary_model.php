@@ -9,7 +9,7 @@ class Booking_preliminary_model extends CI_Model
     public function __construct() {
         parent::__construct();
     }
-    public function get_all_varieties()
+    /*public function get_all_varieties()
     {
         $CI =& get_instance();
 
@@ -36,7 +36,7 @@ class Booking_preliminary_model extends CI_Model
 
         return $varieties;
 
-    }
+    }*/
     /*public function  get_variety_prices($variety_ids)
     {
         $CI =& get_instance();

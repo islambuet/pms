@@ -19,6 +19,9 @@
             <div class="col-xs-2">
 
             </div>
+            <div class="col-xs-2">
+                <label class="control-label text-center"><?php echo $CI->lang->line('LABEL_DATE');?></label>
+            </div>
             <div class="col-xs-3">
                 <label class="control-label text-center"><?php echo $CI->lang->line('LABEL_VARIETY_NAME');?></label>
             </div>
@@ -35,6 +38,9 @@
                 <div style="" class="row show-grid">
                     <div class="col-xs-2">
 
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="text" name="booked_varieties[<?php echo $i+1;?>][date]" class="form-control date datepicker" value="<?php echo System_helper::display_date($booked_variety['date']); ?>"/>
                     </div>
                     <div class="col-xs-3">
                         <select name="booked_varieties[<?php echo $i+1;?>][id]" class="form-control variety" tabindex="-1">
@@ -84,7 +90,7 @@
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_REMARKS');?></label>
         </div>
         <div class="col-sm-4 col-xs-8">
-            <input type="text" name="booking[remarks]" id="remarks" class="form-control validate[required]" value="<?php echo $booking['remarks'];?>"/>
+            <input type="text" name="booking[preliminary_remarks]" id="remarks" class="form-control validate[required]" value="<?php echo $booking['preliminary_remarks'];?>"/>
         </div>
     </div>
     <div style="" class="row show-grid">
@@ -158,14 +164,41 @@
             <input type="text" name="payment[bank_name]" id="bank_name" class="form-control" value="<?php echo $payment['bank_name'];?>"/>
         </div>
     </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_BRANCH_NAME');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="payment[branch_name]" id="branch_name" class="form-control" value="<?php echo $payment['branch_name'];?>"/>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_DATE');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="payment[payment_date]" id="payment_date" class="form-control datepicker" value="<?php echo System_helper::display_date($payment['payment_date']);?>"/>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_REMARKS');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <input type="text" name="payment[remarks]" id="remarks" class="form-control validate[required]" value="<?php echo $payment['remarks'];?>"/>
+        </div>
+    </div>
 </form>
 <div id="system_add_more_content" style="display: none;">
     <div style="" class="row show-grid">
         <div class="col-xs-2">
 
         </div>
+        <div class="col-xs-2">
+            <input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][date]" class="form-control date" value="<?php echo System_helper::display_date(time()); ?>"/>
+        </div>
         <div class="col-xs-3">
-            <select name="booked_varieties[<?php echo sizeof($booked_varieties);?>][id]" class="form-control variety" tabindex="-1">
+            <select name="booked_varieties[<?php echo sizeof($booked_varieties);?>][id]" class="form-control variety">
                 <option value=""><?php echo $this->lang->line('SELECT');?></option>
                 <?php
                 foreach($varieties as $variety)
@@ -188,6 +221,6 @@
 
     jQuery(document).ready(function()
     {
-        $( ".datepicker" ).datepicker({dateFormat : display_date_format});
+        $(".datepicker").datepicker({dateFormat : display_date_format});
     });
 </script>
