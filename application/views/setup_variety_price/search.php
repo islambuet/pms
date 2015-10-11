@@ -12,6 +12,23 @@
             </div>
             <div class="clearfix"></div>
         </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_YEAR');?><span style="color:#FF0000">*</span></label>
+            </div>
+            <div class="col-xs-4">
+                <select id="year" class="form-control">
+                    <?php
+                    $current_year=date("Y",time());
+                    for($i=$this->config->item("start_year");$i<=($current_year+1);$i++)
+                    {?>
+                        <option value="<?php echo $i;?>" <?php if($i==$current_year){ echo "selected";}?>><?php echo $i;?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
         <div style="" class="row show-grid">
             <div class="col-xs-4">
                 <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CROP_NAME');?><span style="color:#FF0000">*</span></label>
@@ -80,6 +97,19 @@
     jQuery(document).ready(function()
     {
         turn_off_triggers();
+        $(document).on("change","#year",function()
+        {
+            $("#detail_container").html("");
+            $("#variety_id").val("");
+            $("#skin_type_id").val("");
+            $("#type_id").val("");
+            $("#classification_id").val("");
+            $("#crop_id").val("");
+            $('#variety_id_container').hide();
+            $('#skin_type_id_container').hide();
+            $('#type_id_container').hide();
+            $('#classification_id_container').hide();
+        });
         $(document).on("change","#crop_id",function()
         {
             $("#detail_container").html("");
@@ -218,6 +248,7 @@
         {
             $("#detail_container").html("");
             var variety_id=$(this).val();
+            var year=$("#year").val();
             if(variety_id>0)
             {
 
@@ -225,7 +256,7 @@
                     url: base_url+"<?php echo $CI->controller_url; ?>/index/edit",
                     type: 'POST',
                     dataType: "JSON",
-                    data:{variety_id:variety_id},
+                    data:{variety_id:variety_id,year:year},
                     success: function (data, status)
                     {
 

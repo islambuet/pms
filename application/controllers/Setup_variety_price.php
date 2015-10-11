@@ -27,7 +27,7 @@ class Setup_variety_price extends Root_Controller
         }
         elseif($action=="edit")
         {
-            $this->system_edit($id);
+            $this->system_edit();
         }
         elseif($action=="save")
         {
@@ -63,21 +63,29 @@ class Setup_variety_price extends Root_Controller
             $this->jsonReturn($ajax);
         }
     }
-    public function system_edit($id=0)
+    public function system_edit()
     {
         if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
         {
-            if(($this->input->post('variety_id')))
+            $variety_id=$this->input->post('variety_id');
+            $year=$this->input->post('year');
+            $variety_price=Query_helper::get_info($this->config->item('table_variety_price'),'*',array('variety_id ='.$variety_id,'year ='.$year,'revision =1'),1);
+            if($variety_price)
             {
-                $variety_id=$this->input->post('variety_id');
+                $data['variety_price']=$variety_price;
             }
             else
             {
-                $variety_id=$id;
+                $data['variety_price']['variety_id']=$variety_id;
+                $data['variety_price']['year']=$year;
+                $data['variety_price']['unit_price']=0;
+                $data['variety_price']['remarks']='';
             }
-            $data['variety']=Query_helper::get_info($this->config->item('table_varieties'),'*',array('id ='.$variety_id),1);
 
-            $data['title']="Change Variety price(".$data['variety']['variety_name'].')';
+
+            //$data['variety_price']=
+
+            $data['title']='Set Variety price';
             $ajax['status']=true;
             $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("setup_variety_price/edit",$data,true));
             if($this->message)
@@ -98,7 +106,6 @@ class Setup_variety_price extends Root_Controller
     public function system_save()
     {
         $user=User_helper::get_user();
-        $id = $this->input->post("id");
 
         if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
         {
@@ -117,34 +124,34 @@ class Setup_variety_price extends Root_Controller
         }
         else
         {
-            $data = $this->input->post('variety');
+            $data = $this->input->post('variety_price');
+            $data['year']=$this->input->post('year');
+            $data['variety_id']=$this->input->post('variety_id');
             $time=time();
+            $data['created_by'] = $user->user_id;
+            $data['creation_date'] = $time;
+            $data['revision'] = 1;
 
+            $this->db->trans_start();  //DB Transaction Handle START
+            $this->db->where('year',$data['year']);
+            $this->db->where('variety_id',$data['variety_id']);
+            $this->db->set('revision', 'revision+1', FALSE);
+            $this->db->update($this->config->item('table_variety_price'));
+            Query_helper::add($this->config->item('table_variety_price'),$data);
+
+            $this->db->trans_complete();   //DB Transaction Handle END
+
+            if ($this->db->trans_status() === TRUE)
             {
-                $data['modified_by']=$user->user_id;
-                $data['modification_date']=$time;
-                $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::update($this->config->item('table_varieties'),$data,array("id = ".$id));
-                $data_history=$this->input->post('variety');
-                $data_history['created_by'] = $user->user_id;
-                $data_history['creation_date'] = $time;
-                $data_history['variety_id']=$id;
-                Query_helper::add($this->config->item('table_variety_price_history'),$data_history);
-                $this->db->trans_complete();   //DB Transaction Handle END
+                $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
+                $this->system_edit();
+            }
+            else
+            {
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
+                $this->jsonReturn($ajax);
 
-                if ($this->db->trans_status() === TRUE)
-                {
-
-                    $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
-                    $this->system_edit($id);
-                }
-                else
-                {
-                    $ajax['status']=false;
-                    $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
-                    $this->jsonReturn($ajax);
-
-                }
             }
 
         }
@@ -152,7 +159,7 @@ class Setup_variety_price extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('variety[unit_price]',$this->lang->line('LABEL_UNIT_PRICE'),'required|numeric');
+        $this->form_validation->set_rules('variety_price[unit_price]',$this->lang->line('LABEL_UNIT_PRICE'),'required|numeric');
 
         if($this->form_validation->run() == FALSE)
         {

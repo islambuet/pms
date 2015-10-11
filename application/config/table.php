@@ -16,6 +16,7 @@ $config['table_varieties'] = 'pms_varieties';
 $config['table_consignment'] = 'pms_consignment';
 $config['table_container'] = 'pms_container';
 $config['table_container_varieties'] = 'pms_container_varieties';
+$config['table_variety_price'] = 'pms_variety_price';
 
 //location setup tables
 $config['table_zones'] = 'pms_zones';
