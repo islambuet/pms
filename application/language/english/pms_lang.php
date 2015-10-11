@@ -54,7 +54,7 @@ $lang['LABEL_ADD_MORE'] = 'Add more';
 $lang['LABEL_QUANTITY'] = 'Quantity';
 $lang['LABEL_TOTAL'] = 'Total';
 $lang['LABEL_SEARCH'] = 'Search';
-$lang['MSG_BOOKING_NOT_FOUND'] = 'Booking Id not found';
+$lang['MSG_BOOKING_NOT_FOUND'] = 'No Booking available';
 
 //Create Crop
 $lang['LABEL_CROP_NAME'] = 'Crop Name';

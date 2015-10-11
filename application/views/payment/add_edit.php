@@ -18,6 +18,22 @@
 
         <div class="row show-grid">
             <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_YEAR');?></label>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <label class="control-label"><?php echo $booking['year'];?></label>
+            </div>
+        </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CUSTOMER_NAME');?></label>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <label class="control-label"><?php echo $booking['customer_name'].'('.$booking['district_name'].'-'.$booking['upazila_name'].'-'.$booking['union_name'].')';?></label>
+            </div>
+        </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
                 <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_AMOUNT');?><span style="color:#FF0000">*</span></label>
             </div>
             <div class="col-sm-4 col-xs-8">
@@ -57,6 +73,14 @@
             </div>
             <div class="col-sm-4 col-xs-8">
                 <input type="text" name="payment[bank_name]" id="bank_name" class="form-control" value="<?php echo $payment['bank_name'];?>"/>
+            </div>
+        </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_BRANCH_NAME');?></label>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <input type="text" name="payment[branch_name]" id="branch_name" class="form-control" value="<?php echo $payment['branch_name'];?>"/>
             </div>
         </div>
         <div class="row show-grid">

@@ -6,9 +6,6 @@ class Payment extends Root_Controller
     public $permissions;
     public $controller_url;
     public $parent_module_id=0;
-    private $selected_variety_ids=array();
-    //this variable is set before save with selected variety ids
-    //used to get price
     public function __construct()
     {
         parent::__construct();
@@ -55,7 +52,49 @@ class Payment extends Root_Controller
         {
             $ajax['status']=true;
             $data['title']="Payment";
-            $data['booking_id']=$booking_id;
+
+            $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
+            $data['territories']=array();
+            $data['districts']=array();
+            $data['upazilas']=array();
+            $data['unions']=array();
+            $data['customers']=array();
+            $data['booking']['id']=0;
+            $data['booking']['year']=Date('Y');
+            $data['booking']['customer_id']=0;
+            $data['booking']['zone_id']=0;
+            $data['booking']['territory_id']=0;
+            $data['booking']['district_id']=0;
+            $data['booking']['upazila_id']=0;
+            $data['booking']['union_id']=0;
+
+            if($booking_id>0)
+            {
+                $this->db->from($this->config->item('table_bookings').' bookings');
+                $this->db->select('bookings.id,bookings.year,bookings.customer_id');
+
+                $this->db->select('territories.zone_id zone_id');
+                $this->db->select('districts.territory_id territory_id');
+                $this->db->select('upazilas.district_id district_id');
+                $this->db->select('unions.upazila_id upazila_id');
+                $this->db->select('customers.union_id union_id');
+                $this->db->join($this->config->item('table_customers').' customers','customers.id = bookings.customer_id','INNER');
+                $this->db->join($this->config->item('table_unions').' unions','unions.id = customers.union_id','INNER');
+                $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+                $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+                $this->db->join($this->config->item('table_territories').' territories','territories.id = districts.territory_id','INNER');
+                $this->db->where('bookings.id',$booking_id);
+                $booking_info=$this->db->get()->row_array();
+                if($booking_info)
+                {
+                    $data['booking']=$booking_info;
+                    $data['territories']=Query_helper::get_info($this->config->item('table_territories'),array('id','territory_name'),array('zone_id ='.$data['booking']['zone_id']));
+                    $data['districts']=Query_helper::get_info($this->config->item('table_districts'),array('id','district_name'),array('territory_id ='.$data['booking']['territory_id']));
+                    $data['upazilas']=Query_helper::get_info($this->config->item('table_upazilas'),array('id','upazila_name'),array('district_id ='.$data['booking']['district_id']));
+                    $data['unions']=Query_helper::get_info($this->config->item('table_unions'),array('id','union_name'),array('upazila_id ='.$data['booking']['upazila_id']));
+                    $data['customers']=Query_helper::get_info($this->config->item('table_customers'),array('id','customer_name'),array('union_id ='.$data['booking']['union_id']));
+                }
+            }
             $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("payment/search",$data,true));
             if($this->message)
             {
@@ -75,10 +114,14 @@ class Payment extends Root_Controller
     {
         if(isset($this->permissions['view'])&&($this->permissions['view']==1))
         {
-            $booking_id=$this->input->post('booking_id');
-            $payments=Query_helper::get_info($this->config->item('table_booking_payments'),'*',array('booking_id ='.$booking_id));
-            if(sizeof($payments)>0)
+            $customer_id=$this->input->post('customer_id');
+            $year=$this->input->post('year');
+            $booking_info=Query_helper::get_info($this->config->item('table_bookings'),'*',array('year ='.$year,'customer_id ='.$customer_id),1);
+            if($booking_info)
             {
+                $booking_id=$booking_info['id'];
+                $payments=Query_helper::get_info($this->config->item('table_payments'),'*',array('booking_id ='.$booking_id));
+
                 $ajax['status']=true;
                 $data['title']="Payment History";
                 $data['payments']=$payments;
@@ -86,6 +129,7 @@ class Payment extends Root_Controller
                 $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("payment/list",$data,true));
                 $ajax['system_page_url']=site_url($this->controller_url.'/index/search/'.$booking_id);
                 $this->jsonReturn($ajax);
+
             }
             else
             {
@@ -107,7 +151,20 @@ class Payment extends Root_Controller
     {
         if(isset($this->permissions['add'])&&($this->permissions['add']==1))
         {
-            $booking_info=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$booking_id),1);
+
+            $this->db->from($this->config->item('table_bookings').' bookings');
+            $this->db->select('bookings.id,bookings.year,bookings.customer_id');
+            $this->db->select('districts.district_name district_name');
+            $this->db->select('upazilas.upazila_name upazila_name');
+            $this->db->select('unions.union_name union_name');
+            $this->db->select('customers.customer_name customer_name');
+            $this->db->join($this->config->item('table_customers').' customers','customers.id = bookings.customer_id','INNER');
+            $this->db->join($this->config->item('table_unions').' unions','unions.id = customers.union_id','INNER');
+            $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+            $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+            $this->db->where('bookings.id',$booking_id);
+            $booking_info=$this->db->get()->row_array();
+
             if(sizeof($booking_info)>0)
             {
                 $ajax['status']=true;
@@ -118,8 +175,12 @@ class Payment extends Root_Controller
                 $data['payment']['payment_method']='';
                 $data['payment']['payment_number']='';
                 $data['payment']['bank_name']='';
-                $data['payment']['remarks']='';
+                $data['payment']['branch_name']='';
                 $data['payment']['payment_date']=time();
+                $data['payment']['remarks']='';
+
+                $data['booking']=$booking_info;
+
                 $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("payment/add_edit",$data,true));
                 $ajax['system_page_url']=site_url($this->controller_url.'/index/add/'.$booking_id);
                 $this->jsonReturn($ajax);
@@ -142,12 +203,26 @@ class Payment extends Root_Controller
     {
         if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
         {
-            $payment=Query_helper::get_info($this->config->item('table_booking_payments'),'*',array('id ='.$payment_id),1);
+            $payment=Query_helper::get_info($this->config->item('table_payments'),'*',array('id ='.$payment_id),1);
             if(sizeof($payment)>0)
             {
                 $ajax['status']=true;
                 $data['title']="Edit Payment";
                 $data['payment']=$payment;
+
+                $this->db->from($this->config->item('table_bookings').' bookings');
+                $this->db->select('bookings.id,bookings.year,bookings.customer_id');
+                $this->db->select('districts.district_name district_name');
+                $this->db->select('upazilas.upazila_name upazila_name');
+                $this->db->select('unions.union_name union_name');
+                $this->db->select('customers.customer_name customer_name');
+                $this->db->join($this->config->item('table_customers').' customers','customers.id = bookings.customer_id','INNER');
+                $this->db->join($this->config->item('table_unions').' unions','unions.id = customers.union_id','INNER');
+                $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+                $this->db->join($this->config->item('table_districts').' districts','districts.id = upazilas.district_id','INNER');
+                $this->db->where('bookings.id',$data['payment']['booking_id']);
+                $data['booking']=$this->db->get()->row_array();
+
                 $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("payment/add_edit",$data,true));
                 $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$payment_id);
                 $this->jsonReturn($ajax);
@@ -209,7 +284,7 @@ class Payment extends Root_Controller
                 $data['modified_by']=$user->user_id;
                 $data['modification_date']=$time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::update($this->config->item('table_booking_payments'),$data,array("id = ".$id));
+                Query_helper::update($this->config->item('table_payments'),$data,array("id = ".$id));
                 $this->db->trans_complete();   //DB Transaction Handle END
 
                 if ($this->db->trans_status() === TRUE)
@@ -231,7 +306,7 @@ class Payment extends Root_Controller
                 $data['created_by'] = $user->user_id;
                 $data['creation_date'] = $time;
                 $this->db->trans_start();  //DB Transaction Handle START
-                Query_helper::add($this->config->item('table_booking_payments'),$data);
+                Query_helper::add($this->config->item('table_payments'),$data);
                 $this->db->trans_complete();   //DB Transaction Handle END
                 if ($this->db->trans_status() === TRUE)
                 {
