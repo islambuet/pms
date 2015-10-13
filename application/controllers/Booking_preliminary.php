@@ -188,12 +188,12 @@ class Booking_preliminary extends Root_Controller
                 $payment_info=$this->input->post('payment');
                 $payment_info['modified_by']=$user->user_id;
                 $payment_info['modification_date']=$time;
-
-                Query_helper::update($this->config->item('table_booking_payments'),$payment_info,array("booking_id = ".$id,'booking_status ="'.$this->config->item('booking_status_preliminary').'"'));
+                $payment_info['payment_date'] = System_helper::get_time($payment_info['payment_date']);
+                Query_helper::update($this->config->item('table_payments'),$payment_info,array("booking_id = ".$id,'booking_status ="'.$this->config->item('booking_status_preliminary').'"'));
 
                 $this->db->where('booking_id',$id);
                 $this->db->set('revision', 'revision+1', FALSE);
-                $this->db->update($this->config->item('table_booked_varieties'));
+                $this->db->update($this->config->item('table_preliminary_varieties'));
                 $this->insert_booking_varieties($id);
                 $this->db->trans_complete();   //DB Transaction Handle END
 
@@ -222,10 +222,10 @@ class Booking_preliminary extends Root_Controller
                 $payment_info['created_by'] = $user->user_id;
                 $payment_info['creation_date'] = $time;
                 $payment_info['booking_id'] = $booking_id;
+                $payment_info['payment_date'] = System_helper::get_time($payment_info['payment_date']);
                 $payment_info['booking_status'] = $this->config->item('booking_status_preliminary');
-                $payment_info['remarks']=$data['remarks'];
-                $payment_info['payment_date']=$data['preliminary_booking_date'];
-                Query_helper::add($this->config->item('table_booking_payments'),$payment_info);
+
+                Query_helper::add($this->config->item('table_payments'),$payment_info);
                 $this->db->trans_complete();   //DB Transaction Handle END
                 if ($this->db->trans_status() === TRUE)
                 {
@@ -245,7 +245,6 @@ class Booking_preliminary extends Root_Controller
     private function insert_booking_varieties($booking_id)
     {
         $booked_varieties=$this->input->post('booked_varieties');
-        //$variety_prices=$this->booking_preliminary_model->get_variety_prices($this->selected_variety_ids);
         $time=time();
         $user=User_helper::get_user();
         foreach($booked_varieties as $variety)
@@ -254,11 +253,11 @@ class Booking_preliminary extends Root_Controller
             $data['booking_id']=$booking_id;
             $data['variety_id']=$variety['id'];
             $data['quantity']=$variety['quantity'];
-            //$data['unit_price']=$variety_prices[$variety['id']]['unit_price'];
+            $data['date']=System_helper::get_time($variety['date']);
             $data['revision']=1;
             $data['created_by'] = $user->user_id;
             $data['creation_date'] = $time;
-            Query_helper::add($this->config->item('table_booked_varieties'),$data);
+            Query_helper::add($this->config->item('table_preliminary_varieties'),$data);
         }
     }
     private function check_validation()

@@ -38,7 +38,7 @@ $CI = & get_instance();
             <tr>
                 <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][date]" class="form-control date datepicker" value="<?php echo System_helper::display_date($booked_variety['date']); ?>"/></td>
                 <td>
-                    <select name="booked_varieties[<?php echo $i+1;?>][id]" class="form-control variety" tabindex="-1">
+                    <select name="booked_varieties[<?php echo $i+1;?>][id]" data-index="<?php echo $i+1;?>" class="form-control variety" tabindex="-1">
                         <option value=""><?php echo $this->lang->line('SELECT');?></option>
                         <?php
                         foreach($varieties as $variety)
@@ -50,15 +50,15 @@ $CI = & get_instance();
                         ?>
                     </select>
                 </td>
-                <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][quantity]" class="form-control quantity" value="<?php echo $booked_variety['quantity']; ?>"/></td>
-                <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][unit_price]" class="form-control unit_price" value="<?php echo $booked_variety['unit_price']; ?>"/></td>
-                <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][discount]" class="form-control discount" value="<?php echo $booked_variety['discount']; ?>"/></td>
+                <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][quantity]" id="booked_varieties_<?php echo $i+1;?>_quantity" data-index="<?php echo $i+1;?>" class="form-control quantity" value="<?php echo $booked_variety['quantity']; ?>"/></td>
+                <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][unit_price]" id="booked_varieties_<?php echo $i+1;?>_unit_price" data-index="<?php echo $i+1;?>" class="form-control unit_price" readonly value="<?php echo $booked_variety['unit_price']; ?>"/></td>
+                <td><input type="text" name="booked_varieties[<?php echo $i+1;?>][discount]" id="booked_varieties_<?php echo $i+1;?>_discount" data-index="<?php echo $i+1;?>" class="form-control discount" value="<?php echo $booked_variety['discount']; ?>"/></td>
                 <td>
                     <?php
                         $sub_total=($booked_variety['unit_price']-$booked_variety['discount'])*$booked_variety['quantity'];
-                        echo $sub_total;
                         $total+=$sub_total;
                     ?>
+                    <input type="text" id="booked_varieties_<?php echo $i+1;?>_total" data-index="<?php echo $i+1;?>" class="form-control total" readonly value="<?php echo $sub_total; ?>"/></td>
                 </td>
                 <td><button type="button" class="btn btn-danger system_add_more_delete"><?php echo $CI->lang->line('DELETE'); ?></button></td>
             </tr>
@@ -67,7 +67,7 @@ $CI = & get_instance();
         ?>
         <tr>
             <td colspan="5" class="text-center"><button type="button" class="btn btn-warning system_add_more_button" data-current-id="<?php echo sizeof($booked_varieties);?>"><?php echo $CI->lang->line('LABEL_ADD_MORE');?></button></td>
-            <td><?php echo $total; ?></td>
+            <td id="total_price"><?php echo $total; ?></td>
             <td></td>
         </tr>
         </tbody>
@@ -180,7 +180,7 @@ $CI = & get_instance();
             <tr>
                 <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][date]" class="form-control date" value="<?php echo System_helper::display_date(time()); ?>"/></td>
                 <td>
-                    <select name="booked_varieties[<?php echo sizeof($booked_varieties);?>][id]" class="form-control variety">
+                    <select name="booked_varieties[<?php echo sizeof($booked_varieties);?>][id]" data-index="<?php echo sizeof($booked_varieties);?>" class="form-control variety">
                         <option value=""><?php echo $this->lang->line('SELECT');?></option>
                         <?php
                         foreach($varieties as $variety)
@@ -191,16 +191,24 @@ $CI = & get_instance();
                         ?>
                     </select>
                 </td>
-                <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][quantity]" class="form-control quantity" value="0"/></td>
-                <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][unit_price]" class="form-control unit_price" value="0"/></td>
-                <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][discount]" class="form-control discount" value="0"/></td>
-                <td></td>
+                <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][quantity]" id="booked_varieties_<?php echo sizeof($booked_varieties);?>_quantity" data-index="<?php echo sizeof($booked_varieties);?>" class="form-control quantity" value="0"/></td>
+                <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][unit_price]" id="booked_varieties_<?php echo sizeof($booked_varieties);?>_unit_price" data-index="<?php echo sizeof($booked_varieties);?>" readonly class="form-control unit_price" value="0"/></td>
+                <td><input type="text" name="booked_varieties[<?php echo sizeof($booked_varieties);?>][discount]" id="booked_varieties_<?php echo sizeof($booked_varieties);?>_discount" data-index="<?php echo sizeof($booked_varieties);?>" class="form-control discount" value="0"/></td>
+                <td><input type="text" id="booked_varieties_<?php echo sizeof($booked_varieties);?>_total" data-index="<?php echo sizeof($booked_varieties);?>" class="form-control total" readonly value="0"/></td></td>
                 <td><button type="button" class="btn btn-danger system_add_more_delete"><?php echo $CI->lang->line('DELETE'); ?></button></td>
 
             </tr>
         </tbody>
     </table>
 </div>
+<?php
+foreach($varieties as $variety)
+{
+    ?>
+    <input type="hidden" value="<?php echo $variety['unit_price'] ?>" id="variety_unit_price_<?php echo $variety['id'];?>">
+    <?php
+}
+?>
 <script type="text/javascript">
 
     jQuery(document).ready(function()
