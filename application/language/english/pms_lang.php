@@ -129,6 +129,11 @@ $lang['LABEL_CONTAINER_NAME'] = 'Container Name';
 $lang['LABEL_MORE_CONTAINER'] = 'Add more Container';
 $lang['LABEL_VARIETY_QUANTITY'] = 'Variety Quantity';
 
+$lang['MSG_SET_VARIETY_PRICE'] = 'Please setup all variety price for this year';
+$lang['LABEL_ACTION'] = 'Action';
+$lang['LABEL_DISCOUNT'] = 'Discount';
+
+
 
 
 

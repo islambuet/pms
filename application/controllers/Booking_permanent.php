@@ -19,11 +19,11 @@ class Booking_permanent extends Root_Controller
         $this->load->model("booking_permanent_model");
     }
 
-    public function index($action="list",$id=0)
+    public function index($action="search",$id=0)
     {
-        if($action=="list")
+        if($action=="search")
         {
-            $this->system_list($id);
+            $this->system_search();
         }
         elseif($action=="edit")
         {
@@ -35,23 +35,23 @@ class Booking_permanent extends Root_Controller
         }
         else
         {
-            $this->system_list($id);
+            $this->system_search();
         }
     }
 
-    public function system_list()
+    public function system_search()
     {
 
         if(isset($this->permissions['view'])&&($this->permissions['view']==1))
         {
-            $data['title']="Booking List";
-            $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("booking_permanent/list",$data,true));
+            $data['title']="Permanent Booking";
+            $data['zones']=Query_helper::get_info($this->config->item('table_zones'),array('id','zone_name'),array('status ="'.$this->config->item('system_status_active').'"'));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("booking_permanent/search",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
             }
-            $ajax['system_page_url']=site_url($this->controller_url);
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/search');
             $this->jsonReturn($ajax);
         }
         else
@@ -64,46 +64,112 @@ class Booking_permanent extends Root_Controller
     {
         if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
         {
-            if(($this->input->post('id')))
+            if(($this->input->post('customer_id')))
             {
-                $booking_id=$this->input->post('id');
+                $customer_id=$this->input->post('customer_id');
+                $year=$this->input->post('year');
+                $data_booking_info=Query_helper::get_info($this->config->item('table_bookings'),'*',array('customer_id ='.$customer_id,'year ='.$year),1);
+                if(isset($data_booking_info['id']))
+                {
+                    $id=$data_booking_info['id'];
+                }
+
+            }
+            if($id>0)
+            {
+                $time=time();
+                $data['title']='Edit Permanent Booking( Booking id= '.$id.')';
+                $data['booking']=Query_helper::get_info($this->config->item('table_bookings'),'*',array('id ='.$id),1);
+                $data['varieties']=$this->booking_permanent_model->get_all_variety_price($data['booking']['year']);
+                if($data['varieties']===false)
+                {
+                    $ajax['status']=false;
+                    $ajax['system_message']=$this->lang->line("MSG_SET_VARIETY_PRICE");
+                    $this->jsonReturn($ajax);
+                }
+
+                if($data['booking']['booking_status']==$this->config->item('booking_status_preliminary'))
+                {
+                    $data['booked_varieties']=array();
+                    $preliminary_varieties=Query_helper::get_info($this->config->item('table_preliminary_varieties'),array('date','variety_id','quantity'),array('booking_id ='.$id,'revision =1'));
+                    foreach($preliminary_varieties as $variety)
+                    {
+                        $info=$variety;
+                        $info['unit_price']=$data['varieties'][$variety['variety_id']]['unit_price'];
+                        $info['discount']=0;
+                        $data['booked_varieties'][]=$info;
+                    }
+
+
+                    $data['payment']['amount']='';
+                    $data['payment']['payment_method']='';
+                    $data['payment']['payment_number']='';
+                    $data['payment']['bank_name']='';
+                    $data['payment']['branch_name']='';
+                    $data['payment']['payment_date']=$time;
+                    $data['payment']['remarks']='';
+
+                }
+                else
+                {
+                    $data['payment']=Query_helper::get_info($this->config->item('table_payments'),'*',array('booking_id ='.$id,'booking_status ="'.$this->config->item('booking_status_permanent').'"'),1);
+                }
+
+                //$data['booked_varieties']=Query_helper::get_info($this->config->item('table_preliminary_varieties'),array('date','variety_id','quantity'),array('booking_id ='.$id,'revision =1'));
+                //$data['payment']=Query_helper::get_info($this->config->item('table_payments'),'*',array('booking_id ='.$id,'booking_status ="'.$this->config->item('booking_status_preliminary').'"'),1);*/
+                $ajax['status']=true;
+                $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("booking_permanent/edit",$data,true));
+                if($this->message)
+                {
+                    $ajax['system_message']=$this->message;
+                }
+                $this->jsonReturn($ajax);
             }
             else
             {
-                $booking_id=$id;
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("MSG_BOOKING_NOT_FOUND");
+                $this->jsonReturn($ajax);
+
+                /*$ajax['status']=true;
+
+
+                $data['varieties']=System_helper::get_all_varieties_for_dropdown();
+
+                $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("booking_preliminary/edit",$data,true));
+
+                if($this->message)
+                {
+                    $ajax['system_message']=$this->message;
+                }
+
+
+                $this->jsonReturn($ajax);*/
+
+                /*$data['title']='New Preliminary Booking';
+                $data['booking']['id']=0;
+                $data['booking']['customer_id']=$this->input->post('customer_id');
+                $data['booking']['year']=$this->input->post('year');
+                $data['booking']['preliminary_remarks']='';
+                $data['booking']['status']=$this->config->item('system_status_active');
+                $data['booking']['preliminary_booking_date']=$time;
+
+                $data['payment']['amount']='';
+                $data['payment']['payment_method']='';
+                $data['payment']['payment_number']='';
+                $data['payment']['bank_name']='';
+                $data['payment']['branch_name']='';
+                $data['payment']['payment_date']=$time;
+                $data['payment']['remarks']='';
+
+                $data['booked_varieties']=array(array('date'=>$time,'variety_id'=>'','quantity'=>''));*/
+
             }
 
-            $data['booking']=$this->booking_permanent_model->get_booking_info($booking_id);
-            $data['payment_preliminary']=$this->booking_permanent_model->get_preliminary_payment($booking_id);
-            $data['booked_varieties']=$this->booking_permanent_model->get_booked_varieties($booking_id);
-            $permanent_info=$this->booking_permanent_model->get_permanent_payment($booking_id);
-            if($permanent_info)
-            {
-                $data['payment_permanent']=$permanent_info;
-            }
-            else
-            {
-                $data['payment_permanent']['id']=0;
-                $data['payment_permanent']['amount']='';
-                $data['payment_permanent']['payment_method']='';
-                $data['payment_permanent']['payment_number']='';
-                $data['payment_permanent']['bank_name']='';
-                $data['payment_permanent']['remarks']='';
-                $data['payment_permanent']['payment_date']=time();
-            }
-
-            $data['title']="Edit Booking( Booking id=".$data['booking']['id'].')';
-            $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("booking_permanent/edit",$data,true));
-            if($this->message)
-            {
-                $ajax['system_message']=$this->message;
-            }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$booking_id);
-            $this->jsonReturn($ajax);
         }
         else
         {
+            $ajax['status']=false;
             $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
             $this->jsonReturn($ajax);
         }

@@ -9,64 +9,33 @@ class Booking_permanent_model extends CI_Model
     public function __construct() {
         parent::__construct();
     }
-    public function get_list()
+    public function get_all_variety_price($year)
     {
         $CI =& get_instance();
-        $this->db->from($CI->config->item('table_booked_varieties').' bv');
-        $this->db->select('SUM(bv.quantity) total_quantity',false);
-        $this->db->select('bv.booking_id');
-        $this->db->group_by('bv.booking_id');
-        $this->db->where('bv.revision',1);
-        $results=$this->db->get()->result_array();
-        $booked_varieties=array();
+        $results=System_helper::get_all_varieties_for_dropdown();
+        $varieties=array();
         foreach($results as $result)
         {
-            $result['preliminary_payment']=0;
-            $result['permanent_payment']=0;
-            $booked_varieties[$result['booking_id']]=$result;
-
+            $varieties[$result['id']]=$result;
+            $varieties[$result['id']]['unit_price']=0;
         }
-
-        $this->db->from($CI->config->item('table_booking_payments').' bp');
-        $this->db->select('bp.booking_id,bp.amount,bp.booking_status');
+        $this->db->from($CI->config->item('table_variety_price').' vp');
+        $this->db->select('variety_id ,unit_price');
+        $this->db->where('revision',1);
+        $this->db->where('year',$year);
         $results=$this->db->get()->result_array();
+        if(sizeof($results)!=sizeof($varieties))
+        {
+            return false;
+        }
         foreach($results as $result)
         {
-            if($result['booking_status']==$CI->config->item('booking_status_preliminary'))
-            {
-                $booked_varieties[$result['booking_id']]['preliminary_payment']=$result['amount'];
-            }
-            elseif($result['booking_status']==$CI->config->item('booking_status_permanent'))
-            {
-                $booked_varieties[$result['booking_id']]['permanent_payment']=$result['amount'];
-            }
-
-
+            $varieties[$result['variety_id']]['unit_price']=$result['unit_price'];
         }
 
-        $this->db->from($CI->config->item('table_bookings').' bookings');
-        $this->db->select('bookings.*');
-        $this->db->select('customers.customer_name');
-
-        $this->db->join($CI->config->item('table_customers').' customers','customers.id = bookings.customer_id','INNER');
-
-        $results=$this->db->get()->result_array();
-        $bookings=array();
-        foreach($results as $result)
-        {
-            $result['total_quantity']=$booked_varieties[$result['id']]['total_quantity'];
-            //$result['total_price']=$booked_varieties[$result['id']]['total_price'];
-            $result['preliminary_payment']=$booked_varieties[$result['id']]['preliminary_payment'];
-            $result['permanent_payment']=$booked_varieties[$result['id']]['permanent_payment'];
-            $result['total_payment']=$result['preliminary_payment']+$result['permanent_payment'];
-            $result['preliminary_booking_date']=System_helper::display_date($result['preliminary_booking_date']);
-            $result['permanent_booking_date']=System_helper::display_date($result['permanent_booking_date']);
-            $bookings[]=$result;
-        }
-        return $bookings;
-
+        return $varieties;
     }
-    public function get_booking_info($id)
+    /*public function get_booking_info($id)
     {
         $CI =& get_instance();
         $this->db->from($CI->config->item('table_bookings').' bookings');
@@ -115,6 +84,6 @@ class Booking_permanent_model extends CI_Model
         $this->db->where('bv.booking_id',$booking_id);
         $results=$this->db->get()->result_array();
         return $results;
-    }
+    }*/
 
 }

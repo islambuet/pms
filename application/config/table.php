@@ -29,4 +29,5 @@ $config['table_customers'] = 'pms_customers';
 //bookings
 $config['table_bookings'] = 'pms_bookings';
 $config['table_preliminary_varieties'] = 'pms_preliminary_varieties';
+$config['table_permanent_varieties'] = 'pms_permanent_varieties';
 $config['table_payments'] = 'pms_payments';
