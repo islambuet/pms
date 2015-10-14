@@ -393,5 +393,8 @@ function turn_off_triggers()
     $(document).off("change", ".variety");
     $(document).off("change", ".quantity");
     $(document).off("change", ".discount");
+    //allocation
+    $(document).off("change", "#booking_id");
+    $(document).off("change", "#consignment_id");
 
 }

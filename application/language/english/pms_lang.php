@@ -134,6 +134,11 @@ $lang['MSG_SET_VARIETY_PRICE'] = 'Please setup all variety price for this year';
 $lang['LABEL_ACTION'] = 'Action';
 $lang['LABEL_DISCOUNT'] = 'Discount';
 
+//allocation
+$lang['MSG_NO_PERMANENT_BOOKING_FOUND'] = 'No permanent booking found';
+$lang['MSG_NO_CONSIGNMENT_FOUND'] = 'No Consignment found';
+
+
 
 
 
