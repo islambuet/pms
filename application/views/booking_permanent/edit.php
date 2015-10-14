@@ -58,7 +58,7 @@ $CI = & get_instance();
                         $sub_total=($booked_variety['unit_price']-$booked_variety['discount'])*$booked_variety['quantity'];
                         $total+=$sub_total;
                     ?>
-                    <input type="text" id="booked_varieties_<?php echo $i+1;?>_total" data-index="<?php echo $i+1;?>" class="form-control total" readonly value="<?php echo $sub_total; ?>"/></td>
+                    <input type="text" id="booked_varieties_<?php echo $i+1;?>_total" data-index="<?php echo $i+1;?>" class="form-control total" readonly value="<?php echo number_format($sub_total); ?>"/></td>
                 </td>
                 <td><button type="button" class="btn btn-danger system_add_more_delete"><?php echo $CI->lang->line('DELETE'); ?></button></td>
             </tr>
@@ -67,7 +67,7 @@ $CI = & get_instance();
         ?>
         <tr>
             <td colspan="5" class="text-center"><button type="button" class="btn btn-warning system_add_more_button" data-current-id="<?php echo sizeof($booked_varieties);?>"><?php echo $CI->lang->line('LABEL_ADD_MORE');?></button></td>
-            <td id="total_price"><?php echo $total; ?></td>
+            <td id="total_price"><?php echo number_format($total); ?></td>
             <td></td>
         </tr>
         </tbody>

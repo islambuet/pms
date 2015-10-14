@@ -397,7 +397,7 @@ jQuery(document).ready(function()
         var quantity=$('#booked_varieties_'+index+'_quantity').val();
         var discount=$('#booked_varieties_'+index+'_discount').val();
         var total=(price-discount)*quantity;
-        $('#booked_varieties_'+index+'_total').val(total);
+        $('#booked_varieties_'+index+'_total').val(parseFloat(total).toLocaleString());
         calculate_total();
     });
     $(document).on("change", ".quantity", function(event)
@@ -407,7 +407,7 @@ jQuery(document).ready(function()
         var discount=$('#booked_varieties_'+index+'_discount').val();
         var price=$('#booked_varieties_'+index+'_unit_price').val();
         var total=(price-discount)*quantity;
-        $('#booked_varieties_'+index+'_total').val(total);
+        $('#booked_varieties_'+index+'_total').val(parseFloat(total).toLocaleString());
         calculate_total();
     })
     $(document).on("change", ".discount", function(event)
@@ -417,7 +417,7 @@ jQuery(document).ready(function()
         var quantity=$('#booked_varieties_'+index+'_quantity').val();
         var price=$('#booked_varieties_'+index+'_unit_price').val();
         var total=(price-discount)*quantity;
-        $('#booked_varieties_'+index+'_total').val(total);
+        $('#booked_varieties_'+index+'_total').val(parseFloat(total).toLocaleString());
         calculate_total();
     })
 });
@@ -425,9 +425,8 @@ function calculate_total()
 {
     var total=0;
     $( ".total" ).each( function( index, element ){
-        total=total+parseFloat($(this).val());
+        total=total+parseFloat($(this).val().replace(/,/g,''));
     });
-    $("#total_price").html(total);
-    console.log(total);
+    $("#total_price").html(parseFloat(total).toLocaleString());
 }
 </script>
