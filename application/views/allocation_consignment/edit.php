@@ -40,8 +40,8 @@ $CI = & get_instance();
                         <?php echo $variety['variety_name'] ?>
                         <input type="hidden" name="allocated_varieties[<?php echo $variety['id'];?>][variety_id]" value="<?php echo $variety['id']; ?>">
                     </td>
-                    <td><?php echo $variety['quantity'] ?></td>
-                    <td><?php echo $booking_info['varieties'][$variety['id']]['quantity'] ?></td>
+                    <td><?php echo number_format($variety['quantity']); ?></td>
+                    <td><?php echo number_format($booking_info['varieties'][$variety['id']]['quantity']); ?></td>
                     <td><input type="text" name="allocated_varieties[<?php echo $variety['id'];?>][quantity]" class="form-control" value="<?php if(isset($allocated_varieties[$variety['id']]['quantity'])){echo $allocated_varieties[$variety['id']]['quantity'];}else{echo '0';} ?>"/></td>
                     <td><input type="text" name="allocated_varieties[<?php echo $variety['id'];?>][date]" class="form-control datepicker" value="<?php if(isset($allocated_varieties[$variety['id']]['date'])){echo System_helper::display_date($allocated_varieties[$variety['id']]['date']);}else{echo System_helper::display_date(time());} ?>"/></td>
                 </tr>
