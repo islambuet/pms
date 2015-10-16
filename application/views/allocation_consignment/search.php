@@ -64,5 +64,55 @@ jQuery(document).ready(function()
             });
         }
     });
+    $(document).on("change","#booking_id",function()
+    {
+        $("#edit_container").html("");
+        var year=$('#year').val();
+        var booking_id=$('#booking_id').val();
+        var consignment_id=$('#consignment_id').val();
+        if(year>0 && booking_id>0 && consignment_id>0)
+        {
+            $.ajax({
+                url: base_url+"<?php echo $CI->controller_url;?>/index/edit/",
+                type: 'POST',
+                datatype: "JSON",
+                data:{year:year,booking_id:booking_id,consignment_id:consignment_id},
+                success: function (data, status)
+                {
+
+                },
+                error: function (xhr, desc, err)
+                {
+                    console.log("error");
+
+                }
+            });
+        }
+    });
+    $(document).on("change","#consignment_id",function()
+    {
+        $("#edit_container").html("");
+        var year=$('#year').val();
+        var booking_id=$('#booking_id').val();
+        var consignment_id=$('#consignment_id').val();
+        if(year>0 && booking_id>0 && consignment_id>0)
+        {
+            $.ajax({
+                url: base_url+"<?php echo $CI->controller_url;?>/index/edit/",
+                type: 'POST',
+                datatype: "JSON",
+                data:{year:year,booking_id:booking_id,consignment_id:consignment_id},
+                success: function (data, status)
+                {
+
+                },
+                error: function (xhr, desc, err)
+                {
+                    console.log("error");
+
+                }
+            });
+        }
+    });
 });
 </script>

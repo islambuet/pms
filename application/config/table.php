@@ -31,3 +31,6 @@ $config['table_bookings'] = 'pms_bookings';
 $config['table_preliminary_varieties'] = 'pms_preliminary_varieties';
 $config['table_permanent_varieties'] = 'pms_permanent_varieties';
 $config['table_payments'] = 'pms_payments';
+
+//allocation
+$config['table_allocation_varieties'] = 'pms_allocation_varieties';
