@@ -77,6 +77,7 @@ class Allocation_consignment extends Root_Controller
                 $this->jsonReturn($ajax);
             }
             $data['consignments']=$this->allocation_consignment_model->get_consignments($year);
+            $data['allocated_varieties']=$this->allocation_consignment_model->get_all_allocated_varieties($year);
             if(!(sizeof($data['consignments'])>0))
             {
                 $ajax['status']=false;

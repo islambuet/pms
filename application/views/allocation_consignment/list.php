@@ -1,9 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $CI = & get_instance();
-//echo '<PRE>';
-//print_r($consignments);
-//print_r($bookings);
-//echo '</PRE>';
 ?>
 <div class="row show-grid">
     <div class="col-xs-4">
@@ -85,8 +81,11 @@ $CI = & get_instance();
                 </thead>
                 <tbody>
                 <?php
-                foreach($bookings as $booking)
+                foreach($bookings as &$booking)
                 {
+                    /*echo '<PRE>';
+                    print_r($booking);
+                    echo '</PRE>';*/
                     $customer_info=$booking['customer_name'].'<br>';
                     foreach($booking['varieties'] as $variety)
                     {
@@ -96,12 +95,23 @@ $CI = & get_instance();
                     <tr>
                         <td><?php echo $customer_info;?></td>
                         <?php
-                            for($i=0;$i<sizeof($consignments);$i++)
+                            foreach($consignments as &$con)
                             {
                                 $text='';
-                                foreach($booking['varieties'] as $variety)
+
+                                foreach($con['varieties'] as $variety)
                                 {
-                                    $text.=$variety['variety_name'].'-0'."<br>";
+                                    if(isset($allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity']))
+                                    {
+                                        $text.=$variety['variety_name'].'-'.number_format($allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'])."<br>";
+                                        $booking['varieties'][$variety['id']]['copy_quantity']-=$allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'];
+                                        $con['varieties'][$variety['id']]['copy_quantity']-=$allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'];
+                                    }
+                                    else
+                                    {
+                                        $text.=$variety['variety_name'].'-0'."<br>";
+                                    }
+                                    //$con['varieties'][$variety['id']]['copy_quantity']=0;
                                 }
                                 ?>
                                 <td><?php echo $text; ?></td>
@@ -110,7 +120,7 @@ $CI = & get_instance();
                         $text='';
                         foreach($booking['varieties'] as $variety)
                         {
-                            $text.=$variety['variety_name'].'-'.number_format($variety['quantity'])."<br>";
+                            $text.=$variety['variety_name'].'-'.number_format($variety['copy_quantity'])."<br>";
                         }
                         ?>
                         <td><?php echo $text; ?></td>
@@ -118,6 +128,24 @@ $CI = & get_instance();
                     <?php
                 }
                 ?>
+                <tr>
+                    <td></td>
+                    <?php
+                    foreach($consignments as $consignment)
+                    {
+                        $text='';
+                        //$text=$consignment;
+                        foreach($consignment['varieties'] as $variety)
+                        {
+                            $text.=$variety['variety_name'].'-'.number_format($variety['copy_quantity'])."<br>";
+                        }
+                        ?>
+                        <td><?php echo($text); ?></td>
+                    <?php
+                    }
+                    ?>
+                    <th></th>
+                </tr>
                 </tbody>
             </table>
         </div>

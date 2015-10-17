@@ -38,6 +38,7 @@ class Allocation_consignment_model extends CI_Model
 
         $this->db->where('permanent_varieties.revision',1);
         $this->db->where('bookings.year',$year);
+        $this->db->order_by('bookings.id ASC');
         $this->db->order_by('permanent_varieties.variety_id ASC');
         $results=$CI->db->get()->result_array();
         $bookings=array();
@@ -54,6 +55,7 @@ class Allocation_consignment_model extends CI_Model
             if(isset($bookings[$result['booking_id']]['varieties'][$result['variety_id']]['id']))
             {
                 $bookings[$result['booking_id']]['varieties'][$result['variety_id']]['quantity']+=$result['quantity'];
+                $bookings[$result['booking_id']]['varieties'][$result['variety_id']]['copy_quantity']=$bookings[$result['booking_id']]['varieties'][$result['variety_id']]['quantity'];
 
             }
             else
@@ -61,6 +63,7 @@ class Allocation_consignment_model extends CI_Model
                 $bookings[$result['booking_id']]['varieties'][$result['variety_id']]['id']=$result['variety_id'];
                 $bookings[$result['booking_id']]['varieties'][$result['variety_id']]['variety_name']=$result['variety_name'];
                 $bookings[$result['booking_id']]['varieties'][$result['variety_id']]['quantity']=$result['quantity'];
+                $bookings[$result['booking_id']]['varieties'][$result['variety_id']]['copy_quantity']=$result['quantity'];
             }
 
 
@@ -110,6 +113,7 @@ class Allocation_consignment_model extends CI_Model
             if(isset($consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['id']))
             {
                 $consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['quantity']+=$result['quantity'];
+                $consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['copy_quantity']=$consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['quantity'];
 
             }
             else
@@ -117,6 +121,7 @@ class Allocation_consignment_model extends CI_Model
                 $consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['id']=$result['variety_id'];
                 $consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['variety_name']=$result['variety_name'];
                 $consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['quantity']=$result['quantity'];
+                $consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['copy_quantity']=$result['quantity'];
             }
 
 
@@ -245,6 +250,21 @@ class Allocation_consignment_model extends CI_Model
         foreach($results as $result)
         {
             $varieties[$result['variety_id']]=$result;
+        }
+        return $varieties;
+
+    }
+    public function get_all_allocated_varieties($year)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_allocation_varieties').' allocation_varieties');
+        $this->db->where('year',$year);
+        $this->db->where('revision',1);
+        $results=$CI->db->get()->result_array();
+        $varieties=array();
+        foreach($results as $result)
+        {
+            $varieties[$result['booking_id']][$result['consignment_id']][$result['variety_id']]=$result;
         }
         return $varieties;
 
