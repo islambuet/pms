@@ -55,7 +55,7 @@ $CI = & get_instance();
                         foreach($consignments as $consignment)
                         {
                         ?>
-                            <th><?php echo $consignment['consignment_name']; ?></th>
+                            <th><?php echo $consignment['consignment_name'].'<br>'.System_helper::display_date($consignment['expected_receive_date']); ?></th>
                         <?php
                         }
                         ?>

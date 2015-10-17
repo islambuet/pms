@@ -81,7 +81,7 @@ class Allocation_consignment_model extends CI_Model
         $this->db->from($CI->config->item('table_container_varieties').' container_varieties');
         $this->db->select('container_varieties.variety_id variety_id,container_varieties.quantity');
 
-        $this->db->select('consignment.id consignment_id,consignment.consignment_name');
+        $this->db->select('consignment.id consignment_id,consignment.consignment_name,consignment.expected_receive_date');
         //$this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") variety_name',false);
         $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,")") variety_name',false);
 
@@ -108,6 +108,7 @@ class Allocation_consignment_model extends CI_Model
                 $info=array();
                 $info['consignment_id']=$result['consignment_id'];
                 $info['consignment_name']=$result['consignment_name'];
+                $info['expected_receive_date']=$result['expected_receive_date'];
                 $consignments[$result['consignment_id']]=$info;
             }
             if(isset($consignments[$result['consignment_id']]['varieties'][$result['variety_id']]['id']))
@@ -139,7 +140,7 @@ class Allocation_consignment_model extends CI_Model
         $this->db->from($CI->config->item('table_container_varieties').' container_varieties');
         $this->db->select('container_varieties.variety_id variety_id,container_varieties.quantity');
 
-        $this->db->select('consignment.id consignment_id,consignment.consignment_name,consignment_status');
+        $this->db->select('consignment.id consignment_id,consignment.consignment_name,consignment_status,consignment.expected_receive_date');
         //$this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") variety_name',false);
         $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,")") variety_name',false);
 
@@ -166,6 +167,7 @@ class Allocation_consignment_model extends CI_Model
                 $info['consignment_id']=$result['consignment_id'];
                 $info['consignment_name']=$result['consignment_name'];
                 $info['consignment_status']=$result['consignment_status'];
+                $info['expected_receive_date']=$result['expected_receive_date'];
                 $consignments=$info;
             }
             if(isset($consignments['varieties'][$result['variety_id']]['id']))
