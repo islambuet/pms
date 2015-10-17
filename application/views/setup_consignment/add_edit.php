@@ -39,6 +39,14 @@
                 <input type="text" name="consignment[consignment_name]" id="consignment_name" class="form-control validate[required]" value="<?php echo $consignment['consignment_name'];?>"/>
             </div>
         </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_EXPECTED_RECEIVE_DATE');?><span style="color:#FF0000">*</span></label>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <input type="text" name="consignment[expected_receive_date]" id="expected_receive_date" class="form-control datepicker" value="<?php echo System_helper::display_date($consignment['expected_receive_date']);?>"/>
+            </div>
+        </div>
 
         <div class="row show-grid">
             <div class="col-xs-4">
@@ -81,6 +89,7 @@
     jQuery(document).ready(function()
     {
         turn_off_triggers();
+        $(".datepicker").datepicker({dateFormat : display_date_format});
 
     });
 </script>

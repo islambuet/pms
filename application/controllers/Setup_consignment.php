@@ -74,6 +74,7 @@ class Setup_consignment extends Root_Controller
             $data['consignment']['consignment_name']='';
             $data['consignment']['remarks']='';
             $data['consignment']['year']=Date('Y');
+            $data['consignment']['expected_receive_date']=time();
             $data['consignment']['status']=$this->config->item('system_status_active');
             $ajax['status']=true;
             $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_consignment/add_edit",$data,true));
@@ -155,6 +156,7 @@ class Setup_consignment extends Root_Controller
         else
         {
             $data = $this->input->post('consignment');
+            $data['expected_receive_date']=System_helper::get_time($data['expected_receive_date']);
             $time=time();
             if($id>0)
             {

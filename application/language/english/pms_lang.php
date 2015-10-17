@@ -137,6 +137,7 @@ $lang['LABEL_DISCOUNT'] = 'Discount';
 //allocation
 $lang['MSG_NO_PERMANENT_BOOKING_FOUND'] = 'No permanent booking found';
 $lang['MSG_NO_CONSIGNMENT_FOUND'] = 'No Consignment found';
+$lang['LABEL_EXPECTED_RECEIVE_DATE'] = 'Expected Receive Date';
 
 
 
