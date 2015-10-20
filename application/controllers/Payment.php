@@ -331,11 +331,11 @@ class Payment extends Root_Controller
             $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_MISSING");
             return false;
         }
-        if(!(($payment['amount'])>0))
+        /*if(!(($payment['amount'])>0))
         {
             $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_INVALID");
             return false;
-        }
+        }*/
         if(!($payment['payment_method']))
         {
             $this->message=$this->lang->line("MSG_BOOKING_PAYMENT_METHOD_INVALID");
