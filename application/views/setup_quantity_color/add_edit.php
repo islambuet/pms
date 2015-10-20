@@ -35,9 +35,18 @@
 
         <div class="row show-grid">
             <div class="col-xs-4">
+                <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_SELECT_COLOR');?></label>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <div id="colorPicker"></div>
+            </div>
+        </div>
+        <div class="row show-grid">
+            <div class="col-xs-4">
                 <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_COLOR_CODE');?></label>
             </div>
             <div class="col-sm-4 col-xs-8">
+                <div id="colorPicker"></div>
                 <input type="text" name="color[color_code]" id="color_code" class="form-control" value="<?php echo $color['color_code'];?>"/>
             </div>
         </div>
@@ -51,6 +60,14 @@
     jQuery(document).ready(function()
     {
         turn_off_triggers();
+        $("#colorPicker").jqxColorPicker({
+            width: 300,
+            height: 300
+        });
+        $("#colorPicker").on('colorchange', function (event) {
+            $("#color_code").val("#" + event.args.color.hex);
+            console.log('clicked');
+        });
 
     });
 </script>

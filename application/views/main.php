@@ -39,6 +39,8 @@ $CI = & get_instance();
     <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxgrid.columnsresize.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxdata.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxdatatable.js"></script>
+<!--    only for color picker-->
+    <script type="text/javascript" src="<?php echo base_url();?>js/jqx/jqxcolorpicker.js"></script>
     <!--    for jqx grid end-->
 
 <!--    <script src="--><?php //echo base_url() ?><!--js/validator_js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>-->
