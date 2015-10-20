@@ -212,6 +212,10 @@ class Setup_quantity_color extends Root_Controller
     public function get_items()
     {
         $colors=Query_helper::get_info($this->config->item('table_quantity_color'),array('id','min_quantity','max_quantity','color_code'),array());
+        foreach($colors as &$color)
+        {
+            $color['color']='<div style="background-color:'.$color['color_code'].'">'.$color['color_code'].'</div>';
+        }
         $this->jsonReturn($colors);
 
     }

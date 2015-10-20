@@ -38,7 +38,8 @@
                 { name: 'id', type: 'int' },
                 { name: 'min_quantity', type: 'number' },
                 { name: 'max_quantity', type: 'number' },
-                { name: 'color_code', type: 'string' }
+                { name: 'color_code', type: 'string' },
+                { name: 'color', type: 'string' }
             ],
             id: 'id',
             url: url
@@ -63,7 +64,8 @@
                 columns: [
                     { text: '<?php echo $CI->lang->line('LABEL_MIN_QUANTITY'); ?>', dataField: 'min_quantity',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_MAX_QUANTITY'); ?>', dataField: 'max_quantity'},
-                    { text: '<?php echo $CI->lang->line('LABEL_COLOR_CODE'); ?>', dataField: 'color_code'}
+                    { text: '<?php echo $CI->lang->line('LABEL_COLOR_CODE'); ?>', dataField: 'color_code'},
+                    { text: '<?php echo $CI->lang->line('LABEL_COLOR_CODE'); ?>', dataField: 'color'}
                 ]
             });
     });
