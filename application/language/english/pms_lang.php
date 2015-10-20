@@ -139,6 +139,12 @@ $lang['MSG_NO_PERMANENT_BOOKING_FOUND'] = 'No permanent booking found';
 $lang['MSG_NO_CONSIGNMENT_FOUND'] = 'No Consignment found';
 $lang['LABEL_EXPECTED_RECEIVE_DATE'] = 'Expected Receive Date';
 
+$lang['LABEL_MIN_QUANTITY'] = 'Minimum Quantity';
+$lang['LABEL_MAX_QUANTITY'] = 'Maximum Quantity';
+$lang['LABEL_COLOR_CODE'] = 'Color Code';
+
+
+
 
 
 
