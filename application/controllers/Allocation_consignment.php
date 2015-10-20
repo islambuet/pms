@@ -104,12 +104,12 @@ class Allocation_consignment extends Root_Controller
     {
         $year=$this->input->post('year');
         $booking_id=$this->input->post('booking_id');
-        $consignment_id=$this->input->post('consignment_id');
-        $data['consignment_info']=$this->allocation_consignment_model->get_consignment_info($consignment_id);
+        //$consignment_id=$this->input->post('consignment_id');
+        $data['consignment_info']=$this->allocation_consignment_model->get_consignments($year);
         $data['booking_info']=$this->allocation_consignment_model->get_booking_info($booking_id);
-        $data['allocated_varieties']=$this->allocation_consignment_model->get_allocated_varieties($year,$booking_id,$consignment_id);
+        $data['allocated_varieties']=$this->allocation_consignment_model->get_allocated_varieties($year,$booking_id);
         $data['year']=$year;
-        $data['consignment_id']=$consignment_id;
+        //$data['consignment_id']=$consignment_id;
         $data['booking_id']=$booking_id;
         $ajax['system_content'][]=array("id"=>"#edit_container","html"=>$this->load->view("allocation_consignment/edit",$data,true));
 
@@ -144,7 +144,7 @@ class Allocation_consignment extends Root_Controller
         {
             $year=$this->input->post('year');
             $booking_id=$this->input->post('booking_id');
-            $consignment_id=$this->input->post('consignment_id');
+            //$consignment_id=$this->input->post('consignment_id');
             $allocated_varieties=$this->input->post('allocated_varieties');
 
             $time=time();
@@ -152,19 +152,21 @@ class Allocation_consignment extends Root_Controller
 
             $this->db->where('year',$year);
             $this->db->where('booking_id',$booking_id);
-            $this->db->where('consignment_id',$consignment_id);
+            //$this->db->where('consignment_id',$consignment_id);
             $this->db->set('revision', 'revision+1', FALSE);
             $this->db->update($this->config->item('table_allocation_varieties'));
-            foreach($allocated_varieties as $data)
+            foreach($allocated_varieties as $consignment)
             {
-                $data['date']=System_helper::get_time($data['date']);
-                $data['revision']=1;
-                $data['created_by'] = $user->user_id;
-                $data['creation_date'] = $time;
-                $data['year'] = $year;
-                $data['booking_id'] = $booking_id;
-                $data['consignment_id'] = $consignment_id;
-                Query_helper::add($this->config->item('table_allocation_varieties'),$data);
+                foreach($consignment as $data)
+                {
+                    $data['date']=System_helper::get_time($data['date']);
+                    $data['revision']=1;
+                    $data['created_by'] = $user->user_id;
+                    $data['creation_date'] = $time;
+                    $data['year'] = $year;
+                    $data['booking_id'] = $booking_id;
+                    Query_helper::add($this->config->item('table_allocation_varieties'),$data);
+                }
             }
 
             $this->db->trans_complete();   //DB Transaction Handle END

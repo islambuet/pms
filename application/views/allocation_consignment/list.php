@@ -19,23 +19,7 @@ $CI = & get_instance();
     </div>
 </div>
 
-<div style="" class="row show-grid">
-    <div class="col-xs-4">
-        <label class="control-label pull-right"><?php echo $CI->lang->line('LABEL_CONSIGNMENT_NAME');?><span style="color:#FF0000">*</span></label>
-    </div>
-    <div class="col-sm-4 col-xs-8">
-        <select id="consignment_id" class="form-control" tabindex="-1">
-            <option value=""><?php echo $this->lang->line('SELECT');?></option>
-            <?php
-            foreach($consignments as $consignment)
-            {?>
-                <option value="<?php echo $consignment['consignment_id']?>"><?php echo $consignment['consignment_name'];?></option>
-            <?php
-            }
-            ?>
-        </select>
-    </div>
-</div>
+
 <div id="edit_container">
 
 </div>
@@ -50,33 +34,41 @@ $CI = & get_instance();
             <table class="table table-hover table-bordered" >
                 <thead>
                     <tr>
-                        <th></th>
+                        <th colspan="3"></th>
+
                         <?php
                         foreach($consignments as $consignment)
                         {
                         ?>
-                            <th><?php echo $consignment['consignment_name'].'<br>'.System_helper::display_date($consignment['expected_receive_date']); ?></th>
+                            <th colspan="2"><?php echo $consignment['consignment_name'].'<br>'.System_helper::display_date($consignment['expected_receive_date']); ?></th>
                         <?php
                         }
                         ?>
                         <th></th>
                     </tr>
                     <tr>
-                        <th></th>
+                        <th>Customer</th>
+                        <th>Variety</th>
+                        <th>EQ</th>
+
                         <?php
                         foreach($consignments as $consignment)
                         {
-                            $text='';
+                            $text_variety='';
+                            $text_quantity='';
                             foreach($consignment['varieties'] as $variety)
                             {
-                                $text.=$variety['variety_name'].'-'.number_format($variety['quantity'])."<br>";
+                                $text_variety.=$variety['variety_name']."<br>";
+                                $text_quantity.=number_format($variety['quantity'])."<br>";
                             }
                             ?>
-                            <th><?php echo $text; ?></th>
+                            <th><?php echo $text_variety; ?></th>
+                            <th><?php echo $text_quantity; ?></th>
                         <?php
                         }
                         ?>
-                        <th></th>
+                        <th>RV</th>
+                        <th>RQ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,61 +78,77 @@ $CI = & get_instance();
                     /*echo '<PRE>';
                     print_r($booking);
                     echo '</PRE>';*/
-                    $customer_info=$booking['customer_name'].'<br>';
+                    $customer_info=$booking['customer_name'];
+                    $text_variety='';
+                    $text_quantity='';
                     foreach($booking['varieties'] as $variety)
                     {
-                        $customer_info.=$variety['variety_name'].'-'.number_format($variety['quantity'])."<br>";
+                        //$customer_info.=$variety['variety_name'].'-'.number_format($variety['quantity'])."<br>";
+                        $text_variety.=$variety['variety_name']."<br>";
+                        $text_quantity.=number_format($variety['quantity'])."<br>";
                     }
                     ?>
                     <tr>
                         <td><?php echo $customer_info;?></td>
+                        <td><?php echo $text_variety;?></td>
+                        <td><?php echo $text_quantity;?></td>
                         <?php
                             foreach($consignments as &$con)
                             {
-                                $text='';
+                                $text_variety='';
+                                $text_quantity='';
 
                                 foreach($con['varieties'] as $variety)
                                 {
                                     if(isset($allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity']))
                                     {
-                                        $text.=$variety['variety_name'].'-'.number_format($allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'])."<br>";
+                                        $text_variety.=$variety['variety_name']."<br>";
+                                        $text_quantity.=number_format($allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'])."<br>";
                                         $booking['varieties'][$variety['id']]['copy_quantity']-=$allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'];
                                         $con['varieties'][$variety['id']]['copy_quantity']-=$allocated_varieties[$booking['booking_id']][$con['consignment_id']][$variety['id']]['quantity'];
                                     }
                                     else
                                     {
-                                        $text.=$variety['variety_name'].'-0'."<br>";
+                                        $text_variety.=$variety['variety_name']."<br>";
+                                        $text_quantity.='0'."<br>";
                                     }
                                     //$con['varieties'][$variety['id']]['copy_quantity']=0;
                                 }
                                 ?>
-                                <td><?php echo $text; ?></td>
+                                <td><?php echo $text_variety; ?></td>
+                                <td><?php echo $text_quantity; ?></td>
                                 <?php
                             }
-                        $text='';
+                        $text_variety='';
+                        $text_quantity='';
                         foreach($booking['varieties'] as $variety)
                         {
-                            $text.=$variety['variety_name'].'-'.number_format($variety['copy_quantity'])."<br>";
+                            $text_variety.=$variety['variety_name']."<br>";
+                            $text_quantity.=number_format($variety['copy_quantity'])."<br>";
                         }
                         ?>
-                        <td><?php echo $text; ?></td>
+                        <td><?php echo $text_variety; ?></td>
+                        <td><?php echo $text_quantity; ?></td>
                     </tr>
                     <?php
                 }
                 ?>
                 <tr>
-                    <td></td>
+                    <td colspan="3"></td>
                     <?php
                     foreach($consignments as $consignment)
                     {
-                        $text='';
+                        $text_variety='';
+                        $text_quantity='';
                         //$text=$consignment;
                         foreach($consignment['varieties'] as $variety)
                         {
-                            $text.=$variety['variety_name'].'-'.number_format($variety['copy_quantity'])."<br>";
+                            $text_variety.=$variety['variety_name']."<br>";
+                            $text_quantity.=number_format($variety['copy_quantity'])."<br>";
                         }
                         ?>
-                        <td><?php echo($text); ?></td>
+                        <td><?php echo($text_variety); ?></td>
+                        <td><?php echo($text_quantity); ?></td>
                     <?php
                     }
                     ?>

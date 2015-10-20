@@ -38,7 +38,7 @@ class Allocation_consignment_model extends CI_Model
 
         $this->db->where('permanent_varieties.revision',1);
         $this->db->where('bookings.year',$year);
-        $this->db->order_by('bookings.id ASC');
+        $this->db->order_by('upazilas.ordering ASC');
         $this->db->order_by('permanent_varieties.variety_id ASC');
         $results=$CI->db->get()->result_array();
         $bookings=array();
@@ -132,7 +132,7 @@ class Allocation_consignment_model extends CI_Model
         return $consignments;
 
     }
-    public function get_consignment_info($consignment_id)
+    /*public function get_consignment_info($consignment_id)
     {
         $CI =& get_instance();
 
@@ -184,7 +184,7 @@ class Allocation_consignment_model extends CI_Model
 
         }
         return $consignments;
-    }
+    }*/
     public function get_booking_info($booking_id)
     {
         $CI =& get_instance();
@@ -239,20 +239,23 @@ class Allocation_consignment_model extends CI_Model
         return $bookings;
 
     }
-    public function get_allocated_varieties($year,$booking_id,$consignment_id)
+    //public function get_allocated_varieties($year,$booking_id,$consignment_id)
+    public function get_allocated_varieties($year,$booking_id)
     {
         $CI =& get_instance();
         $this->db->from($CI->config->item('table_allocation_varieties').' allocation_varieties');
         $this->db->where('year',$year);
         $this->db->where('booking_id',$booking_id);
-        $this->db->where('consignment_id',$consignment_id);
         $this->db->where('revision',1);
+        $this->db->order_by('consignment_id ASC');
         $results=$CI->db->get()->result_array();
         $varieties=array();
         foreach($results as $result)
         {
-            $varieties[$result['variety_id']]=$result;
+            //$varieties[$result['variety_id']]=$result;
+            $varieties[$result['consignment_id']][$result['variety_id']]=$result;
         }
+        //$varieties=$results;
         return $varieties;
 
     }
