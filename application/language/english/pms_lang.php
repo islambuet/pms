@@ -142,7 +142,7 @@ $lang['LABEL_EXPECTED_RECEIVE_DATE'] = 'Expected Receive Date';
 $lang['LABEL_MIN_QUANTITY'] = 'Minimum Quantity';
 $lang['LABEL_MAX_QUANTITY'] = 'Maximum Quantity';
 $lang['LABEL_COLOR_CODE'] = 'Color Code';
-$lang['LABEL_SELECT_COLOR'] = 'Select Color';
+$lang['LABEL_COLOR'] = 'Color';
 
 
 

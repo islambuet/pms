@@ -84,6 +84,7 @@ class Allocation_consignment extends Root_Controller
                 $ajax['system_message']=$this->lang->line("MSG_NO_CONSIGNMENT_FOUND");
                 $this->jsonReturn($ajax);
             }
+            $data['colors']=Query_helper::get_info($this->config->item('table_quantity_color'),'*',array());
             $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("allocation_consignment/list",$data,true));
 
             $ajax['status']=false;

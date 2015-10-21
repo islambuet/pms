@@ -1,5 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-$CI = & get_instance();
+function get_color($colors,$quantity)
+{
+    $selected_color="#FFFFFF";
+    foreach($colors as $color)
+    {
+        if(($color['min_quantity']<=$quantity)&&($color['max_quantity']>=$quantity))
+        {
+            $selected_color=$color['color_code'];
+            break;
+        }
+    }
+    return $selected_color;
+}
 ?>
 <div class="row show-grid">
     <div class="col-xs-4">
@@ -34,7 +46,7 @@ $CI = & get_instance();
             <table class="table table-hover table-bordered" >
                 <thead>
                     <tr>
-                        <th colspan="3"></th>
+                        <th id="header_cs" colspan="3"></th>
 
                         <?php
                         foreach($consignments as $consignment)
@@ -62,13 +74,13 @@ $CI = & get_instance();
                                 $text_quantity.=number_format($variety['quantity'])."<br>";
                             }
                             ?>
-                            <th><?php echo $text_variety; ?></th>
-                            <th><?php echo $text_quantity; ?></th>
+                            <th id="header_<?php echo  $consignment['consignment_id']*2;?>"><?php echo $text_variety; ?></th>
+                            <th id="header_<?php echo  $consignment['consignment_id']*2+1; ?>"><?php echo $text_quantity; ?></th>
                         <?php
                         }
                         ?>
-                        <th>RV</th>
-                        <th>RQ</th>
+                        <th id="header_rv">RV</th>
+                        <th id="header_rq">RQ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,14 +93,19 @@ $CI = & get_instance();
                     $customer_info=$booking['customer_name'];
                     $text_variety='';
                     $text_quantity='';
+                    $max_variety_quantity=0;
                     foreach($booking['varieties'] as $variety)
                     {
                         //$customer_info.=$variety['variety_name'].'-'.number_format($variety['quantity'])."<br>";
                         $text_variety.=$variety['variety_name']."<br>";
                         $text_quantity.=number_format($variety['quantity'])."<br>";
+                        if($variety['quantity']>$max_variety_quantity)
+                        {
+                            $max_variety_quantity=$variety['quantity'];
+                        }
                     }
                     ?>
-                    <tr>
+                    <tr style="background-color: <?php echo get_color($colors,$max_variety_quantity); ?>">
                         <td><?php echo $customer_info;?></td>
                         <td><?php echo $text_variety;?></td>
                         <td><?php echo $text_quantity;?></td>
@@ -133,8 +150,8 @@ $CI = & get_instance();
                     <?php
                 }
                 ?>
-                <tr>
-                    <td colspan="3"></td>
+                <tr id="bottom_tr" style="position: fixed;bottom: 0px;">
+                    <td class="bottom" data-consignment-id="cs" colspan="3"></td>
                     <?php
                     foreach($consignments as $consignment)
                     {
@@ -147,14 +164,30 @@ $CI = & get_instance();
                             $text_quantity.=number_format($variety['copy_quantity'])."<br>";
                         }
                         ?>
-                        <td><?php echo($text_variety); ?></td>
-                        <td><?php echo($text_quantity); ?></td>
+                        <td class="bottom" data-consignment-id="<?php echo $consignment['consignment_id']*2;?>"><?php echo($text_variety); ?></td>
+                        <td class="bottom" data-consignment-id="<?php echo $consignment['consignment_id']*2+1; ?>"><?php echo($text_quantity); ?></td>
                     <?php
                     }
                     ?>
-                    <th></th>
+                    <td class="bottom" data-consignment-id="rv"></td>
+                    <td class="bottom" data-consignment-id="rq"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+<script type="text/javascript">
+
+    jQuery(document).ready(function()
+    {
+
+        $( ".bottom" ).each(function( index )
+        {
+            var consignment_id=$(this).attr('data-consignment-id');
+            var header=$('#header_'+consignment_id);
+            var width=header.width();
+            $(this).outerWidth(width);
+
+        });
+    });
+</script>

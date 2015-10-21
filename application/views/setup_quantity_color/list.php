@@ -65,7 +65,7 @@
                     { text: '<?php echo $CI->lang->line('LABEL_MIN_QUANTITY'); ?>', dataField: 'min_quantity',width:'15%'},
                     { text: '<?php echo $CI->lang->line('LABEL_MAX_QUANTITY'); ?>', dataField: 'max_quantity'},
                     { text: '<?php echo $CI->lang->line('LABEL_COLOR_CODE'); ?>', dataField: 'color_code'},
-                    { text: '<?php echo $CI->lang->line('LABEL_COLOR_CODE'); ?>', dataField: 'color'}
+                    { text: '<?php echo $CI->lang->line('LABEL_COLOR'); ?>', dataField: 'color'}
                 ]
             });
     });
