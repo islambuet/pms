@@ -289,11 +289,11 @@ class Setup_container extends Root_Controller
                     $this->message=$this->lang->line("MSG_BOOKING_QUANTITY_MISSING");
                     return false;
                 }
-                if(!(($variety['quantity'])>0))
+                /*if(!(($variety['quantity'])>0))
                 {
                     $this->message=$this->lang->line("MSG_BOOKING_QUANTITY_INVALID");
                     return false;
-                }
+                }*/
                 if(!(($variety['id'])>0))
                 {
                     $this->message=$this->lang->line("MSG_BOOKING_VARIETY_MISSING");
