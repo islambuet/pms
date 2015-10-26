@@ -16,7 +16,7 @@ class Delivery_container_allocation extends Root_Controller
             $this->parent_module_id=System_helper::get_parent_id_of_task($this->permissions['task_id']);
         }
         $this->controller_url='delivery_container_allocation';
-        //$this->load->model("allocation_consignment_model");
+        $this->load->model("delivery_container_allocation_model");
     }
 
     public function index($action="search",$id=0)
@@ -70,28 +70,27 @@ class Delivery_container_allocation extends Root_Controller
         {
             $year=$this->input->post('year');
             $consignment_id=$this->input->post('consignment_id');
-            $ajax['status']=false;
-            $ajax['system_message']='Under Construction';
-            $this->jsonReturn($ajax);
+
 
             $data['title']='Allocation list';
-            $data['bookings']=$this->allocation_consignment_model->get_bookings($year);
+            /*$data['bookings']=$this->allocation_consignment_model->get_bookings($year);
             if(!(sizeof($data['bookings'])>0))
             {
                 $ajax['status']=false;
                 $ajax['system_message']=$this->lang->line("MSG_NO_PERMANENT_BOOKING_FOUND");
                 $this->jsonReturn($ajax);
-            }
-            $data['consignments']=$this->allocation_consignment_model->get_consignments($year);
-            $data['allocated_varieties']=$this->allocation_consignment_model->get_all_allocated_varieties($year);
-            if(!(sizeof($data['consignments'])>0))
+            }*/
+            $data['containers']=$this->delivery_container_allocation_model->get_containers($consignment_id);
+            //$data['containers']=Query_helper::get_info($this->config->item('table_container'),'*',array('consignment_id ='.$consignment_id));
+            //$data['allocated_varieties']=$this->allocation_consignment_model->get_all_allocated_varieties($year);
+            /*if(!(sizeof($data['consignments'])>0))
             {
                 $ajax['status']=false;
                 $ajax['system_message']=$this->lang->line("MSG_NO_CONSIGNMENT_FOUND");
                 $this->jsonReturn($ajax);
             }
-            $data['colors']=Query_helper::get_info($this->config->item('table_quantity_color'),'*',array());
-            $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("allocation_consignment/list",$data,true));
+            $data['colors']=Query_helper::get_info($this->config->item('table_quantity_color'),'*',array());*/
+            $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_container_allocation/list",$data,true));
 
             $ajax['status']=false;
             if($this->message)
