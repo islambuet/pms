@@ -45,7 +45,7 @@ function get_color($colors,$quantity)
         <div class="col-xs-12" style="overflow-x: auto">
             <table class="table table-hover table-bordered" >
                 <thead>
-                    <tr>
+                    <tr id="header_tr">
                         <th id="header_cs" colspan="3"></th>
 
                         <?php
@@ -180,6 +180,7 @@ function get_color($colors,$quantity)
 
     jQuery(document).ready(function()
     {
+        $("#bottom_tr").outerWidth($('#header_tr').width());
 
         $( ".bottom" ).each(function( index )
         {
@@ -189,5 +190,6 @@ function get_color($colors,$quantity)
             $(this).outerWidth(width);
 
         });
+
     });
 </script>

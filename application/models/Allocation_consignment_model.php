@@ -16,6 +16,8 @@ class Allocation_consignment_model extends CI_Model
         $this->db->from($CI->config->item('table_permanent_varieties').' permanent_varieties');
         $this->db->select('permanent_varieties.booking_id booking_id,permanent_varieties.variety_id variety_id,permanent_varieties.quantity');
 
+        $this->db->select('customer.ordering');
+
         //$this->db->select('CONCAT(customer.customer_name,"(",districts.district_name,"-",upazilas.upazila_name,"-",unions.union_name,")") customer_name',false);
         $this->db->select('CONCAT(customer.customer_name,"(",upazilas.upazila_name,")") customer_name',false);
         //$this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,"-",types.type_name,"-",stypes.skin_type_name,")") variety_name',false);
@@ -38,7 +40,7 @@ class Allocation_consignment_model extends CI_Model
 
         $this->db->where('permanent_varieties.revision',1);
         $this->db->where('bookings.year',$year);
-        $this->db->order_by('upazilas.ordering ASC');
+        $this->db->order_by('customer.ordering ASC');
         $this->db->order_by('permanent_varieties.variety_id ASC');
         $results=$CI->db->get()->result_array();
         $bookings=array();
@@ -50,6 +52,7 @@ class Allocation_consignment_model extends CI_Model
                 $info=array();
                 $info['booking_id']=$result['booking_id'];
                 $info['customer_name']=$result['customer_name'];
+                $info['ordering']=$result['ordering'];
                 $bookings[$result['booking_id']]=$info;
             }
             if(isset($bookings[$result['booking_id']]['varieties'][$result['variety_id']]['id']))
