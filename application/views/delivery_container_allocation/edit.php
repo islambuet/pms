@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $CI = & get_instance();
-//echo '<PRE>';
-//print_r($consignment_info);
-//echo '</PRE>';
-//return;
+echo '<PRE>';
+print_r($bookings);
+echo '</PRE>';
+return;
 //echo '<PRE>';
 //print_r(($booking_info));
 //echo '</PRE>';

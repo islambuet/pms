@@ -29,6 +29,10 @@ class Delivery_container_allocation extends Root_Controller
         {
             $this->system_list();
         }
+        elseif($action=="select_list")
+        {
+            $this->system_select_list();
+        }
         elseif($action=="edit")
         {
             $this->system_edit();
@@ -108,25 +112,47 @@ class Delivery_container_allocation extends Root_Controller
             $this->jsonReturn($ajax);
         }
     }
-    public function system_edit()
+    public function system_select_list()
     {
         $year=$this->input->post('year');
-        $booking_id=$this->input->post('booking_id');
-        //$consignment_id=$this->input->post('consignment_id');
-        $data['consignment_info']=$this->allocation_consignment_model->get_consignments($year);
-        $data['booking_info']=$this->allocation_consignment_model->get_booking_info($booking_id);
-        $data['allocated_varieties']=$this->allocation_consignment_model->get_allocated_varieties($year,$booking_id);
-        $data['year']=$year;
-        //$data['consignment_id']=$consignment_id;
-        $data['booking_id']=$booking_id;
-        $ajax['system_content'][]=array("id"=>"#edit_container","html"=>$this->load->view("allocation_consignment/edit",$data,true));
+        $consignment_id=$this->input->post('consignment_id');
+        $container_id=$this->input->post('container_id');
+        $data['consignment_id']=$consignment_id;
+        $data['container_id']=$container_id;
+        $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
+        $ajax['system_content'][]=array("id"=>"#select_container","html"=>$this->load->view("delivery_container_allocation/select_list",$data,true));
 
-        $ajax['status']=false;
+        $ajax['status']=true;
         if($this->message)
         {
             $ajax['system_message']=$this->message;
         }
         $this->jsonReturn($ajax);
+    }
+    public function system_edit()
+    {
+        $booking_ids=$this->input->post('bookings');
+
+        if(!(sizeof($booking_ids)>0))
+        {
+            $ajax['status']=false;
+            $ajax['system_message']="Al least select one";
+            $this->jsonReturn($ajax);
+        }
+        else
+        {
+            $consignment_id=$this->input->post('consignment_id');
+            $container_id=$this->input->post('container_id');
+            $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id,$booking_ids);
+            $ajax['system_content'][]=array("id"=>"#edit_container","html"=>$this->load->view("delivery_container_allocation/edit",$data,true));
+
+            $ajax['status']=true;
+            if($this->message)
+            {
+                $ajax['system_message']=$this->message;
+            }
+            $this->jsonReturn($ajax);
+        }
     }
 
     public function system_save()

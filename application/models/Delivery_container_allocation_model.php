@@ -70,7 +70,7 @@ class Delivery_container_allocation_model extends CI_Model
         return $containers;
 
     }
-    public function get_bookings($consignment_id)
+    public function get_bookings($consignment_id,$booking_ids=null)
     {
         $CI =& get_instance();
 
@@ -100,7 +100,12 @@ class Delivery_container_allocation_model extends CI_Model
 
 
         $this->db->where('allocation_varieties.revision',1);
+        $this->db->where('allocation_varieties.quantity >0');
         $this->db->where('allocation_varieties.consignment_id',$consignment_id);
+        if($booking_ids)
+        {
+            $this->db->where_in('allocation_varieties.booking_id', $booking_ids);
+        }
         $this->db->order_by('customer.ordering ASC');
         $this->db->order_by('allocation_varieties.variety_id ASC');
         $results=$CI->db->get()->result_array();

@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$CI = & get_instance();
 //echo "<pre>";
 //print_r($containers);
 //echo "</pre>";
@@ -22,7 +23,9 @@
     </div>
 </div>
 
+<div id="select_container">
 
+</div>
 <div id="edit_container">
 
 </div>
@@ -141,6 +144,28 @@
                 <?php
                 }
                 ?>
+                <tr id="bottom_tr">
+                    <td class="bottom" data-consignment-id="cs" colspan="3"></td>
+                    <?php
+                    foreach($containers as $container)
+                    {
+                        $text_variety='';
+                        $text_quantity='';
+                        //$text=$consignment;
+                        foreach($container['varieties'] as $variety)
+                        {
+                            $text_variety.=$variety['variety_name']."<br>";
+                            $text_quantity.=number_format($variety['copy_quantity'])."<br>";
+                        }
+                        ?>
+                        <td class="bottom" data-consignment-id="<?php echo $container['container_id']*2;?>"><?php echo($text_variety); ?></td>
+                        <td class="bottom" data-consignment-id="<?php echo $container['container_id']*2+1; ?>"><?php echo($text_quantity); ?></td>
+                    <?php
+                    }
+                    ?>
+                    <td class="bottom" data-consignment-id="rv"></td>
+                    <td class="bottom" data-consignment-id="rq"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -150,13 +175,5 @@
     jQuery(document).ready(function()
     {
 
-        $( ".bottom" ).each(function( index )
-        {
-            var consignment_id=$(this).attr('data-consignment-id');
-            var header=$('#header_'+consignment_id);
-            var width=header.width();
-            $(this).outerWidth(width);
-
-        });
     });
 </script>

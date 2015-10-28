@@ -105,19 +105,20 @@ jQuery(document).ready(function()
             });
         }
     });
-    $(document).on("change","#booking_id",function()
+    $(document).on("change","#container_id",function()
     {
         $("#edit_container").html("");
+        $("#select_container").html("");
         var year=$('#year').val();
-        var booking_id=$('#booking_id').val();
-
-        if(year>0 && booking_id>0)
+        var consignment_id=$('#consignment_id').val();
+        var container_id=$('#container_id').val();
+        if(container_id>0)
         {
             $.ajax({
-                url: base_url+"<?php echo $CI->controller_url;?>/index/edit/",
+                url: base_url+"<?php echo $CI->controller_url;?>/index/select_list/",
                 type: 'POST',
                 datatype: "JSON",
-                data:{year:year,booking_id:booking_id},
+                data:{year:year,consignment_id:consignment_id,container_id:container_id},
                 success: function (data, status)
                 {
 
@@ -129,6 +130,24 @@ jQuery(document).ready(function()
                 }
             });
         }
+    });
+    $(document).on("change","#select_all",function()
+    {
+        if($(this).is(':checked'))
+        {
+            $('.select_bookings').prop('checked', true);
+        }
+        else
+        {
+            $('.select_bookings').prop('checked', false);
+        }
+
+    });
+    $(document).on("click", "#load_allocation", function(event)
+    {
+        $("#edit_container").html("");
+        $("#select_form").submit();
+
     });
 });
 </script>
