@@ -80,8 +80,10 @@ class Delivery_container_allocation extends Root_Controller
                 $ajax['system_message']=$this->lang->line("MSG_NO_PERMANENT_BOOKING_FOUND");
                 $this->jsonReturn($ajax);
             }*/
+            $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
             $data['containers']=$this->delivery_container_allocation_model->get_containers($consignment_id);
-            //$data['containers']=Query_helper::get_info($this->config->item('table_container'),'*',array('consignment_id ='.$consignment_id));
+            $data['allocated_varieties']=array();
+
             //$data['allocated_varieties']=$this->allocation_consignment_model->get_all_allocated_varieties($year);
             /*if(!(sizeof($data['consignments'])>0))
             {
