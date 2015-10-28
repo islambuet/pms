@@ -143,6 +143,8 @@ class Delivery_container_allocation extends Root_Controller
         {
             $consignment_id=$this->input->post('consignment_id');
             $container_id=$this->input->post('container_id');
+            $data['consignment_id']=$consignment_id;
+            $data['container_id']=$container_id;
             $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id,$booking_ids);
             $ajax['system_content'][]=array("id"=>"#edit_container","html"=>$this->load->view("delivery_container_allocation/edit",$data,true));
 
@@ -176,31 +178,32 @@ class Delivery_container_allocation extends Root_Controller
         }
         else
         {
-            $year=$this->input->post('year');
-            $booking_id=$this->input->post('booking_id');
-            //$consignment_id=$this->input->post('consignment_id');
+
             $allocated_varieties=$this->input->post('allocated_varieties');
 
+            $consignment_id=$this->input->post('consignment_id');
+            $container_id=$this->input->post('container_id');
             $time=time();
             $this->db->trans_start();  //DB Transaction Handle START
-
-            $this->db->where('year',$year);
-            $this->db->where('booking_id',$booking_id);
-            //$this->db->where('consignment_id',$consignment_id);
+            $this->db->where('container_id',$container_id);
             $this->db->set('revision', 'revision+1', FALSE);
-            $this->db->update($this->config->item('table_allocation_varieties'));
-            foreach($allocated_varieties as $consignment)
+            $this->db->update($this->config->item('table_delivery_allocation_varieties'));
+            foreach($allocated_varieties as $booking_id=>$booking_info)
             {
-                foreach($consignment as $data)
+                foreach($booking_info as $variety)
                 {
-                    $data['date']=System_helper::get_time($data['date']);
+                    $data=array();
+                    $data['booking_id']=$booking_id;
+                    $data['container_id']=$container_id;
+                    $data['date']=System_helper::get_time($variety['date']);
+                    $data['variety_id']=$variety['variety_id'];
+                    $data['quantity']=$variety['quantity'];
                     $data['revision']=1;
                     $data['created_by'] = $user->user_id;
                     $data['creation_date'] = $time;
-                    $data['year'] = $year;
-                    $data['booking_id'] = $booking_id;
-                    Query_helper::add($this->config->item('table_allocation_varieties'),$data);
+                    Query_helper::add($this->config->item('table_delivery_allocation_varieties'),$data);
                 }
+
             }
 
             $this->db->trans_complete();   //DB Transaction Handle END

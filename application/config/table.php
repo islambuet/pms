@@ -35,3 +35,6 @@ $config['table_payments'] = 'pms_payments';
 //allocation
 $config['table_allocation_varieties'] = 'pms_allocation_varieties';
 $config['table_quantity_color'] = 'pms_quantity_color';
+
+//delivery allocation
+$config['table_delivery_allocation_varieties'] = 'pms_delivery_allocation_varieties';
