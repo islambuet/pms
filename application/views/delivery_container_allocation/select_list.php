@@ -1,9 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $CI = & get_instance();
-//echo "<pre>";
-//print_r($containers);
-//echo "</pre>";
-
 ?>
 <div class="row show-grid">
     <div class="col-xs-12 text-center">
@@ -22,7 +18,7 @@ $CI = & get_instance();
                 foreach($bookings as $booking)
                 {
                 ?>
-                <td><input type="checkbox" class="select_bookings" name="bookings[]" value="<?php echo $booking['booking_id'];?>" style="margin-right: 5px;"><?php echo $booking['customer_name'];?></td>
+                <td><input type="checkbox" class="select_bookings" name="bookings[]" <?php if(in_array($booking['booking_id'],$allocated_booking_ids)){echo 'checked';} ?> value="<?php echo $booking['booking_id'];?>" style="margin-right: 5px;"><?php echo $booking['customer_name'];?></td>
                 <?php
                 $i++;
                 if($i==6)

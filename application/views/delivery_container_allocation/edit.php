@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $CI = & get_instance();
 //echo '<PRE>';
-//print_r($bookings);
+//print_r($container_info);
 //echo '</PRE>';
 //return;
 //echo '<PRE>';
@@ -43,37 +43,35 @@ $CI = & get_instance();
             <?php
             foreach($booking['varieties'] as $variety)
             {
-                ?>
-                <tr>
-                    <td>
-                        <?php echo $variety['variety_name']; ?>
-                        <input type="hidden" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][variety_id]" value="<?php echo $variety['id']; ?>">
-                    </td>
-                    <td><?php echo $variety['quantity']; ?></td>
-                    <td><?php echo '0'; ?></td>
-                    <td><input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control" value=""/></td>
-                    <td><?php echo '0'; ?></td>
-                    <td><input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][date]" class="form-control datepicker" value="<?php {echo System_helper::display_date(time());} ?>"/></td>
-
-                </tr>
-                <?php
-                /*if(array_key_exists($variety['id'],$booking_info['varieties']))
+                if(array_key_exists($variety['id'],$container_info))
                 {
-                    ?>
-
+                ?>
                     <tr>
                         <td>
-                            <?php echo $variety['variety_name'] ?>
-                            <input type="hidden" name="allocated_varieties[<?php echo $consignment['consignment_id'];?>][<?php echo $variety['id'];?>][variety_id]" value="<?php echo $variety['id']; ?>">
-                            <input type="hidden" name="allocated_varieties[<?php echo $consignment['consignment_id'];?>][<?php echo $variety['id'];?>][consignment_id]" value="<?php echo $consignment['consignment_id']; ?>">
+                            <?php echo $variety['variety_name']; ?>
+                            <input type="hidden" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][variety_id]" value="<?php echo $variety['id']; ?>">
                         </td>
-                        <td><?php echo number_format($variety['quantity']); ?></td>
-                        <td><?php echo number_format($booking_info['varieties'][$variety['id']]['quantity']); ?></td>
-                        <td><input type="text" name="allocated_varieties[<?php echo $consignment['consignment_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control" value="<?php if(isset($allocated_varieties[$consignment['consignment_id']][$variety['id']]['quantity'])){echo $allocated_varieties[$consignment['consignment_id']][$variety['id']]['quantity'];}else{echo '0';} ?>"/></td>
-                        <td><input type="text" name="allocated_varieties[<?php echo $consignment['consignment_id'];?>][<?php echo $variety['id'];?>][date]" class="form-control datepicker" value="<?php if(isset($allocated_varieties[$consignment['consignment_id']][$variety['id']]['date'])){echo System_helper::display_date($allocated_varieties[$consignment['consignment_id']][$variety['id']]['date']);}else{echo System_helper::display_date(time());} ?>"/></td>
+                        <td><?php echo $variety['quantity']; ?></td>
+                        <td><?php echo '0'; ?></td>
+                        <td>
+                            <?php
+                                $quantity=0;
+                                $time=time();
+                                if(isset($allocated_varieties[$booking['booking_id']][$variety['id']]))
+                                {
+                                    $quantity=$allocated_varieties[$booking['booking_id']][$variety['id']]['quantity'];
+                                    $time=$allocated_varieties[$booking['booking_id']][$variety['id']]['date'];
+                                }
+                                $container_info[$variety['id']]['copy_quantity']-=$quantity;
+                            ?>
+                            <input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control" value="<?php echo $quantity; ?>"/>
+                        </td>
+                        <td><?php echo '0'; ?></td>
+                        <td><input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][date]" class="form-control datepicker" value="<?php {echo System_helper::display_date($time);} ?>"/></td>
+
                     </tr>
                 <?php
-                }*/
+                }
             }
             ?>
             </tbody>
@@ -83,7 +81,38 @@ $CI = & get_instance();
         <?php
     }
 
-    ?>
+        ?>
+        <div class="widget-header">
+            <div class="title">
+                Remaining
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Variety</th>
+            <th>Quantity</th>
+            <th>Remaining Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+            foreach($container_info as $info)
+            {
+                ?>
+                <tr>
+                    <td><?php echo $info['variety_name'] ?></td>
+                    <td><?php echo $info['quantity'] ?></td>
+                    <td><?php echo $info['copy_quantity'] ?></td>
+                </tr>
+                <?php
+            }
+        ?>
+        </tbody>
+    </table>
+
+
 
 </form>
 

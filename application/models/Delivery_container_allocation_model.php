@@ -142,5 +142,53 @@ class Delivery_container_allocation_model extends CI_Model
         return $bookings;
 
     }
+    public function get_allocated_variety($container_id,$booking_ids)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_delivery_allocation_varieties').' dav');
+        $this->db->where('dav.container_id',$container_id);
+        $this->db->where_in('dav.booking_id',$booking_ids);
+        $results=$CI->db->get()->result_array();
+        $bookings=array();
+        foreach($results as $result)
+        {
+            $bookings[$result['booking_id']][$result['variety_id']]=$result;
+        }
+        return $bookings;
+    }
+    public function get_container_info($container_id)
+    {
+        $CI =& get_instance();
+
+
+        $this->db->from($CI->config->item('table_container_varieties').' container_varieties');
+        $this->db->select('container_varieties.variety_id variety_id,container_varieties.quantity');
+
+        $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,")") variety_name',false);
+
+        //$this->db->join($CI->config->item('table_container').' container','container.id = container_varieties.container_id','INNER');
+
+
+        $this->db->join($CI->config->item('table_varieties').' varieties','varieties.id = container_varieties.variety_id','INNER');
+        $this->db->join($CI->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
+        $this->db->join($CI->config->item('table_types').' types','types.id =stypes.type_id','INNER');
+        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+
+        $this->db->where('container_varieties.revision',1);
+        $this->db->where('container_varieties.container_id',$container_id);
+        $this->db->order_by('container_id ASC');
+        $this->db->order_by('container_varieties.variety_id ASC');
+        $results=$CI->db->get()->result_array();
+        $containers=array();
+        foreach($results as $result)
+        {
+            $containers[$result['variety_id']]=$result;
+            $containers[$result['variety_id']]['copy_quantity']=$result['quantity'];
+
+        }
+        //$consignments=$results;
+
+        return $containers;
+    }
 
 }
