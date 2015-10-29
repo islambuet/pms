@@ -153,6 +153,8 @@ class Delivery_container_allocation extends Root_Controller
             $data['container_id']=$container_id;
             $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id,$booking_ids);
             $data['allocated_varieties']=$this->delivery_container_allocation_model->get_allocated_variety($container_id,$booking_ids);
+            $data['other_allocated_varieties']=$this->delivery_container_allocation_model->get_other_allocated_variety($container_id,$consignment_id,$booking_ids);
+
             $data['container_info']=$this->delivery_container_allocation_model->get_container_info($container_id);
             $ajax['system_content'][]=array("id"=>"#edit_container","html"=>$this->load->view("delivery_container_allocation/edit",$data,true));
 

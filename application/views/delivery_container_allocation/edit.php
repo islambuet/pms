@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $CI = & get_instance();
 //echo '<PRE>';
-//print_r($container_info);
+//print_r($other_allocated_varieties);
 //echo '</PRE>';
 //return;
 //echo '<PRE>';
@@ -52,7 +52,16 @@ $CI = & get_instance();
                             <input type="hidden" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][variety_id]" value="<?php echo $variety['id']; ?>">
                         </td>
                         <td><?php echo $variety['quantity']; ?></td>
-                        <td><?php echo '0'; ?></td>
+                        <td>
+                            <?php
+                            $other_quantity=0;
+                            if(isset($other_allocated_varieties[$booking['booking_id']][$variety['id']]))
+                            {
+                                $other_quantity=$other_allocated_varieties[$booking['booking_id']][$variety['id']]['quantity'];
+                            }
+                            echo number_format($other_quantity);
+                            ?>
+                        </td>
                         <td>
                             <?php
                                 $quantity=0;
@@ -66,7 +75,7 @@ $CI = & get_instance();
                             ?>
                             <input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control" value="<?php echo $quantity; ?>"/>
                         </td>
-                        <td><?php echo '0'; ?></td>
+                        <td><?php echo number_format($variety['quantity']-$other_quantity-$quantity); ?></td>
                         <td><input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][date]" class="form-control datepicker" value="<?php {echo System_helper::display_date($time);} ?>"/></td>
 
                     </tr>

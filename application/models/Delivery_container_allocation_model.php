@@ -146,6 +146,7 @@ class Delivery_container_allocation_model extends CI_Model
     {
         $CI =& get_instance();
         $this->db->from($CI->config->item('table_delivery_allocation_varieties').' dav');
+        $this->db->where('dav.revision',1);
         $this->db->where('dav.container_id',$container_id);
         $this->db->where_in('dav.booking_id',$booking_ids);
         $results=$CI->db->get()->result_array();
@@ -189,6 +190,32 @@ class Delivery_container_allocation_model extends CI_Model
         //$consignments=$results;
 
         return $containers;
+    }
+    public function get_other_allocated_variety($container_id,$consignment_id,$booking_ids)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_delivery_allocation_varieties').' dav');
+
+        $this->db->join($CI->config->item('table_container').' container','container.id = dav.container_id','INNER');
+        $this->db->where('dav.revision',1);
+        $this->db->where('dav.container_id !=',$container_id);
+        $this->db->where('container.consignment_id',$consignment_id);
+        $this->db->where_in('dav.booking_id',$booking_ids);
+        $results=$CI->db->get()->result_array();
+        $bookings=array();
+        foreach($results as $result)
+        {
+            if(isset($bookings[$result['booking_id']][$result['variety_id']]))
+            {
+                $bookings[$result['booking_id']][$result['variety_id']]['quantity']+=$result['quantity'];
+            }
+            else
+            {
+                $bookings[$result['booking_id']][$result['variety_id']]=$result;
+            }
+
+        }
+        return $bookings;
     }
 
 }
