@@ -144,6 +144,8 @@ $lang['LABEL_MAX_QUANTITY'] = 'Maximum Quantity';
 $lang['LABEL_COLOR_CODE'] = 'Color Code';
 $lang['LABEL_COLOR'] = 'Color';
 
+$lang['LABEL_PICTURE_NAME'] = 'Picture name';
+
 
 
 
