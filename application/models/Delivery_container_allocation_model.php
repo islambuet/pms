@@ -217,5 +217,21 @@ class Delivery_container_allocation_model extends CI_Model
         }
         return $bookings;
     }
+    public function get_all_allocated_varieties($consignment_id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_delivery_allocation_varieties').' dav');
+        $this->db->join($CI->config->item('table_container').' container','container.id = dav.container_id','INNER');
+        $this->db->where('container.consignment_id',$consignment_id);
+        $this->db->where('revision',1);
+        $results=$CI->db->get()->result_array();
+        $varieties=array();
+        foreach($results as $result)
+        {
+            $varieties[$result['booking_id']][$result['container_id']][$result['variety_id']]=$result;
+        }
+        return $varieties;
+
+    }
 
 }
