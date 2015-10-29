@@ -149,5 +149,28 @@ jQuery(document).ready(function()
         $("#select_form").submit();
 
     });
+    $(document).on("change", ".quantity", function(event)
+    {
+        var booking_id=$(this).attr('data-booking-id');
+        var variety_id=$(this).attr('data-variety-id');
+        var quantity=$(this).val();
+        var cs_quantity=parseFloat($('#cs_quantity_'+booking_id+'_'+variety_id).val().replace(/,/g,''));
+        var other_quantity=parseFloat($('#other_quantity_'+booking_id+'_'+variety_id).val().replace(/,/g,''));
+        var remain_quantity=cs_quantity-other_quantity-quantity;
+        $("#remain_quantity_"+booking_id+'_'+variety_id).val(parseFloat(remain_quantity).toLocaleString());
+        calculate_total(variety_id);
+    })
 });
+function calculate_total(variety_id)
+{
+    var remain=parseFloat($('#total_quantity_'+variety_id).val().replace(/,/g,''));;
+    $( ".quantity" ).each( function( index, element ){
+        if(($(this).attr('data-variety-id'))==variety_id)
+        {
+            remain=remain-parseFloat($(this).val().replace(/,/g,''));
+        }
+
+    });
+    $("#total_remain_"+variety_id).val(parseFloat(remain).toLocaleString());
+}
 </script>

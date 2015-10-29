@@ -51,7 +51,8 @@ $CI = & get_instance();
                             <?php echo $variety['variety_name']; ?>
                             <input type="hidden" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][variety_id]" value="<?php echo $variety['id']; ?>">
                         </td>
-                        <td><?php echo $variety['quantity']; ?></td>
+                        <td><input type="text" id="cs_quantity_<?php echo $booking['booking_id'].'_'.$variety['id']; ?>" readonly value="<?php echo number_format($variety['quantity']); ?>"></td>
+
                         <td>
                             <?php
                             $other_quantity=0;
@@ -59,8 +60,8 @@ $CI = & get_instance();
                             {
                                 $other_quantity=$other_allocated_varieties[$booking['booking_id']][$variety['id']]['quantity'];
                             }
-                            echo number_format($other_quantity);
                             ?>
+                            <input type="text" id="other_quantity_<?php echo $booking['booking_id'].'_'.$variety['id']; ?>" readonly value="<?php echo number_format($other_quantity); ?>">
                         </td>
                         <td>
                             <?php
@@ -73,9 +74,9 @@ $CI = & get_instance();
                                 }
                                 $container_info[$variety['id']]['copy_quantity']-=$quantity;
                             ?>
-                            <input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control" value="<?php echo $quantity; ?>"/>
+                            <input type="text" data-booking-id="<?php echo $booking['booking_id'];?>" data-variety-id="<?php echo $variety['id'];?>" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control quantity" value="<?php echo $quantity; ?>"/>
                         </td>
-                        <td><?php echo number_format($variety['quantity']-$other_quantity-$quantity); ?></td>
+                        <td><input type="text" id="remain_quantity_<?php echo $booking['booking_id'].'_'.$variety['id']; ?>" readonly value="<?php echo number_format($variety['quantity']-$other_quantity-$quantity); ?>"></td>
                         <td><input type="text" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][date]" class="form-control datepicker" value="<?php {echo System_helper::display_date($time);} ?>"/></td>
 
                     </tr>
@@ -112,8 +113,8 @@ $CI = & get_instance();
                 ?>
                 <tr>
                     <td><?php echo $info['variety_name'] ?></td>
-                    <td><?php echo $info['quantity'] ?></td>
-                    <td><?php echo $info['copy_quantity'] ?></td>
+                    <td><input type="text" id="total_quantity_<?php echo $info['variety_id']; ?>" readonly value="<?php echo number_format($info['quantity']); ?>"></td>
+                    <td><input type="text" id="total_remain_<?php echo $info['variety_id']; ?>" readonly value="<?php echo number_format($info['copy_quantity']); ?>"></td>
                 </tr>
                 <?php
             }
