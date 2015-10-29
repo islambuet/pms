@@ -39,3 +39,4 @@ $config['table_quantity_color'] = 'pms_quantity_color';
 
 //delivery allocation
 $config['table_delivery_allocation_varieties'] = 'pms_delivery_allocation_varieties';
+$config['table_setup_container_opening'] = 'pms_setup_container_opening';
