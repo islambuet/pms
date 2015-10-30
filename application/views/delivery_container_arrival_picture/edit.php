@@ -20,7 +20,8 @@ $CI = & get_instance();
                     <label class="control-label pull-right"><?php echo $picture['picture_name']; ?></label>
                 </div>
                 <div class="col-xs-4">
-                    <input type="file" class="browse_button" data-preview-container="#image_<?php echo $picture['id']; ?>" name="images_<?php echo $picture['id']; ?>">
+                    <input type="file" class="browse_button" data-preview-container="#image_<?php echo $picture['id']; ?>" name="image_<?php echo $picture['id']; ?>">
+                    <input type="hidden" name="previous_image_<?php echo $picture['id']; ?>" value="<?php echo $image; ?>">
                 </div>
                 <div class="col-xs-4" id="image_<?php echo $picture['id'];?>">
                     <img style="max-width: 250px;" src="<?php echo base_url().'images/delivery/'.$image;?>">

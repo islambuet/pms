@@ -73,7 +73,7 @@ class Delivery_container_arrival_picture extends Root_Controller
         $this->db->from($this->config->item('table_setup_container_arrival'));
         $this->db->order_by('ordering ASC');
         $data['pictures']=$this->db->get()->result_array();
-        $data['container_info']=Query_helper::get_info($this->config->item('table_data_container_arrival'),'*',array('container_id ='.$container_id));
+        $data['container_info']=Query_helper::get_info($this->config->item('table_data_container_arrival'),'*',array('container_id ='.$container_id),1);
         $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_container_arrival_picture/edit",$data,true));
 
         $ajax['status']=false;
@@ -105,11 +105,55 @@ class Delivery_container_arrival_picture extends Root_Controller
         }
         else
         {
+            $container_id=$this->input->post('container_id');
             $uploaded_images = System_helper::upload_file('images/delivery');
-            echo "<pre>";
-            print_r($uploaded_images);
-            echo "</pre>";
 
+            $this->db->from($this->config->item('table_setup_container_arrival'));
+            $this->db->order_by('ordering ASC');
+            $pictures=$this->db->get()->result_array();
+            $info=array();
+            foreach($pictures as $picture)
+            {
+                if(array_key_exists('image_'.$picture['id'],$uploaded_images))
+                {
+                    $info[$picture['id']]=$uploaded_images['image_'.$picture['id']]['info']['file_name'];
+                }
+                else
+                {
+                    $info[$picture['id']]=$this->input->post('previous_image_'.$picture['id']);
+                }
+            }
+            $container_info=Query_helper::get_info($this->config->item('table_data_container_arrival'),'*',array('container_id ='.$container_id),1);
+            $time=time();
+            $data=array();
+            $data['images']=json_encode($info);
+            $data['remarks']=$this->input->post('remarks');
+            $this->db->trans_start();  //DB Transaction Handle START
+            if($container_info)
+            {
+                $data['modified_by']=$user->user_id;
+                $data['modification_date']=$time;
+                Query_helper::update($this->config->item('table_data_container_arrival'),$data,array("id = ".$container_info['id']));
+            }
+            else
+            {
+                $data['container_id']=$container_id;
+                $data['created_by'] = $user->user_id;
+                $data['creation_date'] = $time;
+                $x=Query_helper::add($this->config->item('table_data_container_arrival'),$data);
+            }
+            $this->db->trans_complete();   //DB Transaction Handle END
+            if ($this->db->trans_status() === TRUE)
+            {
+                $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
+                $this->system_edit($container_id);
+            }
+            else
+            {
+                $ajax['status']=false;
+                $ajax['system_message']=$this->lang->line("MSG_SAVED_FAIL");
+                $this->jsonReturn($ajax);
+            }
         }
     }
     private function check_validation()
