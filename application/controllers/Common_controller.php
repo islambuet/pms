@@ -100,4 +100,13 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_containers_by_consignmentid()
+    {
+        $consignment_id = $this->input->post('consignment_id');
+        $data['items']=Query_helper::get_info($this->config->item('table_container'),array('id value','container_name text'),array('consignment_id ='.$consignment_id));
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#container_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }

@@ -18,6 +18,7 @@ $config['table_container'] = 'pms_container';
 $config['table_container_varieties'] = 'pms_container_varieties';
 $config['table_variety_price'] = 'pms_variety_price';
 $config['table_setup_container_arrival'] = 'pms_setup_container_arrival';
+$config['table_setup_container_opening'] = 'pms_setup_container_opening';
 
 //location setup tables
 $config['table_zones'] = 'pms_zones';
@@ -39,4 +40,5 @@ $config['table_quantity_color'] = 'pms_quantity_color';
 
 //delivery allocation
 $config['table_delivery_allocation_varieties'] = 'pms_delivery_allocation_varieties';
-$config['table_setup_container_opening'] = 'pms_setup_container_opening';
+
+$config['table_data_container_arrival'] = 'pms_data_container_arrival';

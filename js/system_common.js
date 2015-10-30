@@ -396,6 +396,7 @@ function turn_off_triggers()
     //allocation
     $(document).off("change", "#booking_id");
     $(document).off("change", "#consignment_id");
+    $(document).off("change", "#container_id");
     $(document).off("change","#select_all");
     $(document).off("click","#load_allocation");
 
