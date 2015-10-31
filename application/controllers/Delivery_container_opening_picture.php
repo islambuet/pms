@@ -44,7 +44,7 @@ class Delivery_container_opening_picture extends Root_Controller
 
         if(isset($this->permissions['view'])&&($this->permissions['view']==1))
         {
-            $data['title']="Container Arrival Picture";
+            $data['title']="Container Opening Picture";
             $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("delivery_container_opening_picture/search",$data,true));
             if($this->message)
             {

@@ -18,7 +18,7 @@ if(isset($container_info['remarks']))
 <form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <div class="widget-header">
         <div class="title">
-            Arrival Pictures
+            Opening Pictures
         </div>
         <div class="clearfix"></div>
     </div>
