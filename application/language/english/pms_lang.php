@@ -146,6 +146,10 @@ $lang['LABEL_COLOR'] = 'Color';
 
 $lang['LABEL_PICTURE_NAME'] = 'Picture name';
 $lang['LABEL_VEHICLE_NO'] = 'Vehicle no#';
+$lang['LABEL_VEHICLE_NUMBER'] = 'Vehicle number';
+$lang['LABEL_DRIVER_NAME'] = 'Driver Name';
+$lang['LABEL_CONTACT_NO'] = 'Contact No';
+$lang['LABEL_INVOICE_NUMBER'] = 'Invoice Number';
 
 
 

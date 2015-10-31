@@ -213,5 +213,37 @@ jQuery(document).ready(function()
 
         }
     });
+    $(document).on("change","#vehicle_no",function()
+    {
+
+        $("#detail_container").html("");
+
+
+        var container_id=$('#container_id').val();
+        var booking_id=$('#booking_id').val();
+        var vehicle_no=$('#vehicle_no').val();
+        if(container_id>0&&booking_id>0&& vehicle_no>0)
+        {
+            $.ajax({
+                url: base_url+"<?php echo $CI->controller_url;?>/index/edit/",
+                type: 'POST',
+                datatype: "JSON",
+                data:{container_id:container_id,booking_id:booking_id,vehicle_no:vehicle_no},
+                success: function (data, status)
+                {
+
+                },
+                error: function (xhr, desc, err)
+                {
+                    console.log("error");
+
+                }
+            });
+        }
+        else
+        {
+
+        }
+    });
 });
 </script>

@@ -59,29 +59,33 @@ class Delivery_vehicle_loading_picture extends Root_Controller
             $this->jsonReturn($ajax);
         }
     }
-    public function system_edit($id)
+    public function system_edit()
     {
-        if(($this->input->post('container_id')))
-        {
-            $container_id=$this->input->post('container_id');
-        }
-        else
-        {
-            $container_id=$id;
-        }
-        $data['container_id']=$container_id;
-        $this->db->from($this->config->item('table_setup_container_opening'));
-        $this->db->order_by('ordering ASC');
-        $data['pictures']=$this->db->get()->result_array();
-        $data['container_info']=Query_helper::get_info($this->config->item('table_data_container_opening'),'*',array('container_id ='.$container_id),1);
-        $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_container_opening_picture/edit",$data,true));
+        $container_id=$this->input->post('container_id');
+        $booking_id=$this->input->post('booking_id');
+        $vehicle_no=$this->input->post('vehicle_no');
 
-        $ajax['status']=false;
+        $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->get_edit_view($container_id,$booking_id,$vehicle_no));
+
+        $ajax['status']=true;
         if($this->message)
         {
             $ajax['system_message']=$this->message;
         }
         $this->jsonReturn($ajax);
+    }
+    private function get_edit_view($container_id,$booking_id,$vehicle_no)
+    {
+        $this->db->from($this->config->item('table_setup_vehicle_loading'));
+        $this->db->order_by('ordering ASC');
+        $data['container_id']=$container_id;
+        $data['booking_id']=$booking_id;
+        $data['vehicle_no']=$vehicle_no;
+        $data['pictures']=$this->db->get()->result_array();
+        $data['vehicle_info']=Query_helper::get_info($this->config->item('table_data_vehicle_loading'),'*',array('container_id ='.$container_id,'booking_id ='.$booking_id,'vehicle_no ='.$vehicle_no),1);
+        return $this->load->view("delivery_vehicle_loading_picture/edit",$data,true);
+
+        //$ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_container_opening_picture/edit",$data,true));
     }
 
     public function system_save()
