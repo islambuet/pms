@@ -45,3 +45,4 @@ $config['table_delivery_allocation_varieties'] = 'pms_delivery_allocation_variet
 
 $config['table_data_container_arrival'] = 'pms_data_container_arrival';
 $config['table_data_container_opening'] = 'pms_data_container_opening';
+$config['table_data_vehicle_loading'] = 'pms_data_vehicle_loading';

@@ -145,6 +145,7 @@ $lang['LABEL_COLOR_CODE'] = 'Color Code';
 $lang['LABEL_COLOR'] = 'Color';
 
 $lang['LABEL_PICTURE_NAME'] = 'Picture name';
+$lang['LABEL_VEHICLE_NO'] = 'Vehicle no#';
 
 
 

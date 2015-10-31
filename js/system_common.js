@@ -399,5 +399,7 @@ function turn_off_triggers()
     $(document).off("change", "#container_id");
     $(document).off("change","#select_all");
     $(document).off("click","#load_allocation");
+    
+    $(document).off("change","#vehicle_no");
 
 }
