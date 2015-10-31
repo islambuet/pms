@@ -110,9 +110,11 @@ class Delivery_vehicle_loading_picture extends Root_Controller
         else
         {
             $container_id=$this->input->post('container_id');
+            $booking_id=$this->input->post('booking_id');
+            $vehicle_no=$this->input->post('vehicle_no');
             $uploaded_images = System_helper::upload_file('images/delivery');
 
-            $this->db->from($this->config->item('table_setup_container_opening'));
+            $this->db->from($this->config->item('table_setup_vehicle_loading'));
             $this->db->order_by('ordering ASC');
             $pictures=$this->db->get()->result_array();
             $info=array();
@@ -127,30 +129,35 @@ class Delivery_vehicle_loading_picture extends Root_Controller
                     $info[$picture['id']]=$this->input->post('previous_image_'.$picture['id']);
                 }
             }
-            $container_info=Query_helper::get_info($this->config->item('table_data_container_opening'),'*',array('container_id ='.$container_id),1);
+            $vehicle_info=Query_helper::get_info($this->config->item('table_data_vehicle_loading'),'*',array('container_id ='.$container_id,'booking_id ='.$booking_id,'vehicle_no ='.$vehicle_no),1);
             $time=time();
-            $data=array();
+            $data=$this->input->post('vehicle');
             $data['images']=json_encode($info);
-            $data['remarks']=$this->input->post('remarks');
+
             $this->db->trans_start();  //DB Transaction Handle START
-            if($container_info)
+            if($vehicle_info)
             {
                 $data['modified_by']=$user->user_id;
                 $data['modification_date']=$time;
-                Query_helper::update($this->config->item('table_data_container_opening'),$data,array("id = ".$container_info['id']));
+                Query_helper::update($this->config->item('table_data_vehicle_loading'),$data,array("id = ".$vehicle_info['id']));
             }
             else
             {
                 $data['container_id']=$container_id;
+                $data['booking_id']=$booking_id;
+                $data['vehicle_no']=$vehicle_no;
                 $data['created_by'] = $user->user_id;
                 $data['creation_date'] = $time;
-                $x=Query_helper::add($this->config->item('table_data_container_opening'),$data);
+                Query_helper::add($this->config->item('table_data_vehicle_loading'),$data);
             }
             $this->db->trans_complete();   //DB Transaction Handle END
             if ($this->db->trans_status() === TRUE)
             {
-                $this->message=$this->lang->line("MSG_SAVED_SUCCESS");
-                $this->system_edit($container_id);
+                $ajax['status']=true;
+                $ajax['system_message']=$this->lang->line("MSG_SAVED_SUCCESS");
+                $ajax['system_content'][]=array("id"=>"#vehicle_no","html"=>$this->get_driver_nos_view($container_id,$booking_id,$vehicle_no));
+                $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->get_edit_view($container_id,$booking_id,$vehicle_no));
+                $this->jsonReturn($ajax);
             }
             else
             {

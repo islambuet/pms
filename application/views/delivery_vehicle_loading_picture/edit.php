@@ -43,7 +43,7 @@ if(isset($vehicle_info['remarks']))
     </div>
     <div class="row show-grid">
         <div class="col-xs-4">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_DRIVER_NAME');?></label>
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CONTACT_NO');?></label>
         </div>
         <div class="col-sm-4 col-xs-8">
             <input type="text" name="vehicle[contact_no]" class="form-control" value="<?php echo isset($vehicle_info['contact_no'])?$vehicle_info['contact_no']:'' ?>"/>
