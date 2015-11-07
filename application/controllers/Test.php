@@ -9,7 +9,7 @@ class Test extends CI_Controller
     }
     public function index()
     {
-        echo md5(md5('0084'));
+        echo md5(md5('Sp2004'));
     }
 
 }

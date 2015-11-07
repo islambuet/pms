@@ -40,16 +40,6 @@ $CI->load->view("action_buttons",$action_data);
             </select>
         </div>
     </div>
-    <div class="row show-grid" style="display: none;" id="container_id_container">
-        <div class="col-xs-4">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CONTAINER_NAME');?><span style="color:#FF0000">*</span></label>
-        </div>
-        <div class="col-sm-4 col-xs-8">
-            <select id="container_id" class="form-control">
-                <option value=""><?php echo $this->lang->line('SELECT');?></option>
-            </select>
-        </div>
-    </div>
     <div class="row show-grid" style="display: none" id="booking_id_container">
         <div class="col-xs-4">
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CUSTOMER_NAME');?><span style="color:#FF0000">*</span></label>
@@ -85,10 +75,10 @@ jQuery(document).ready(function()
     {
         $("#detail_container").html("");
         $("#consignment_id").val("");
-        $("#container_id").val("");
+
         $("#booking_id").val("");
         $("#vehicle_no").val("");
-        $('#container_id_container').hide();
+
         $('#booking_id_container').hide();
         $('#vehicle_no_container').hide();
         var year=$(this).val();
@@ -114,19 +104,19 @@ jQuery(document).ready(function()
     $(document).on("change","#consignment_id",function()
     {
         $("#detail_container").html("");
-        $("#container_id").val("");
+
         $("#booking_id").val("");
         $("#vehicle_no").val("");
-        $('#container_id_container').hide();
+
         $('#booking_id_container').hide();
         $('#vehicle_no_container').hide();
 
         var consignment_id=$(this).val();
         if(consignment_id>0)
         {
-            $('#container_id_container').show();
+            $('#booking_id_container').show();
             $.ajax({
-                url: base_url+"common_controller/get_dropdown_containers_by_consignmentid/",
+                url: base_url+"<?php echo $CI->controller_url;?>/get_bookings/",
                 type: 'POST',
                 datatype: "JSON",
                 data:{consignment_id:consignment_id},
@@ -141,45 +131,8 @@ jQuery(document).ready(function()
                 }
             });
         }
-        else
-        {
-            $('#container_id_container').hide();
-        }
     });
-    $(document).on("change","#container_id",function()
-    {
 
-        $("#detail_container").html("");
-        $("#booking_id").val("");
-        $("#vehicle_no").val("");
-        $('#booking_id_container').hide();
-        $('#vehicle_no_container').hide();
-
-        var container_id=$(this).val();
-        if(container_id>0)
-        {
-            $('#booking_id_container').show();
-            $.ajax({
-                url: base_url+"<?php echo $CI->controller_url;?>/get_bookings/",
-                type: 'POST',
-                datatype: "JSON",
-                data:{container_id:container_id},
-                success: function (data, status)
-                {
-
-                },
-                error: function (xhr, desc, err)
-                {
-                    console.log("error");
-
-                }
-            });
-        }
-        else
-        {
-
-        }
-    });
     $(document).on("change","#booking_id",function()
     {
 
@@ -187,16 +140,16 @@ jQuery(document).ready(function()
         $("#vehicle_no").val("");
         $("#vehicle_no_container").hide();
 
-        var container_id=$('#container_id').val();
+        var consignment_id=$('#consignment_id').val();
         var booking_id=$('#booking_id').val();
-        if(container_id>0)
+        if(booking_id>0)
         {
             $('#vehicle_no_container').show();
             $.ajax({
                 url: base_url+"<?php echo $CI->controller_url;?>/get_driver_nos/",
                 type: 'POST',
                 datatype: "JSON",
-                data:{container_id:container_id,booking_id:booking_id},
+                data:{consignment_id:consignment_id,booking_id:booking_id},
                 success: function (data, status)
                 {
 

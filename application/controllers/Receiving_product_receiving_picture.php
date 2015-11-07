@@ -161,13 +161,15 @@ class Receiving_product_receiving_picture extends Root_Controller
 
     public function get_driver_nos()
     {
-        $container_id=$this->input->post('container_id');
+        //$container_id=$this->input->post('container_id');
+        $consignment_id=$this->input->post('consignment_id');
         $booking_id=$this->input->post('booking_id');
 
         $this->db->from($this->config->item('table_data_vehicle_loading').' dvl');
-        $this->db->where('dvl.container_id',$container_id);
+        $this->db->join($this->config->item('table_container').' container','container.id = dvl.container_id','INNER');
+        $this->db->where('container.consignment_id',$consignment_id);
         $this->db->where('dvl.booking_id',$booking_id);
-        $this->db->select('id value,vehicle_number text');
+        $this->db->select('dvl.id value,vehicle_number text');
         $data['items']=$this->db->get()->result_array();
 
         $ajax['status']=true;
@@ -176,7 +178,8 @@ class Receiving_product_receiving_picture extends Root_Controller
     }
     public function get_bookings()
     {
-        $container_id=$this->input->post('container_id');
+        //$container_id=$this->input->post('container_id');
+        $consignment_id=$this->input->post('consignment_id');
 
         $this->db->from($this->config->item('table_data_vehicle_loading').' dvl');
         $this->db->select('DISTINCT(booking_id) value',false);
@@ -185,7 +188,9 @@ class Receiving_product_receiving_picture extends Root_Controller
         $this->db->join($this->config->item('table_customers').' customer','customer.id = bookings.customer_id','INNER');
         $this->db->join($this->config->item('table_unions').' unions','unions.id = customer.union_id','INNER');
         $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
-        $this->db->where('dvl.container_id',$container_id);
+
+        $this->db->join($this->config->item('table_container').' container','container.id = dvl.container_id','INNER');
+        $this->db->where('container.consignment_id',$consignment_id);
         $data['items']=$this->db->get()->result_array();
         $ajax['status']=true;
         $ajax['system_content'][]=array("id"=>"#booking_id","html"=>$this->load->view("dropdown_with_select",$data,true));
