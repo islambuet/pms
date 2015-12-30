@@ -401,5 +401,8 @@ function turn_off_triggers()
     $(document).off("click","#load_allocation");
 
     $(document).off("change","#vehicle_no");
+    //report
+    $(document).off("change", "#booking_type");
+    $(document).off("click", "#load_report");
 
 }

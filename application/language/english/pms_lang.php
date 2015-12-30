@@ -150,6 +150,8 @@ $lang['LABEL_VEHICLE_NUMBER'] = 'Vehicle number';
 $lang['LABEL_DRIVER_NAME'] = 'Driver Name';
 $lang['LABEL_CONTACT_NO'] = 'Contact No';
 $lang['LABEL_INVOICE_NUMBER'] = 'Invoice Number';
+$lang['LABEL_BOOKING_TYPE'] = 'Booking Type';
+$lang['LABEL_VIEW_REPORT'] = 'View Report';
 
 
 
