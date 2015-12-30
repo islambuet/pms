@@ -153,6 +153,13 @@ $lang['LABEL_INVOICE_NUMBER'] = 'Invoice Number';
 $lang['LABEL_BOOKING_TYPE'] = 'Booking Type';
 $lang['LABEL_VIEW_REPORT'] = 'View Report';
 
+$lang['LABEL_SELECT_COLOR'] = 'Select color';
+$lang['LABEL_BACKGROUND_COLOR'] = 'Background color';
+$lang['LABEL_BORDER_COLOR'] = 'Border color';
+
+
+
+
 
 
 

@@ -46,7 +46,6 @@
                 <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_COLOR_CODE');?></label>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <div id="colorPicker"></div>
                 <input type="text" name="color[color_code]" id="color_code" class="form-control" value="<?php echo $color['color_code'];?>"/>
             </div>
         </div>
