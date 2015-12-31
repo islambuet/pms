@@ -71,7 +71,7 @@ $CI = & get_instance();
         </div>
 
     </div>
-    <footer>
+    <footer class="hidden-print">
         <div>
             &copy; 2014 - All Rights Reserved <a class="external" href="http://amaderit.com" target="blank">Amader IT</a>
         </div>
