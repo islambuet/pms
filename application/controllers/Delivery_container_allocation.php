@@ -77,25 +77,13 @@ class Delivery_container_allocation extends Root_Controller
 
 
             $data['title']='Allocation list';
-            /*$data['bookings']=$this->allocation_consignment_model->get_bookings($year);
-            if(!(sizeof($data['bookings'])>0))
-            {
-                $ajax['status']=false;
-                $ajax['system_message']=$this->lang->line("MSG_NO_PERMANENT_BOOKING_FOUND");
-                $this->jsonReturn($ajax);
-            }*/
-            $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
-            $data['containers']=$this->delivery_container_allocation_model->get_containers($consignment_id);
-            $data['allocated_varieties']=$this->delivery_container_allocation_model->get_all_allocated_varieties($consignment_id);
+            $data['varieties']=$this->delivery_container_allocation_model->get_varieties();
 
-            //$data['allocated_varieties']=$this->allocation_consignment_model->get_all_allocated_varieties($year);
-            /*if(!(sizeof($data['consignments'])>0))
-            {
-                $ajax['status']=false;
-                $ajax['system_message']=$this->lang->line("MSG_NO_CONSIGNMENT_FOUND");
-                $this->jsonReturn($ajax);
-            }
-            $data['colors']=Query_helper::get_info($this->config->item('table_quantity_color'),'*',array());*/
+            //$data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
+            //$data['containers']=$this->delivery_container_allocation_model->get_containers($consignment_id);
+            //$data['allocated_varieties']=$this->delivery_container_allocation_model->get_all_allocated_varieties($consignment_id);
+
+
             $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_container_allocation/list",$data,true));
 
             $ajax['status']=false;
@@ -116,16 +104,21 @@ class Delivery_container_allocation extends Root_Controller
     {
         $year=$this->input->post('year');
         $consignment_id=$this->input->post('consignment_id');
-        $container_id=$this->input->post('container_id');
+        $container_no=$this->input->post('container_no');
+        $container_variety_type=$this->input->post('container_variety_type');
+
         $data['consignment_id']=$consignment_id;
-        $data['container_id']=$container_id;
+        $data['container_no']=$container_no;
+        $data['container_variety_type']=$container_variety_type;
+        //$data['year']=$year;
+
         $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
-        $allocated_booking_ids=Query_helper::get_info($this->config->item('table_delivery_allocation_varieties'),array('booking_id'),array('revision =1','container_id ='.$container_id));
+        //$allocated_booking_ids=Query_helper::get_info($this->config->item('table_delivery_allocation_varieties'),array('booking_id'),array('revision =1','container_id ='.$container_id));
         $data['allocated_booking_ids']=array();
-        foreach($allocated_booking_ids as $id)
+        /*foreach($allocated_booking_ids as $id)
         {
             $data['allocated_booking_ids'][]=$id['booking_id'];
-        }
+        }*/
         $ajax['system_content'][]=array("id"=>"#select_container","html"=>$this->load->view("delivery_container_allocation/select_list",$data,true));
 
         $ajax['status']=true;
@@ -148,14 +141,19 @@ class Delivery_container_allocation extends Root_Controller
         else
         {
             $consignment_id=$this->input->post('consignment_id');
-            $container_id=$this->input->post('container_id');
-            $data['consignment_id']=$consignment_id;
-            $data['container_id']=$container_id;
-            $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id,$booking_ids);
-            $data['allocated_varieties']=$this->delivery_container_allocation_model->get_allocated_variety($container_id,$booking_ids);
-            $data['other_allocated_varieties']=$this->delivery_container_allocation_model->get_other_allocated_variety($container_id,$consignment_id,$booking_ids);
+            $container_no=$this->input->post('container_no');
+            $container_variety_type=$this->input->post('container_variety_type');
 
-            $data['container_info']=$this->delivery_container_allocation_model->get_container_info($container_id);
+            $data['consignment_id']=$consignment_id;
+            $data['container_no']=$container_no;
+            $data['container_variety_type']=$container_variety_type;
+
+            $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id,$booking_ids);
+
+            //$data['allocated_varieties']=$this->delivery_container_allocation_model->get_allocated_variety($container_id,$booking_ids);
+            //$data['other_allocated_varieties']=$this->delivery_container_allocation_model->get_other_allocated_variety($container_id,$consignment_id,$booking_ids);
+
+            //$data['container_info']=$this->delivery_container_allocation_model->get_container_info($container_id);
             $ajax['system_content'][]=array("id"=>"#edit_container","html"=>$this->load->view("delivery_container_allocation/edit",$data,true));
 
             $ajax['status']=true;

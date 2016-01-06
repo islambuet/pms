@@ -405,4 +405,7 @@ function turn_off_triggers()
     $(document).off("change", "#booking_type");
     $(document).off("click", "#load_report");
 
+    $(document).off("change", "#container_variety_type");
+    $(document).off("change", "#container_no");
+
 }

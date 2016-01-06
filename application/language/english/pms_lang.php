@@ -157,6 +157,9 @@ $lang['LABEL_SELECT_COLOR'] = 'Select color';
 $lang['LABEL_BACKGROUND_COLOR'] = 'Background color';
 $lang['LABEL_BORDER_COLOR'] = 'Border color';
 
+$lang['LABEL_CONTAINER_VARIETY_TYPE'] = 'Container Type';
+$lang['LABEL_CONTAINER_NO'] = 'Container No';
+
 
 
 

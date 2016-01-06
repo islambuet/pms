@@ -11,17 +11,25 @@ $CI = & get_instance();
 //print_r($allocated_varieties);
 //echo '</PRE>';
 //return;
+//echo '<PRE>';
+//print_r($bookings);
+//echo '</PRE>';
+//return;
 ?>
 
 
 
 <form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
 
-    <input type="hidden" name="consignment_id" value="<?php echo $consignment_id; ?>" />
-    <input type="hidden" name="container_id" value="<?php echo $container_id; ?>" />
+    <input type="hidden" name="consignment_id" value="<?php echo $consignment_id; ?>">
+    <input type="hidden" name="container_no" value="<?php echo $container_no; ?>">
+    <input type="hidden" name="container_variety_type" value="<?php echo $container_variety_type; ?>">
     <?php
+    $count=0;
+    $total=0;
     foreach($bookings as $booking)
     {
+
         ?>
         <div class="widget-header">
             <div class="title">
@@ -41,9 +49,11 @@ $CI = & get_instance();
             </tr>
             <tbody>
             <?php
+
             foreach($booking['varieties'] as $variety)
             {
-                if(array_key_exists($variety['id'],$container_info))
+                //if(array_key_exists($variety['id'],$container_info))
+                if($variety['id']==$container_variety_type)
                 {
                 ?>
                     <tr>
@@ -72,7 +82,8 @@ $CI = & get_instance();
                                     $quantity=$allocated_varieties[$booking['booking_id']][$variety['id']]['quantity'];
                                     $time=$allocated_varieties[$booking['booking_id']][$variety['id']]['date'];
                                 }
-                                $container_info[$variety['id']]['copy_quantity']-=$quantity;
+                                $total+=$quantity;
+                                //$container_info[$variety['id']]['copy_quantity']-=$quantity;
                             ?>
                             <input type="text" data-booking-id="<?php echo $booking['booking_id'];?>" data-variety-id="<?php echo $variety['id'];?>" name="allocated_varieties[<?php echo $booking['booking_id'];?>][<?php echo $variety['id'];?>][quantity]" class="form-control quantity" value="<?php echo $quantity; ?>"/>
                         </td>
@@ -83,6 +94,16 @@ $CI = & get_instance();
                 <?php
                 }
             }
+            $count++;
+            if($count==sizeof($bookings))
+            {
+                ?>
+                <tr>
+                    <td colspan="3" class="text-right">Total Allocated Quantity</td>
+                    <td><input type="text" id="total_allocated" disabled class="form-control" value="<?php echo number_format($total); ?>"></td>
+                </tr>
+                <?php
+            }
             ?>
             </tbody>
             </thead>
@@ -92,35 +113,35 @@ $CI = & get_instance();
     }
 
         ?>
-        <div class="widget-header">
-            <div class="title">
-                Remaining
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Variety</th>
-            <th>Quantity</th>
-            <th>Remaining Quantity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-            foreach($container_info as $info)
-            {
-                ?>
-                <tr>
-                    <td><?php echo $info['variety_name'] ?></td>
-                    <td><input type="text" id="total_quantity_<?php echo $info['variety_id']; ?>" disabled value="<?php echo number_format($info['quantity']); ?>"></td>
-                    <td><input type="text" id="total_remain_<?php echo $info['variety_id']; ?>" disabled value="<?php echo number_format($info['copy_quantity']); ?>"></td>
-                </tr>
-                <?php
-            }
-        ?>
-        </tbody>
-    </table>
+<!--        <div class="widget-header">-->
+<!--            <div class="title">-->
+<!--                Remaining-->
+<!--            </div>-->
+<!--            <div class="clearfix"></div>-->
+<!--        </div>-->
+<!--    <table class="table table-bordered">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Variety</th>-->
+<!--            <th>Quantity</th>-->
+<!--            <th>Remaining Quantity</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        --><?php
+//            foreach($container_info as $info)
+//            {
+//                ?>
+<!--                <tr>-->
+<!--                    <td>--><?php //echo $info['variety_name'] ?><!--</td>-->
+<!--                    <td><input type="text" id="total_quantity_--><?php //echo $info['variety_id']; ?><!--" disabled value="--><?php //echo number_format($info['quantity']); ?><!--"></td>-->
+<!--                    <td><input type="text" id="total_remain_--><?php //echo $info['variety_id']; ?><!--" disabled value="--><?php //echo number_format($info['copy_quantity']); ?><!--"></td>-->
+<!--                </tr>-->
+<!--                --><?php
+//            }
+//        ?>
+<!--        </tbody>-->
+<!--    </table>-->
 
 
 

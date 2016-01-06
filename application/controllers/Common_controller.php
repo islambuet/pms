@@ -109,4 +109,25 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_container_nos_by_consignments_year()
+    {
+        $consignment_id = $this->input->post('consignment_id');
+        $container_variety_type = $this->input->post('container_variety_type');
+        $this->db->from($this->config->item('table_container_varieties').' cv');
+        $this->db->join($this->config->item('table_container').' container','container.id = cv.container_id','INNER');
+        $this->db->where('cv.variety_id',$container_variety_type);
+        $this->db->where('container.consignment_id',$consignment_id);
+        $this->db->where('cv.revision',1);
+        $total=$this->db->count_all_results();
+
+        $data['items']=array();
+        for($i=1;$i<=$total;$i++)
+        {
+            $data['items'][]=array('value'=>$i,'text'=>$i);
+        }
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#container_no","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }

@@ -105,20 +105,48 @@ jQuery(document).ready(function()
             });
         }
     });
-    $(document).on("change","#container_id",function()
+    $(document).on("change","#container_variety_type",function()
+    {
+        $("#edit_container").html("");
+        $("#select_container").html("");
+        $("#container_no").val("");
+        var consignment_id=$('#consignment_id').val();
+        var container_variety_type=$('#container_variety_type').val();
+        if(container_variety_type>0)
+        {
+            $.ajax({
+                url: base_url+"common_controller/get_dropdown_container_nos_by_consignments_year/",
+                type: 'POST',
+                datatype: "JSON",
+                data:{consignment_id:consignment_id,container_variety_type:container_variety_type},
+                success: function (data, status)
+                {
+
+                },
+                error: function (xhr, desc, err)
+                {
+                    console.log("error");
+
+                }
+            });
+        }
+    });
+
+    $(document).on("change","#container_no",function()
     {
         $("#edit_container").html("");
         $("#select_container").html("");
         var year=$('#year').val();
         var consignment_id=$('#consignment_id').val();
-        var container_id=$('#container_id').val();
-        if(container_id>0)
+        var container_no=$('#container_no').val();
+        var container_variety_type=$('#container_variety_type').val();
+        if(container_no>0)
         {
             $.ajax({
                 url: base_url+"<?php echo $CI->controller_url;?>/index/select_list/",
                 type: 'POST',
                 datatype: "JSON",
-                data:{year:year,consignment_id:consignment_id,container_id:container_id},
+                data:{year:year,consignment_id:consignment_id,container_no:container_no,container_variety_type:container_variety_type},
                 success: function (data, status)
                 {
 
@@ -159,18 +187,20 @@ jQuery(document).ready(function()
         var remain_quantity=cs_quantity-other_quantity-quantity;
         $("#remain_quantity_"+booking_id+'_'+variety_id).val(parseFloat(remain_quantity).toLocaleString());
         calculate_total(variety_id);
-    })
+    });
 });
 function calculate_total(variety_id)
 {
-    var remain=parseFloat($('#total_quantity_'+variety_id).val().replace(/,/g,''));;
+    var total=0;
     $( ".quantity" ).each( function( index, element ){
         if(($(this).attr('data-variety-id'))==variety_id)
         {
-            remain=remain-parseFloat($(this).val().replace(/,/g,''));
+            total=total+parseFloat($(this).val().replace(/,/g,''));
         }
 
     });
-    $("#total_remain_"+variety_id).val(parseFloat(remain).toLocaleString());
+    //$("#total_remain_"+variety_id).val(parseFloat(remain).toLocaleString());
+    $("#total_allocated").val(parseFloat(total).toLocaleString());
+    //console.log(total);
 }
 </script>

@@ -7,22 +7,31 @@ $CI = & get_instance();
 ?>
 <div class="row show-grid">
     <div class="col-xs-4">
-        <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CONTAINER_NAME');?><span style="color:#FF0000">*</span></label>
+        <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CONTAINER_VARIETY_TYPE');?><span style="color:#FF0000">*</span></label>
     </div>
     <div class="col-xs-4">
-        <select id="container_id" class="form-control">
+        <select id="container_variety_type" class="form-control">
             <option value=""><?php echo $this->lang->line('SELECT');?></option>
             <?php
-            foreach($containers as $container)
+            foreach($varieties as $variety)
             {?>
-                <option value="<?php echo $container['container_id']?>"><?php echo $container['container_name'];?></option>
+                <option value="<?php echo $variety['id']?>"><?php echo $variety['variety_name'];?></option>
             <?php
             }
             ?>
         </select>
     </div>
 </div>
-
+<div class="row show-grid">
+    <div class="col-xs-4">
+        <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CONTAINER_NO');?><span style="color:#FF0000">*</span></label>
+    </div>
+    <div class="col-xs-4">
+        <select id="container_no" class="form-control">
+            <option value=""><?php echo $this->lang->line('SELECT');?></option>
+        </select>
+    </div>
+</div>
 <div id="select_container">
 
 </div>
@@ -35,6 +44,7 @@ $CI = & get_instance();
         </div>
         <div class="clearfix"></div>
     </div>
+<?php return; ?>
     <div class="row show-grid">
         <div class="col-xs-12" style="overflow-x: auto">
             <table class="table table-hover table-bordered" >
