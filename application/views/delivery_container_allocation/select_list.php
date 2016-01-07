@@ -7,6 +7,7 @@ $CI = & get_instance();
     </div>
 </div>
 <form class="form_valid" id="select_form" action="<?php echo site_url($CI->controller_url.'/index/edit');?>" method="post">
+    <input type="hidden" name="year" value="<?php echo $year; ?>">
     <input type="hidden" name="consignment_id" value="<?php echo $consignment_id; ?>">
     <input type="hidden" name="container_no" value="<?php echo $container_no; ?>">
     <input type="hidden" name="container_variety_type" value="<?php echo $container_variety_type; ?>">

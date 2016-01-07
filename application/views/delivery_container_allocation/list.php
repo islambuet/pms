@@ -15,7 +15,7 @@ $CI = & get_instance();
             <?php
             foreach($varieties as $variety)
             {?>
-                <option value="<?php echo $variety['id']?>"><?php echo $variety['variety_name'];?></option>
+                <option value="<?php echo $variety['id']?>"><?php echo $variety['text'];?></option>
             <?php
             }
             ?>

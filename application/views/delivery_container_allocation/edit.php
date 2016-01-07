@@ -111,40 +111,7 @@ $CI = & get_instance();
         </table>
         <?php
     }
-
-        ?>
-<!--        <div class="widget-header">-->
-<!--            <div class="title">-->
-<!--                Remaining-->
-<!--            </div>-->
-<!--            <div class="clearfix"></div>-->
-<!--        </div>-->
-<!--    <table class="table table-bordered">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Variety</th>-->
-<!--            <th>Quantity</th>-->
-<!--            <th>Remaining Quantity</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        --><?php
-//            foreach($container_info as $info)
-//            {
-//                ?>
-<!--                <tr>-->
-<!--                    <td>--><?php //echo $info['variety_name'] ?><!--</td>-->
-<!--                    <td><input type="text" id="total_quantity_--><?php //echo $info['variety_id']; ?><!--" disabled value="--><?php //echo number_format($info['quantity']); ?><!--"></td>-->
-<!--                    <td><input type="text" id="total_remain_--><?php //echo $info['variety_id']; ?><!--" disabled value="--><?php //echo number_format($info['copy_quantity']); ?><!--"></td>-->
-<!--                </tr>-->
-<!--                --><?php
-//            }
-//        ?>
-<!--        </tbody>-->
-<!--    </table>-->
-
-
-
+    ?>
 </form>
 
 <script type="text/javascript">
