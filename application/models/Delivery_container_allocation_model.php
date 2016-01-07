@@ -9,67 +9,7 @@ class Delivery_container_allocation_model extends CI_Model
     public function __construct() {
         parent::__construct();
     }
-    /*public function get_containers($consignment_id)
-    {
-        $CI =& get_instance();
-
-
-        $this->db->from($CI->config->item('table_container_varieties').' container_varieties');
-        $this->db->select('container_varieties.variety_id variety_id,container_varieties.quantity');
-
-
-        $this->db->select('container.id container_id,container.container_name');
-
-        $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,")") variety_name',false);
-
-        $this->db->join($CI->config->item('table_container').' container','container.id = container_varieties.container_id','INNER');
-
-
-        $this->db->join($CI->config->item('table_varieties').' varieties','varieties.id = container_varieties.variety_id','INNER');
-        $this->db->join($CI->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
-        $this->db->join($CI->config->item('table_types').' types','types.id =stypes.type_id','INNER');
-        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
-
-        $this->db->where('container_varieties.revision',1);
-        $this->db->where('container.consignment_id',$consignment_id);
-
-        $this->db->order_by('container.id ASC');
-        $this->db->order_by('container_varieties.variety_id ASC');
-        $results=$CI->db->get()->result_array();
-        $containers=array();
-
-        foreach($results as $result)
-        {
-
-            if(!isset($containers[$result['container_id']]))
-            {
-                $info=array();
-                $info['container_id']=$result['container_id'];
-                $info['container_name']=$result['container_name'];
-
-                $containers[$result['container_id']]=$info;
-            }
-            if(isset($containers[$result['container_id']]['varieties'][$result['variety_id']]['id']))
-            {
-                $containers[$result['container_id']]['varieties'][$result['variety_id']]['quantity']+=$result['quantity'];
-                $containers[$result['container_id']]['varieties'][$result['variety_id']]['copy_quantity']=$containers[$result['container_id']]['varieties'][$result['variety_id']]['quantity'];
-
-            }
-            else
-            {
-                $containers[$result['container_id']]['varieties'][$result['variety_id']]['id']=$result['variety_id'];
-                $containers[$result['container_id']]['varieties'][$result['variety_id']]['variety_name']=$result['variety_name'];
-                $containers[$result['container_id']]['varieties'][$result['variety_id']]['quantity']=$result['quantity'];
-                $containers[$result['container_id']]['varieties'][$result['variety_id']]['copy_quantity']=$result['quantity'];
-            }
-
-
-        }
-
-        //$containers=$results;
-        return $containers;
-
-    }
+    /*
 
 
     public function get_container_info($container_id)
@@ -132,22 +72,7 @@ class Delivery_container_allocation_model extends CI_Model
         }
         return $bookings;
     }
-    public function get_all_allocated_varieties($consignment_id)
-    {
-        $CI =& get_instance();
-        $this->db->from($CI->config->item('table_delivery_allocation_varieties').' dav');
-        $this->db->join($CI->config->item('table_container').' container','container.id = dav.container_id','INNER');
-        $this->db->where('container.consignment_id',$consignment_id);
-        $this->db->where('revision',1);
-        $results=$CI->db->get()->result_array();
-        $varieties=array();
-        foreach($results as $result)
-        {
-            $varieties[$result['booking_id']][$result['container_id']][$result['variety_id']]=$result;
-        }
-        return $varieties;
-
-    }*/
+    */
     /*public function get_varieties()
     {
         //$this->db->from($this->config->item('table_skin_types').' stypes');
@@ -282,6 +207,69 @@ class Delivery_container_allocation_model extends CI_Model
 
         }
         return $bookings;
+    }
+    public function get_container_counts($consignment_id)
+    {
+        $CI =& get_instance();
+
+
+        $this->db->from($CI->config->item('table_container_varieties').' container_varieties');
+        $this->db->select('container_varieties.variety_id variety_id,container_varieties.quantity');
+
+
+        //$this->db->select('container.id container_id,container.container_name');
+        $this->db->select('COUNT(container.id) total_container',false);
+
+        $this->db->select('CONCAT(varieties.variety_name,"(",classifications.classification_name,")") variety_name',false);
+
+        $this->db->join($CI->config->item('table_container').' container','container.id = container_varieties.container_id','INNER');
+
+
+        $this->db->join($CI->config->item('table_varieties').' varieties','varieties.id = container_varieties.variety_id','INNER');
+        $this->db->join($CI->config->item('table_skin_types').' stypes','stypes.id =varieties.skin_type_id','INNER');
+        $this->db->join($CI->config->item('table_types').' types','types.id =stypes.type_id','INNER');
+        $this->db->join($CI->config->item('table_classifications').' classifications','classifications.id = types.classification_id','INNER');
+
+
+        $this->db->where('container.consignment_id',$consignment_id);
+        $this->db->where('container_varieties.revision',1);
+        $this->db->group_by('container_varieties.variety_id');
+        $this->db->order_by('varieties.ordering');
+        $results=$this->db->get()->result_array();
+
+        $containers=array();
+
+        foreach($results as $result)
+        {
+            for($i=1;$i<=$result['total_container'];$i++)
+            {
+                $info=array();
+                $info['variety_id']=$result['variety_id'];
+                $info['quantity']=$result['quantity'];
+                $info['variety_name']=$result['variety_name'];
+                $info['total_quantity']=0;
+                $containers[$result['variety_id']][$i]=$info;
+            }
+        }
+
+        //$containers=$results;
+        return $containers;
+
+    }
+    public function get_all_allocated_varieties($consignment_id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_delivery_allocation_varieties').' dav');
+        $this->db->where('dav.consignment_id',$consignment_id);
+        $this->db->where('revision',1);
+        $results=$CI->db->get()->result_array();
+        $varieties=array();
+        foreach($results as $result)
+        {
+            $varieties[$result['booking_id']][$result['variety_id']][$result['container_no']]=$result;
+        }
+        return $varieties;
+
     }
 
 }

@@ -3,6 +3,14 @@ $CI = & get_instance();
 //echo "<pre>";
 //print_r($containers);
 //echo "</pre>";
+//
+//echo "<pre>";
+//print_r($allocated_varieties);
+//echo "</pre>";
+//
+//echo "<pre>";
+//print_r($bookings);
+//echo "</pre>";
 
 ?>
 <div class="row show-grid">
@@ -44,24 +52,10 @@ $CI = & get_instance();
         </div>
         <div class="clearfix"></div>
     </div>
-<?php return; ?>
     <div class="row show-grid">
         <div class="col-xs-12" style="overflow-x: auto">
             <table class="table table-hover table-bordered" >
                 <thead>
-                <tr id="header_tr">
-                    <th id="header_cs" colspan="3"></th>
-
-                    <?php
-                    foreach($containers as $container)
-                    {
-                        ?>
-                        <th colspan="2"><?php echo $container['container_name']; ?></th>
-                    <?php
-                    }
-                    ?>
-                    <th colspan="2"></th>
-                </tr>
                 <tr>
                     <th>Customer</th>
                     <th>Variety</th>
@@ -70,26 +64,22 @@ $CI = & get_instance();
                     <?php
                     foreach($containers as $container)
                     {
-                        $text_variety='';
-                        $text_quantity='';
-                        foreach($container['varieties'] as $variety)
+                        foreach($container as $container_no=>$c)
                         {
-                            $text_variety.=$variety['variety_name']."<br>";
-                            $text_quantity.=number_format($variety['quantity'])."<br>";
-                        }
+                            //.$c['quantity']
                         ?>
-                        <th id="header_<?php echo  $container['container_id']*2;?>"><?php echo $text_variety; ?></th>
-                        <th id="header_<?php echo  $container['container_id']*2+1; ?>"><?php echo $text_quantity; ?></th>
-                    <?php
+                            <th class="text-center"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></th>
+                        <?php
+                        }
                     }
                     ?>
-                    <th id="header_rv">RV</th>
-                    <th id="header_rq">RQ</th>
+                    <th>RV</th>
+                    <th>RQ</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                foreach($bookings as &$booking)
+                foreach($bookings as $booking_id=>$booking)
                 {
                     /*echo '<PRE>';
                     print_r($booking);
@@ -97,16 +87,11 @@ $CI = & get_instance();
                     $customer_info=$booking['customer_name'];
                     $text_variety='';
                     $text_quantity='';
-                    $max_variety_quantity=0;
-                    foreach($booking['varieties'] as $variety)
+                    foreach($bookings[$booking_id]['varieties'] as $variety)
                     {
                         //$customer_info.=$variety['variety_name'].'-'.number_format($variety['quantity'])."<br>";
                         $text_variety.=$variety['variety_name']."<br>";
                         $text_quantity.=number_format($variety['quantity'])."<br>";
-                        if($variety['quantity']>$max_variety_quantity)
-                        {
-                            $max_variety_quantity=$variety['quantity'];
-                        }
                     }
                     ?>
                     <tr>
@@ -114,35 +99,26 @@ $CI = & get_instance();
                         <td><?php echo $text_variety;?></td>
                         <td><?php echo $text_quantity;?></td>
                         <?php
-                        foreach($containers as &$con)
+                        foreach($containers as $variety_id=>$container)
                         {
-                            $text_variety='';
-                            $text_quantity='';
-
-                            foreach($con['varieties'] as $variety)
+                            foreach($container as $container_no=>$c)
                             {
-                                if(isset($allocated_varieties[$booking['booking_id']][$con['container_id']][$variety['id']]['quantity']))
+                                $text_quantity='0';
+                                if(isset($allocated_varieties[$booking['booking_id']][$variety_id][$container_no]['quantity']))
                                 {
-                                    $text_variety.=$variety['variety_name']."<br>";
-                                    $text_quantity.=number_format($allocated_varieties[$booking['booking_id']][$con['container_id']][$variety['id']]['quantity'])."<br>";
-                                    $booking['varieties'][$variety['id']]['copy_quantity']-=$allocated_varieties[$booking['booking_id']][$con['container_id']][$variety['id']]['quantity'];
-                                    $con['varieties'][$variety['id']]['copy_quantity']-=$allocated_varieties[$booking['booking_id']][$con['container_id']][$variety['id']]['quantity'];
+                                    $quantity=$allocated_varieties[$booking['booking_id']][$variety_id][$container_no]['quantity'];
+                                    $text_quantity=number_format($quantity);
+                                    $bookings[$booking_id]['varieties'][$variety_id]['copy_quantity']-=$quantity;
+                                    $containers[$variety_id][$container_no]['total_quantity']+=$quantity;
                                 }
-                                else
-                                {
-                                    $text_variety.=$variety['variety_name']."<br>";
-                                    $text_quantity.='0'."<br>";
-                                }
-                                //$con['varieties'][$variety['id']]['copy_quantity']=0;
+                                ?>
+                                <td class="text-center"><?php echo $text_quantity; ?></td>
+                            <?php
                             }
-                            ?>
-                            <td><?php echo $text_variety; ?></td>
-                            <td><?php echo $text_quantity; ?></td>
-                        <?php
                         }
                         $text_variety='';
                         $text_quantity='';
-                        foreach($booking['varieties'] as $variety)
+                        foreach($bookings[$booking_id]['varieties'] as $variety)
                         {
                             $text_variety.=$variety['variety_name']."<br>";
                             $text_quantity.=number_format($variety['copy_quantity'])."<br>";
@@ -154,10 +130,20 @@ $CI = & get_instance();
                 <?php
                 }
                 ?>
-                <tr id="bottom_tr">
-                    <td class="bottom" data-consignment-id="cs" colspan="3"></td>
+                <tr>
+                    <td colspan="3"></td>
                     <?php
-                    foreach($containers as $container)
+                    foreach($containers as $variety_id=>$container)
+                    {
+                        foreach($container as $container_no=>$c)
+                        {
+                            $text_quantity=number_format($c['total_quantity']);
+                            ?>
+                            <td class="text-center"><?php echo $text_quantity; ?></td>
+                        <?php
+                        }
+                    }
+                    /*foreach($containers as $container)
                     {
                         $text_variety='';
                         $text_quantity='';
@@ -171,7 +157,7 @@ $CI = & get_instance();
                         <td class="bottom" data-consignment-id="<?php echo $container['container_id']*2;?>"><?php echo($text_variety); ?></td>
                         <td class="bottom" data-consignment-id="<?php echo $container['container_id']*2+1; ?>"><?php echo($text_quantity); ?></td>
                     <?php
-                    }
+                    }*/
                     ?>
                     <td class="bottom" data-consignment-id="rv"></td>
                     <td class="bottom" data-consignment-id="rq"></td>
@@ -180,10 +166,3 @@ $CI = & get_instance();
             </table>
         </div>
     </div>
-<script type="text/javascript">
-
-    jQuery(document).ready(function()
-    {
-
-    });
-</script>
