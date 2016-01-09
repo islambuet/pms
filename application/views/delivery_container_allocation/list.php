@@ -53,7 +53,7 @@ $CI = & get_instance();
         <div class="clearfix"></div>
     </div>
     <div class="row show-grid">
-        <div class="col-xs-12" style="overflow-x: auto">
+        <div id="data_div" class="col-xs-12" style="overflow-x: auto">
             <table class="table table-hover table-bordered" >
                 <thead>
                 <tr>
@@ -130,39 +130,66 @@ $CI = & get_instance();
                 <?php
                 }
                 ?>
-                <tr>
-                    <td colspan="3"></td>
-                    <?php
-                    foreach($containers as $variety_id=>$container)
-                    {
-                        foreach($container as $container_no=>$c)
-                        {
-                            $text_quantity=number_format($c['total_quantity']);
-                            ?>
-                            <td class="text-center"><?php echo $text_quantity; ?></td>
-                        <?php
-                        }
-                    }
-                    /*foreach($containers as $container)
-                    {
-                        $text_variety='';
-                        $text_quantity='';
-                        //$text=$consignment;
-                        foreach($container['varieties'] as $variety)
-                        {
-                            $text_variety.=$variety['variety_name']."<br>";
-                            $text_quantity.=number_format($variety['copy_quantity'])."<br>";
-                        }
-                        ?>
-                        <td class="bottom" data-consignment-id="<?php echo $container['container_id']*2;?>"><?php echo($text_variety); ?></td>
-                        <td class="bottom" data-consignment-id="<?php echo $container['container_id']*2+1; ?>"><?php echo($text_quantity); ?></td>
-                    <?php
-                    }*/
-                    ?>
-                    <td class="bottom" data-consignment-id="rv"></td>
-                    <td class="bottom" data-consignment-id="rq"></td>
-                </tr>
                 </tbody>
             </table>
         </div>
     </div>
+<div id="scroll_div" class="col-xs-12" style="overflow-x: auto;position: fixed;bottom: 10px;background-color: #0daed3" >
+    <table class="table table-hover table-bordered" style="margin-bottom: 0;" >
+        <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+
+            <?php
+            foreach($containers as $container)
+            {
+                foreach($container as $container_no=>$c)
+                {
+                    //.$c['quantity']
+                    ?>
+                    <th class="text-center"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></th>
+                <?php
+                }
+            }
+            ?>
+            <th>RV</th>
+            <th>RQ</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3"></td>
+                <?php
+                foreach($containers as $variety_id=>$container)
+                {
+                    foreach($container as $container_no=>$c)
+                    {
+                        $text_quantity=number_format($c['total_quantity']);
+                        ?>
+                        <td class="text-center"><?php echo $text_quantity; ?></td>
+                    <?php
+                    }
+                }
+                ?>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+
+    jQuery(document).ready(function()
+    {
+        /*$("#scroll_div").outerWidth($('#data_div').width());
+        console.log('hi');
+        $('#data_div table th').each(function( index )
+        {
+            console.log(index+" "+$(this).width());
+
+        });*/
+
+    });
+</script>
