@@ -42,11 +42,11 @@ function get_color($colors,$quantity)
         <div class="clearfix"></div>
     </div>
     <div class="row show-grid">
-        <div class="col-xs-12" style="overflow-x: auto">
-            <table class="table table-hover table-bordered" >
+        <div id="data_div" class="col-xs-12" style="overflow: hidden;margin-bottom: 100px;">
+            <table class="table table-bordered" >
                 <thead>
-                    <tr id="header_tr">
-                        <th id="header_cs" colspan="3"></th>
+                    <tr>
+                        <th colspan="3"></th>
 
                         <?php
                         foreach($consignments as $consignment)
@@ -57,11 +57,12 @@ function get_color($colors,$quantity)
                         }
                         ?>
                         <th></th>
+                        <th></th>
                     </tr>
                     <tr>
-                        <th>Customer</th>
-                        <th>Variety</th>
-                        <th>EQ</th>
+                        <th><div class="header_div">Customer</div></th>
+                        <th><div class="header_div">Variety</div></th>
+                        <th><div class="header_div">EQ</div></th>
 
                         <?php
                         foreach($consignments as $consignment)
@@ -74,13 +75,13 @@ function get_color($colors,$quantity)
                                 $text_quantity.=number_format($variety['quantity'])."<br>";
                             }
                             ?>
-                            <th id="header_<?php echo  $consignment['consignment_id']*2;?>"><?php echo $text_variety; ?></th>
-                            <th id="header_<?php echo  $consignment['consignment_id']*2+1; ?>"><?php echo $text_quantity; ?></th>
+                            <th><div class="header_div"><?php echo $text_variety; ?></div></th>
+                            <th><div class="header_div"><?php echo $text_quantity; ?></div></th>
                         <?php
                         }
                         ?>
-                        <th id="header_rv">RV</th>
-                        <th id="header_rq">RQ</th>
+                        <th><div class="header_div">RV</div></th>
+                        <th><div class="header_div">RQ</div></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -150,37 +151,60 @@ function get_color($colors,$quantity)
                     <?php
                 }
                 ?>
-                <tr id="bottom_tr" style="position: fixed;bottom: 0px;">
-                    <td class="bottom" data-consignment-id="cs" colspan="3"></td>
-                    <?php
-                    foreach($consignments as $consignment)
-                    {
-                        $text_variety='';
-                        $text_quantity='';
-                        //$text=$consignment;
-                        foreach($consignment['varieties'] as $variety)
-                        {
-                            $text_variety.=$variety['variety_name']."<br>";
-                            $text_quantity.=number_format($variety['copy_quantity'])."<br>";
-                        }
-                        ?>
-                        <td class="bottom" data-consignment-id="<?php echo $consignment['consignment_id']*2;?>"><?php echo($text_variety); ?></td>
-                        <td class="bottom" data-consignment-id="<?php echo $consignment['consignment_id']*2+1; ?>"><?php echo($text_quantity); ?></td>
-                    <?php
-                    }
-                    ?>
-                    <td class="bottom" data-consignment-id="rv"></td>
-                    <td class="bottom" data-consignment-id="rq"></td>
-                </tr>
                 </tbody>
             </table>
         </div>
     </div>
+<div id="scroll_div" class="col-xs-12" style="overflow-x: auto;position: fixed;bottom: 10px;background-color: #0daed3" >
+    <table class="table table-bordered" style="margin-bottom: 0;" >
+        <tbody>
+
+        <tr>
+            <td><div class="footer_div"> &nbsp;</div></td>
+            <td><div class="footer_div"> &nbsp;</div></td>
+            <td><div class="footer_div"> &nbsp;</div></td>
+            <?php
+            foreach($consignments as $consignment)
+            {
+                $text_variety='';
+                $text_quantity='';
+                //$text=$consignment;
+                foreach($consignment['varieties'] as $variety)
+                {
+                    $text_variety.=$variety['variety_name']."<br>";
+                    $text_quantity.=number_format($variety['copy_quantity'])."<br>";
+                }
+                ?>
+                <td><div class="footer_div"><?php echo($text_variety); ?></div></td>
+                <td><div class="footer_div"><?php echo($text_quantity); ?></div></td>
+            <?php
+            }
+            ?>
+            <td><div class="footer_div"> &nbsp;</div></td>
+            <td><div class="footer_div"> &nbsp;</div></td>
+        </tr>
+        <tr style="background-color: #0daed3;">
+            <td colspan="3"></td>
+
+            <?php
+            foreach($consignments as $consignment)
+            {
+                ?>
+                <td colspan="2"><?php echo $consignment['consignment_name'].'<br>'.System_helper::display_date($consignment['expected_receive_date']); ?></td>
+            <?php
+            }
+            ?>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <script type="text/javascript">
 
     jQuery(document).ready(function()
     {
-        $("#bottom_tr").outerWidth($('#header_tr').width());
+        /*$("#bottom_tr").outerWidth($('#header_tr').width());
 
         $( ".bottom" ).each(function( index )
         {
@@ -189,6 +213,17 @@ function get_color($colors,$quantity)
             var width=header.width();
             $(this).outerWidth(width);
 
+        });*/
+        $("#scroll_div").width($("#data_div").width());
+        var footer_divs=$(".footer_div");
+        $(".header_div").each( function( index)
+        {
+            var width=$(this).width();
+            $(footer_divs[index]).width(width)
+        });
+        $("#scroll_div").scroll(function()
+        {
+            $("#data_div").scrollLeft($("#scroll_div").scrollLeft());
         });
 
     });

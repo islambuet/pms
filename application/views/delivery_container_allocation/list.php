@@ -192,7 +192,6 @@ $CI = & get_instance();
         });
         $("#scroll_div").scroll(function()
         {
-            console.log('hi1');
             $("#data_div").scrollLeft($("#scroll_div").scrollLeft());
         });
         /*$("#data_div").scroll(function()
