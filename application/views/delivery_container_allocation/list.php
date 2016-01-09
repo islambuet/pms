@@ -53,13 +53,13 @@ $CI = & get_instance();
         <div class="clearfix"></div>
     </div>
     <div class="row show-grid">
-        <div id="data_div" class="col-xs-12" style="overflow-x: auto">
+        <div id="data_div" class="col-xs-12" style="overflow: hidden">
             <table class="table table-hover table-bordered" >
                 <thead>
                 <tr>
-                    <th>Customer</th>
-                    <th>Variety</th>
-                    <th>EQ</th>
+                    <th><div class="header_div">Customer</div></th>
+                    <th><div class="header_div">Variety</div></th>
+                    <th><div class="header_div">EQ</div></th>
 
                     <?php
                     foreach($containers as $container)
@@ -68,13 +68,13 @@ $CI = & get_instance();
                         {
                             //.$c['quantity']
                         ?>
-                            <th class="text-center"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></th>
+                            <th class="text-center"><div class="header_div"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></div></th>
                         <?php
                         }
                     }
                     ?>
-                    <th>RV</th>
-                    <th>RQ</th>
+                    <th><div class="header_div">RV</div></th>
+                    <th><div class="header_div">RQ</div></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -138,9 +138,9 @@ $CI = & get_instance();
     <table class="table table-hover table-bordered" style="margin-bottom: 0;" >
         <thead>
         <tr>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
+            <th><div class="footer_div"> &nbsp;</div></th>
+            <th><div class="footer_div"> &nbsp;</div></th>
+            <th><div class="footer_div"> &nbsp;</div></th>
 
             <?php
             foreach($containers as $container)
@@ -149,7 +149,7 @@ $CI = & get_instance();
                 {
                     //.$c['quantity']
                     ?>
-                    <th class="text-center"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></th>
+                    <th class="text-center"><div class="footer_div"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></div></th>
                 <?php
                 }
             }
@@ -173,8 +173,8 @@ $CI = & get_instance();
                     }
                 }
                 ?>
-                <td></td>
-                <td></td>
+                <th><div class="footer_div"> &nbsp;</div></th>
+                <th><div class="footer_div"> &nbsp;</div></th>
             </tr>
         </tbody>
     </table>
@@ -183,12 +183,22 @@ $CI = & get_instance();
 
     jQuery(document).ready(function()
     {
-        /*$("#scroll_div").outerWidth($('#data_div').width());
-        console.log('hi');
-        $('#data_div table th').each(function( index )
+        $("#scroll_div").width($("#data_div").width());
+        var footer_divs=$(".footer_div");
+        $(".header_div").each( function( index)
         {
-            console.log(index+" "+$(this).width());
-
+            var width=$(this).width();
+            $(footer_divs[index]).width(width)
+        });
+        $("#scroll_div").scroll(function()
+        {
+            console.log('hi1');
+            $("#data_div").scrollLeft($("#scroll_div").scrollLeft());
+        });
+        /*$("#data_div").scroll(function()
+        {
+            console.log('hi2');
+            $("#scroll_div").scrollLeft($("#data_div").scrollLeft());
         });*/
 
     });
