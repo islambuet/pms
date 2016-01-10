@@ -13,9 +13,9 @@ $CI = & get_instance();
 //return;
 ?>
 <div class="col-xs-12">
-    <div class="row" style="background-color: <?php echo $setup_invoice['background_color']; ?>;height: 150px;width: 1000px; border-bottom:15px solid <?php echo $setup_invoice['border_color']; ?>;" >
-        <div class="col-xs-2 text-center" style="line-height: 130px;">
-            <img style="max-width: 250px;" src="<?php echo base_url().'images/invoice_logo/'.$setup_invoice['logo'];?>">&nbsp;
+    <div class="row" style="background-color: <?php echo $setup_invoice['background_color']; ?>;height: 160px;width: 1000px; border-bottom:15px solid <?php echo $setup_invoice['border_color']; ?>;" >
+        <div class="col-xs-2 text-center" style="line-height: 140px;">
+            <img style="max-width: 130px;" src="<?php echo base_url().'images/invoice_logo/'.$setup_invoice['logo'];?>">&nbsp;
         </div>
         <div class="col-xs-10">
             <h1 style="color: <?php echo $setup_invoice['border_color']; ?>"><?php echo $setup_invoice['line1']; ?></h1>
