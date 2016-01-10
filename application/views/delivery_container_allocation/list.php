@@ -156,6 +156,7 @@ $CI = & get_instance();
             ?>
             <th><div class="footer_div">RV</div></th>
             <th><div class="footer_div">RQ</div></th>
+
         </tr>
         </thead>
         <tbody>
