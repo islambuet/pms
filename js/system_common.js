@@ -139,18 +139,22 @@ $(document).ready(function()
     $(document).on("click", "#button_action_edit", function(event)
     {
 
-        var jqxgrdi_id='#system_jqx_container';
+        var jqxgrid_id='#system_jqx_container';
 
-        var selected_rows = $(jqxgrdi_id).jqxGrid('getselectedrowindexes');
-        var selectedcount = selected_rows.length;
-        if (selectedcount > 0)
+        var selected_row_indexes = $(jqxgrid_id).jqxGrid('getselectedrowindexes');
+
+
+
+        if (selected_row_indexes.length > 0)
         {
-            var data=$(jqxgrdi_id).jqxGrid('getrows');
+            //var selectedRowData = $(jqxgrid_id).jqxGrid('getrowdata', selected_row_indexes[0]);//only first selected
+            var selectedRowData = $(jqxgrid_id).jqxGrid('getrowdata', selected_row_indexes[selected_row_indexes.length-1]);//only last selected
+
             $.ajax({
                 url: $(this).attr('data-action-link'),
                 type: 'POST',
                 dataType: "JSON",
-                data:{'id':data[selected_rows[0]].id},
+                data:{'id':selectedRowData.id},
                 success: function (data, status)
                 {
 
