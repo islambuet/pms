@@ -49,6 +49,8 @@ $config['table_delivery_container_id_no'] = 'pms_delivery_container_id_no';
 $config['table_data_container_arrival'] = 'pms_data_container_arrival';
 $config['table_data_container_opening'] = 'pms_data_container_opening';
 
+$config['table_delivery_vehicle_allocation'] = 'pms_delivery_vehicle_allocation';
+
 
 
 
