@@ -22,6 +22,7 @@ $config['table_setup_container_opening'] = 'pms_setup_container_opening';
 $config['table_setup_vehicle_loading'] = 'pms_setup_vehicle_loading';
 $config['table_setup_product_receiving'] = 'pms_setup_product_receiving';
 $config['table_setup_invoice'] = 'pms_setup_invoice';
+$config['table_setup_vehicle_no'] = 'pms_setup_vehicle_no';
 
 //location setup tables
 $config['table_zones'] = 'pms_zones';
@@ -47,5 +48,10 @@ $config['table_delivery_container_id_no'] = 'pms_delivery_container_id_no';
 
 $config['table_data_container_arrival'] = 'pms_data_container_arrival';
 $config['table_data_container_opening'] = 'pms_data_container_opening';
+
+
+
+
+
 $config['table_data_vehicle_loading'] = 'pms_data_vehicle_loading';
 $config['table_data_product_receiving'] = 'pms_data_product_receiving';
