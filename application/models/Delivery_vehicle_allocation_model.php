@@ -60,6 +60,22 @@ class Delivery_vehicle_allocation_model extends CI_Model
         return $allocated_vehicles;
 
     }
+    public function get_all_allocated_vehicles($consignment_id)
+    {
+        $CI =& get_instance();
+        $this->db->from($CI->config->item('table_delivery_vehicle_allocation').' va');
 
+        $this->db->where('va.consignment_id',$consignment_id);
+        $this->db->where('va.revision',1);
+        $results=$this->db->get()->result_array();
+        $allocated_vehicles=array();
+        foreach($results as $result)
+        {
+            $allocated_vehicles[$result['booking_id']][$result['variety_id']][$result['container_no']]=$result;
+        }
+
+        return $allocated_vehicles;
+
+    }
 
 }

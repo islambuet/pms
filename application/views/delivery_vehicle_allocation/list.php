@@ -5,9 +5,10 @@ $CI = & get_instance();
 //echo "</pre>";
 //
 //echo "<pre>";
-//print_r($assigned_vehicles);
+//print_r($allocated_vehicles);
 //echo "</pre>";
-//
+//return;
+
 //echo "<pre>";
 //print_r($bookings);
 //echo "</pre>";
@@ -43,7 +44,7 @@ $CI = & get_instance();
 <div id="edit_container">
 
 </div>
-<?php return; ?>
+
     <div class="widget-header">
         <div class="title">
             <?php echo $title; ?>
@@ -66,16 +67,33 @@ $CI = & get_instance();
                         {
                             //.$c['quantity']
                         ?>
-                            <th class="text-center"><div class="header_div"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></div></th>
+                            <th colspan="3" class="text-center"><div class="header_div"><?php echo $c['variety_name'].'<br>'.$container_no.'<br>'; ?></div></th>
                         <?php
                         }
                     }
                     ?>
-                    <th><div class="header_div">RV</div></th>
-                    <th><div class="header_div">RQ</div></th>
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+
+                    <?php
+                    foreach($containers as $container)
+                    {
+                        foreach($container as $container_no=>$c)
+                        {
+                            //.$c['quantity']
+                            ?>
+                            <td>AQ</td>
+                            <td class="text-center" style="font-weight: bold;color: lime;">VN</td>
+                            <td>VQ</td>
+                        <?php
+                        }
+                    }
+                    ?>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
                 <?php
                 foreach($bookings as $booking_id=>$booking)
                 {
@@ -102,28 +120,34 @@ $CI = & get_instance();
                             foreach($container as $container_no=>$c)
                             {
                                 $text_quantity='0';
+                                $text_vhc_no='';
+                                $text_vhc_quantity='';
+
                                 if(isset($allocated_varieties[$booking['booking_id']][$variety_id][$container_no]['quantity']))
                                 {
                                     $quantity=$allocated_varieties[$booking['booking_id']][$variety_id][$container_no]['quantity'];
                                     $text_quantity=number_format($quantity);
-                                    $bookings[$booking_id]['varieties'][$variety_id]['copy_quantity']-=$quantity;
-                                    $containers[$variety_id][$container_no]['total_quantity']+=$quantity;
+                                    //$bookings[$booking_id]['varieties'][$variety_id]['copy_quantity']-=$quantity;
+                                    //$containers[$variety_id][$container_no]['total_quantity']+=$quantity;
                                 }
+                                if(isset($allocated_vehicles[$booking['booking_id']][$variety_id][$container_no]))
+                                {
+                                    $text_vhc_no=$allocated_vehicles[$booking['booking_id']][$variety_id][$container_no]['vehicle_no'];
+                                    $text_vhc_quantity=number_format($allocated_vehicles[$booking['booking_id']][$variety_id][$container_no]['quantity']);
+
+                                    //$bookings[$booking_id]['varieties'][$variety_id]['copy_quantity']-=$quantity;
+                                    //$containers[$variety_id][$container_no]['total_quantity']+=$quantity;
+                                }
+
                                 ?>
                                 <td class="text-center"><?php echo $text_quantity; ?></td>
+                                <td class="text-center" style="font-weight: bold;color: lime;"><?php echo $text_vhc_no; ?></td>
+                                <td class="text-center"><?php echo $text_vhc_quantity; ?></td>
                             <?php
                             }
                         }
-                        $text_variety='';
-                        $text_quantity='';
-                        foreach($bookings[$booking_id]['varieties'] as $variety)
-                        {
-                            $text_variety.=$variety['variety_name']."<br>";
-                            $text_quantity.=number_format($variety['copy_quantity'])."<br>";
-                        }
                         ?>
-                        <td><?php echo $text_variety; ?></td>
-                        <td><?php echo $text_quantity; ?></td>
+
                     </tr>
                 <?php
                 }
@@ -132,7 +156,7 @@ $CI = & get_instance();
             </table>
         </div>
     </div>
-<div id="scroll_div" class="col-xs-12" style="overflow-x: auto;position: fixed;bottom: 10px;background-color: #0daed3" >
+<div id="scroll_div" class="col-xs-12" style="overflow-x: auto;position: fixed;bottom: 0px;background-color: #0daed3" >
     <table class="table table-hover table-bordered" style="margin-bottom: 0;" >
         <thead>
         <tr>
@@ -152,29 +176,9 @@ $CI = & get_instance();
                 }
             }
             ?>
-            <th><div class="footer_div">RV</div></th>
-            <th><div class="footer_div">RQ</div></th>
-
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="3"></td>
-                <?php
-                foreach($containers as $variety_id=>$container)
-                {
-                    foreach($container as $container_no=>$c)
-                    {
-                        $text_quantity=number_format($c['total_quantity']);
-                        ?>
-                        <td class="text-center"><?php echo $text_quantity; ?></td>
-                    <?php
-                    }
-                }
-                ?>
-                <th><div class="footer_div"> &nbsp;</div></th>
-                <th><div class="footer_div"> &nbsp;</div></th>
-            </tr>
         </tbody>
     </table>
 </div>
@@ -193,11 +197,6 @@ $CI = & get_instance();
         {
             $("#data_div").scrollLeft($("#scroll_div").scrollLeft());
         });
-        /*$("#data_div").scroll(function()
-        {
-            console.log('hi2');
-            $("#scroll_div").scrollLeft($("#data_div").scrollLeft());
-        });*/
 
     });
 </script>

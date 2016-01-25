@@ -73,10 +73,13 @@ class Delivery_vehicle_allocation extends Root_Controller
 
             $data['title']='Allocation list';
             $data['varieties']=System_helper::get_all_varieties_for_dropdown();
+            $this->load->model("delivery_container_allocation_model");
 
-            //$data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
-            //$data['containers']=$this->delivery_container_allocation_model->get_container_counts($consignment_id);
-            //$data['allocated_varieties']=$this->delivery_container_allocation_model->get_all_allocated_varieties($consignment_id);
+            $data['bookings']=$this->delivery_container_allocation_model->get_bookings($consignment_id);
+            $data['containers']=$this->delivery_container_allocation_model->get_container_counts($consignment_id);
+            $data['allocated_varieties']=$this->delivery_container_allocation_model->get_all_allocated_varieties($consignment_id);
+
+            $data['allocated_vehicles']=$this->delivery_vehicle_allocation_model->get_all_allocated_vehicles($consignment_id);
 
 
             $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_vehicle_allocation/list",$data,true));
