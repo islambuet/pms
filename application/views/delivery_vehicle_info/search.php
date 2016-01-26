@@ -123,9 +123,7 @@ jQuery(document).ready(function()
     {
 
         $("#detail_container").html("");
-
-
-        var consignment_id=$(this).val();
+        var consignment_id=$('#consignment_id').val();
         var vehicle_no=$('#vehicle_no').val();
         var year=$('#year').val();
         if(consignment_id>0&& vehicle_no>0)

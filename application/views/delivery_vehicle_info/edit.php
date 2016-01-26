@@ -30,7 +30,7 @@ if(isset($vehicle_info['remarks']))
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CUSTOMER_NAME');?></label>
         </div>
         <div class="col-sm-4 col-xs-8">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
+            <label class="control-label"><?php echo $customer_name ;?></label>
         </div>
     </div>
     <div class="row show-grid">
@@ -38,7 +38,7 @@ if(isset($vehicle_info['remarks']))
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
         </div>
         <div class="col-sm-4 col-xs-8">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
+            <label class="control-label"><?php echo System_helper::get_invoice_no($year,$consignment_id,$vehicle_no);?></label>
         </div>
     </div>
     <div class="row show-grid">

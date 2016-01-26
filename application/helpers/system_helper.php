@@ -191,5 +191,9 @@ class System_helper
 
         return $uploaded_files;
     }
+    public static function get_invoice_no($year,$consignment_id,$vehicle_no)
+    {
+        return $year.'-'.str_pad($consignment_id,3,'0',STR_PAD_LEFT).'-'.str_pad($vehicle_no,3,'0',STR_PAD_LEFT);
+    }
 
 }

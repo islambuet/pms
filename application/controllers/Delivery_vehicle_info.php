@@ -71,6 +71,35 @@ class Delivery_vehicle_info extends Root_Controller
         $this->db->from($this->config->item('table_setup_vehicle_loading'));
         $this->db->order_by('ordering ASC');
         $data['pictures']=$this->db->get()->result_array();
+        $data['customer_name']='This vehicle is not assigned to any Customer';
+
+        $this->db->from($this->config->item('table_delivery_vehicle_allocation').' va');
+        $this->db->select('CONCAT(customer.customer_name,"(",upazilas.upazila_name,")") customer_name',false);
+
+        $this->db->join($this->config->item('table_bookings').' bookings','bookings.id = va.booking_id','INNER');
+        $this->db->join($this->config->item('table_customers').' customer','customer.id = bookings.customer_id','INNER');
+        $this->db->join($this->config->item('table_unions').' unions','unions.id = customer.union_id','INNER');
+        $this->db->join($this->config->item('table_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
+
+        $this->db->where('va.revision',1);
+        $this->db->where('va.consignment_id',$consignment_id);
+        $this->db->where('va.vehicle_no',$vehicle_no);
+        $this->db->group_by('va.booking_id');
+        $results=$this->db->get()->result_array();
+        if($results)
+        {
+            $name='';
+            foreach($results as $i=>$result)
+            {
+                if($i>0)
+                {
+                    $name.='<br>';
+                }
+                $name.=$result['customer_name'];
+
+            }
+            $data['customer_name']=$name;
+        }
 
         $data['vehicle_info']=Query_helper::get_info($this->config->item('table_data_vehicle_info_loading'),'*',array('consignment_id ='.$consignment_id,'vehicle_no ='.$vehicle_no),1);
         $ajax['system_content'][]=array("id"=>"#detail_container","html"=>$this->load->view("delivery_vehicle_info/edit",$data,true));
