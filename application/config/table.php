@@ -50,10 +50,7 @@ $config['table_data_container_arrival'] = 'pms_data_container_arrival';
 $config['table_data_container_opening'] = 'pms_data_container_opening';
 
 $config['table_delivery_vehicle_allocation'] = 'pms_delivery_vehicle_allocation';
+$config['table_data_vehicle_info_loading'] = 'pms_data_vehicle_info_loading';
 
 
-
-
-
-$config['table_data_vehicle_loading'] = 'pms_data_vehicle_loading';
 $config['table_data_product_receiving'] = 'pms_data_product_receiving';

@@ -130,4 +130,21 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
+    public function get_dropdown_vehicles_by_consignmentid()
+    {
+        $consignment_id = $this->input->post('consignment_id');
+        $records=Query_helper::get_info($this->config->item('table_setup_vehicle_no'),array('no_of_vehicles'),array('consignment_id ='.$consignment_id,'revision =1'),1);
+        $data['items']=array();
+        if($records)
+        {
+            for($i=1;$i<=$records['no_of_vehicles'];$i++)
+            {
+                $data['items'][]=array('value'=>$i,'text'=>$i);
+            }
+        }
+        $ajax['status']=true;
+        $ajax['system_content'][]=array("id"=>"#vehicle_no","html"=>$this->load->view("dropdown_with_select",$data,true));
+
+        $this->jsonReturn($ajax);
+    }
 }

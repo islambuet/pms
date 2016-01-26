@@ -18,13 +18,29 @@ if(isset($vehicle_info['remarks']))
 <form class="form_valid" id="save_form" action="<?php echo site_url($CI->controller_url.'/index/save');?>" method="post">
     <div class="widget-header">
         <div class="title">
-            Vehicle Loading Picture
+            Vehicle Info & Loading Picture
         </div>
         <div class="clearfix"></div>
     </div>
-    <input type="hidden" name="container_id" value="<?php echo $container_id; ?>" />
-    <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>" />
+    <input type="hidden" name="year" value="<?php echo $year; ?>" />
+    <input type="hidden" name="consignment_id" value="<?php echo $consignment_id; ?>" />
     <input type="hidden" name="vehicle_no" value="<?php echo $vehicle_no; ?>" />
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_CUSTOMER_NAME');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-xs-4">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
+        </div>
+    </div>
     <div class="row show-grid">
         <div class="col-xs-4">
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_VEHICLE_NUMBER');?></label>
@@ -49,14 +65,7 @@ if(isset($vehicle_info['remarks']))
             <input type="text" name="vehicle[contact_no]" class="form-control" value="<?php echo isset($vehicle_info['contact_no'])?$vehicle_info['contact_no']:'' ?>"/>
         </div>
     </div>
-    <div class="row show-grid">
-        <div class="col-xs-4">
-            <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_INVOICE_NUMBER');?></label>
-        </div>
-        <div class="col-sm-4 col-xs-8">
-            <input type="text" name="vehicle[invoice_number]" class="form-control" value="<?php echo isset($vehicle_info['invoice_number'])?$vehicle_info['invoice_number']:'' ?>"/>
-        </div>
-    </div>
+
     <?php
         foreach($pictures as $picture)
         {
@@ -85,7 +94,7 @@ if(isset($vehicle_info['remarks']))
         <div class="col-xs-4">
             <label class="control-label pull-right"><?php echo $this->lang->line('LABEL_REMARKS');?></label>
         </div>
-        <div class="col-sm-4 col-xs-8">
+        <div class="col-xs-8">
             <input type="text" name="vehicle[remarks]" id="remarks" class="form-control" value="<?php echo $remarks; ?>"/>
         </div>
     </div>
