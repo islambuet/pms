@@ -127,6 +127,7 @@ class Delivery_vehicle_allocation extends Root_Controller
         if($vhinfo)
         {
             $data['no_of_vehicles']=$vhinfo['no_of_vehicles'];
+            $data['completed_vehicle_nos']=$this->delivery_vehicle_allocation_model->get_completed_vehicle_nos($consignment_id,$container_no,$container_variety_type);
         }
         else
         {
@@ -193,6 +194,14 @@ class Delivery_vehicle_allocation extends Root_Controller
                 $data['variety_id']=$container_variety_type;
                 $data['vehicle_no']=$info['vehicle_no'];
                 $data['quantity']=$info['quantity'];
+                if(isset($info['is_completed']))
+                {
+                    $data['is_completed']=1;
+                }
+                else
+                {
+                    $data['is_completed']=0;
+                }
                 $data['revision']=1;
                 $data['created_by'] = $user->user_id;
                 $data['creation_date'] = $time;

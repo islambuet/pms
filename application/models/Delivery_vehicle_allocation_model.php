@@ -77,5 +77,19 @@ class Delivery_vehicle_allocation_model extends CI_Model
         return $allocated_vehicles;
 
     }
+    public function get_completed_vehicle_nos($consignment_id,$container_no,$container_variety_type)
+    {
+        $CI =& get_instance();
+        $results=Query_helper::get_info($CI->config->item('table_delivery_vehicle_allocation'),array('vehicle_no'),array('revision =1','is_completed =1','consignment_id ='.$consignment_id,'variety_id ='.$container_variety_type,'container_no !='.$container_no));
+
+        $other_completed=array();
+        foreach($results as $result)
+        {
+            $other_completed[]=$result['vehicle_no'];
+        }
+        return $other_completed;
+
+
+    }
 
 }

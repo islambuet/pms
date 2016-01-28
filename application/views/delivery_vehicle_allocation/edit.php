@@ -3,9 +3,9 @@ $CI = & get_instance();
 //echo '<PRE>';
 //print_r($bookings);
 //echo '</PRE>';
-//echo '<PRE>';
-//print_r($allocated_vehicles);
-//echo '</PRE>';
+echo '<PRE>';
+print_r($completed_vehicle_nos);
+echo '</PRE>';
 //return;
 ?>
 
@@ -31,6 +31,7 @@ $CI = & get_instance();
                     <th>Allocated Quantity</th>
                     <th>Vehicle No</th>
                     <th>Vehicle Quantity</th>
+                    <th>Completed</th>
                 </thead>
                 <tbody>
                 <?php
@@ -40,10 +41,16 @@ $CI = & get_instance();
                     {
                         $selected_no='';
                         $selected_quantity='';
+                        $checked='';
                         if(isset($allocated_vehicles[$booking['booking_id']]))
                         {
                             $selected_no=$allocated_vehicles[$booking['booking_id']]['vehicle_no'];
                             $selected_quantity=$allocated_vehicles[$booking['booking_id']]['quantity'];
+                            if($allocated_vehicles[$booking['booking_id']]['is_completed']==1)
+                            {
+                                $checked=" checked";
+                            }
+
                         }
                         ?>
                         <tr>
@@ -55,14 +62,18 @@ $CI = & get_instance();
                                     <?php
                                     for($i=1;$i<=$no_of_vehicles;$i++)
                                     {
+                                        if((!(in_array($i,$completed_vehicle_nos)))||($i==$selected_no))
+                                        {
                                         ?>
                                         <option value="<?php echo $i;?>" <?php if($selected_no==$i){ echo "selected";}?>><?php echo $i;?></option>
                                         <?php
+                                        }
                                     }
                                     ?>
                                 </select>
                             </td>
                             <td><input type="text" name="allocated_vehicles[<?php echo $booking['booking_id'] ?>][quantity]" value="<?php echo ($selected_quantity); ?>"></td>
+                            <td><input type="checkbox" name="allocated_vehicles[<?php echo $booking['booking_id'] ?>][is_completed]" class="" value="1"<?php echo $checked; ?> > </td>
                         </tr>
                         <?php
                     }
