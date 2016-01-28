@@ -86,7 +86,7 @@ $CI = & get_instance();
                             //.$c['quantity']
                             ?>
                             <td>AQ</td>
-                            <td class="text-center" style="font-weight: bold;color: lime;">VN</td>
+                            <td class="text-center" style="font-weight: bold;color: darkred;">VN</td>
                             <td>VQ</td>
                         <?php
                         }
@@ -141,7 +141,7 @@ $CI = & get_instance();
 
                                 ?>
                                 <td class="text-center"><?php echo $text_quantity; ?></td>
-                                <td class="text-center" style="font-weight: bold;color: lime;"><?php echo $text_vhc_no; ?></td>
+                                <td class="text-center" style="font-weight: bold;color: darkred;"><?php echo $text_vhc_no; ?></td>
                                 <td class="text-center"><?php echo $text_vhc_quantity; ?></td>
                             <?php
                             }

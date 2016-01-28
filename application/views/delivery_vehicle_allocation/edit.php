@@ -3,9 +3,9 @@ $CI = & get_instance();
 //echo '<PRE>';
 //print_r($bookings);
 //echo '</PRE>';
-echo '<PRE>';
-print_r($completed_vehicle_nos);
-echo '</PRE>';
+//echo '<PRE>';
+//print_r($completed_vehicle_nos);
+//echo '</PRE>';
 //return;
 ?>
 
