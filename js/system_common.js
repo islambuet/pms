@@ -11,8 +11,39 @@
 //system_loading will show on ajaxstart and hide on ajaxcomplete
 //data-form attribute contains form name for save,save and new, clear buttons
 
+//function number format like php
+function number_format(number, decimals, dec_point, thousands_sep)
+{
+    number = (number + '')
+        .replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + (Math.round(n * k) / k)
+                .toFixed(prec);
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n))
+        .split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '')
+        .length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1)
+            .join('0');
+    }
+    return s.join(dec);
+}
+
 $(document).ready(function()
 {
+
     $(document).ajaxStart(function()
     {
         $("#system_loading").show();
@@ -50,8 +81,8 @@ $(document).ready(function()
             }
             if(xhr.responseJSON.system_page_url)
             {
-                //window.history.pushState(null, "Search Results",xhr.responseJSON.system_page_url);
-                window.history.replaceState(null, "Search Results",xhr.responseJSON.system_page_url);
+                window.history.pushState(null, "Search Results",xhr.responseJSON.system_page_url);
+                //window.history.replaceState(null, "Search Results",xhr.responseJSON.system_page_url);
             }
 
             //$("#loading").hide();
@@ -66,6 +97,7 @@ $(document).ready(function()
             }
 
         }
+        $("#system_loading").hide();
     });
     $(document).ajaxError(function(event,xhr,options)
     {
@@ -110,6 +142,11 @@ $(document).ready(function()
     //bind any anchor tag to ajax request
     $(document).on("click", "a", function(event)
     {
+        if(($(this).attr('href')=='#')||($(this).attr('href')==''))
+        {
+            event.preventDefault();
+            return;
+        }
 
         if(($(this).is('[class*="jqx"]'))||($(this).is('[class*="dropdown"]'))||($(this).is('[class*="external"]'))||($(this).is('[class*="ui-corner-all"]')))
         {
@@ -132,21 +169,71 @@ $(document).ready(function()
         });
 
     });
+    $(document).on("click", "#button_action_clear", function(event)
+    {
+
+        $($(this).attr('data-form')).trigger('reset');
+
+    });
+    $(document).on("click", "#button_action_report", function(event)
+    {
+        $('#system_report_container').html('');
+        $($(this).attr('data-form')).submit();
+
+    });
     $(document).on("click", "#button_action_save", function(event)
     {
+        $("#system_save_new_status").val(0);
         $($(this).attr('data-form')).submit();
+
     });
-    $(document).on("click", "#button_action_edit", function(event)
+    $(document).on("click", "#button_action_save_new", function(event)
     {
+        $("#system_save_new_status").val(1);
+        $($(this).attr('data-form')).submit();
 
+    });
+    $(document).on("click", "#button_action_request_get", function(event)
+    {
+        if($(this).attr('id')=='button_action_request')
+        {
+
+            var sure = confirm('Are You sure to Forward?');
+            if(!sure)
+            {
+                return;
+            }
+        }
+        $.ajax({
+            url: $(this).attr('data-action-link'),
+            type: 'POST',
+            dataType: "JSON",
+            success: function (data, status)
+            {
+
+            },
+            error: function (xhr, desc, err)
+            {
+                console.log("error");
+
+            }
+        });
+    });
+    $(document).on("click", ".button_action_single", function(event)
+    {
         var jqxgrid_id='#system_jqx_container';
-
         var selected_row_indexes = $(jqxgrid_id).jqxGrid('getselectedrowindexes');
-
-
-
         if (selected_row_indexes.length > 0)
         {
+            if($(this).attr('id')=='button_action_request')
+            {
+
+                var sure = confirm('Are You sure to Forward?');
+                if(!sure)
+                {
+                    return;
+                }
+            }
             //var selectedRowData = $(jqxgrid_id).jqxGrid('getrowdata', selected_row_indexes[0]);//only first selected
             var selectedRowData = $(jqxgrid_id).jqxGrid('getrowdata', selected_row_indexes[selected_row_indexes.length-1]);//only last selected
 
@@ -174,20 +261,51 @@ $(document).ready(function()
         }
 
     });
-    /*$(document).on("click", "#button_action_clear", function(event)
+    $(document).on("click", ".button_action_multiple", function(event)
     {
 
-        $($(this).attr('data-form')).trigger('reset');
+        var jqxgrid_id='#system_jqx_container';
+        var selected_row_indexes = $(jqxgrid_id).jqxGrid('getselectedrowindexes');
+        if (selected_row_indexes.length > 0)
+        {
+            if($(this).attr('id')=='button_action_delete')
+            {
+
+                var sure = confirm('Are You sure to Delete?');
+                if(!sure)
+                {
+                    return;
+                }
+            }
+            var ids=[];
+            for (var i = 0; i < selected_row_indexes.length; i++)
+            {
+                ids.push($(jqxgrid_id).jqxGrid('getrowdata', selected_row_indexes[i]).id);
+            }
+            $.ajax({
+                url: $(this).attr('data-action-link'),
+                type: 'POST',
+                dataType: "JSON",
+                data:{'ids':ids},
+                success: function (data, status)
+                {
+
+                },
+                error: function (xhr, desc, err)
+                {
+                    console.log("error");
+
+                }
+            });
+
+
+        }
+        else
+        {
+            alert(SELCET_ONE_ITEM);
+        }
 
     });
-
-    $(document).on("click", "#button_action_save_new", function(event)
-    {
-        $("#system_save_new_status").val(1);
-        $($(this).attr('data-form')).submit();
-
-    });
-    */
 
     //load the current page content
     load_current_content();
@@ -232,48 +350,84 @@ $(document).ready(function()
         }
 
     });
-    //pms menu click
-    $(document).on("click", ".main-menu-container .menu-item", function(event)
+    $(document).on("click", "#button_action_print", function(event)
     {
-        $.ajax({
-            url: base_url+"dashboard/get_sub_menu/",
-            type: 'POST',
-            dataType: "JSON",
-            data:{menu_id:$(this).attr("data-menu-id")},
-            success: function (data, status)
-            {
+        var jqxgrid_id='#system_jqx_container';
 
-            },
-            error: function (xhr, desc, err)
-            {
-                console.log("error");
-
-            }
-        });
-        return false;
+        var gridContent = $(jqxgrid_id).jqxGrid('exportdata', 'html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+            document = newWindow.document.open(),
+            pageContent =
+                '<!DOCTYPE html>\n' +
+                    '<html>\n' +
+                    '<head>\n' +
+                    '<meta charset="utf-8" />\n' +
+                    '<title>'+$(this).attr('data-title')+'</title>\n' +
+                    '</head>\n' +
+                    '<body>\n' + gridContent + '\n</body>\n</html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
 
     });
-    //action for submenu click
-    $(document).on("click", ".sub-menu-container .menu-item", function(event)
+    $(document).on("click", "#button_action_csv", function(event)
     {
-        $.ajax({
-            url: $(this).attr("data-menu-link"),
-            type: 'POST',
-            dataType: "JSON",
-            success: function (data, status)
-            {
+        //previous csv file
+        /*var jqxgrid_id='#system_jqx_container';
+         $(jqxgrid_id).jqxGrid('exportdata', 'csv', $(this).attr('data-title'));*/
+        var jqxgrid_id='#system_jqx_container';
 
-            },
-            error: function (xhr, desc, err)
-            {
-                console.log("error");
-
-            }
-        });
-
+        var gridContent = $(jqxgrid_id).jqxGrid('exportdata', 'html');
+        var newWindow = window.open('', '', 'width=800, height=500,menubar=yes,toolbar=no,scrollbars=yes'),
+            document = newWindow.document.open(),
+            pageContent =
+                '<!DOCTYPE html>\n' +
+                    '<html>\n' +
+                    '<head>\n' +
+                    '<meta charset="utf-8" />\n' +
+                    '<title>'+$(this).attr('data-title')+'</title>\n' +
+                    '</head>\n' +
+                    '<body>\n' + gridContent + '\n</body>\n</html>';
+        document.write(pageContent);
+        document.close();
 
     });
-    //pms menu click
+    $(document).on("click", ".system_jqx_column", function(event)
+    {
+        var jqxgrid_id='#system_jqx_container';
+        $(jqxgrid_id).jqxGrid('beginupdate');
+        if($(this).is(':checked'))
+        {
+            $(jqxgrid_id).jqxGrid('showcolumn', $(this).val());
+        }
+        else
+        {
+            $(jqxgrid_id).jqxGrid('hidecolumn', $(this).val());
+        }
+        $(jqxgrid_id).jqxGrid('endupdate');
+
+    });
+
+    $(document).on("input", ".float_type_positive", function(event)
+    {
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+    });
+    $(document).on("input", ".integer_type_positive", function(event)
+    {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(document).on("input", ".float_type_all", function(event)
+    {
+        this.value = this.value.replace(/[^0-9.-]/g, '').replace(/(\..*)\./g, '$1').replace(/(?!^)-/g, '');
+    });
+    $(document).on("input", ".integer_type_all", function(event)
+    {
+        this.value = this.value.replace(/[^0-9-]/g, '').replace(/(?!^)-/g, '');
+    });
+    $("#popup_window").jqxWindow({
+        width: 550,height:550, resizable: true,  isModal: true, autoOpen: false, modalOpacity: 0.01,position: { x: 60, y: 60 }
+    });
+
 
 });
 function load_current_content()
@@ -324,92 +478,43 @@ function animate_message(message)
     $("#system_message").hide();
     $("#system_message").html(message);
     $('#system_message').slideToggle("slow").delay(3000).slideToggle("slow");
-    //$('#message').toggle("slide",{direction:"right"},500);
-
 }
-
-function StringHasUpperCase(str)
-{
-    if(/[A-Z]/.test(str))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-function StringHasLowerCase(str)
-{
-    if(/[a-z]/.test(str))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-function StringHasNumber(str)
-{
-    if(/[0-9]/.test(str))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-$(document).on("keyup", ".OnlyNumber", function()
-{
-    this.value = this.value.replace(/[^0-9\.]/g,'');
-});
 
 function turn_off_triggers()
 {
-    //setup menu
-    $(document).off("click", ".task_name");
-    $(document).off("click", ".module_name");
-    $(document).off("change", "#crop_id");
-    $(document).off("change", "#classification_id");
-    $(document).off("change", "#type_id");
-    $(document).off("change", "#skin_type_id");
-    $(document).off("change", "#variety_id");
-    $(document).off("change", "#consignment_id");
-    //location setup menu
+    $(document).off("click", "#button_action_save_jqx");
+    $(document).off("click", ".task_action_all");
+    $(document).off("click", ".task_header_all");
+
+    //location setup
+    $(document).off("change", "#division_id");
     $(document).off("change", "#zone_id");
     $(document).off("change", "#territory_id");
     $(document).off("change", "#district_id");
-    $(document).off("change", "#upazila_id");
-    $(document).off("change", "#union_id");
-    $(document).off("change", "#customer_id");
-    $(document).off("change", "#year");
+    $(document).off("change", "#upazilla_id");
 
-    //addmore
-    $(document).off("click", ".system_add_more_button");
-    $(document).off("click", ".system_add_more_delete");
-    $(document).off("click", "#button_search");
-    //permanent booking
-    $(document).off("change", ".variety");
+    //classification
+    $(document).off("change", "#crop_id");
+    $(document).off("change", "#crop_type_id");
+    $(document).off("change",'input[name="variety[whose]:radio');//at create_crop_variety
+    //stock in
+    $(document).off("change", "#fiscal_year_id");
+    $(document).off("change", "#year0_id");
+    $(document).off("change", "#warehouse_id");
+    $(document).off("change", "#variety_id");
+    $(document).off("change", "#arm_bank_id");
+    //po
+    $(document).off("click", ".system_button_add_more");
+    $(document).off("click", ".system_button_add_delete");
+    $(document).off("change", ".crop_id");
+    $(document).off("change", ".crop_type_id");
+    $(document).off("change", ".variety_id");
+    $(document).off("change", ".pack_size_id");
     $(document).off("change", ".quantity");
-    $(document).off("change", ".discount");
-    //allocation
-    $(document).off("change", "#booking_id");
-    $(document).off("change", "#consignment_id");
-    $(document).off("change", "#container_id");
-    $(document).off("change","#select_all");
-    $(document).off("click","#load_allocation");
 
-    $(document).off("change","#vehicle_no");
-    //report
-    $(document).off("change", "#booking_type");
-    $(document).off("click", "#load_report");
-
-    $(document).off("change", "#container_variety_type");
-    $(document).off("change", "#container_no");
+    //stock out
+    $(document).off("change", "#purpose");
+    $(document).off("change", "#customer_id");
+    
 
 }

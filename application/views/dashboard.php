@@ -1,39 +1,33 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$user=User_helper::get_user();
+$CI = & get_instance();
 ?>
 <div class="row widget">
-    <div class="widget-header">
-        <div class="title">
-            Dashboard Menu
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="main-menu-container">
-        <?php
-            foreach($modules as $module)
-            {
-                ?>
-                <div class="menu-item col-sm-2" data-menu-id="<?php echo $module['id'];?>">
-                    <div class="menu_left pull-left">
-                        <div class="menu_image">
-                            <img alt="menu" src="<?php echo base_url().'images/'.$module['icon'];?>">
-
-                        </div>
-                        <div class="menu_title">
-                            <?php echo $module['name']; ?>
-                        </div>
-                    </div>
-                    <div class="menu_right pull-right">
-                        <div class="menu_sub_count"><?php echo $module['subcount']; ?></div>
-                    </div>
-                </div>
-                <?php
-            }
+    <?php
+    if($user->user_group==0)
+    {
         ?>
+        <div class="col-sm-12 text-center">
+            <h3 class="alert alert-warning"><?php echo $CI->lang->line('MSG_NOT_ASSIGNED_GROUP');?></h3>
+
+        </div>
+        <?php
+    }
+    ?>
+    <?php
+    if($CI->is_site_offline())
+    {
+        ?>
+        <div class="col-sm-12 text-center">
+            <h3 class="alert alert-warning"><?php echo $CI->lang->line('MSG_SITE_OFFLINE');?></h3>
+        </div>
+    <?php
+    }
+    ?>
+    <div class="col-sm-12 text-center">
+        <h1><?php echo $user->name;?></h1>
+        <img style="max-width: 250px;" src="<?php echo $user->picture_profile; ?>">
     </div>
 
-</div>
-<div class="clearfix"></div>
-<div class="" id="sub-menu">
-<?php $this->load->view("sub_menu");?>
 </div>
 <div class="clearfix"></div>

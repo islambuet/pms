@@ -2,17 +2,17 @@
 
 class Home extends Root_controller
 {
-	public function index($module_id=0)
+	public function index()
 	{
-		$this->login($module_id);
+		$this->login();
 	}
-    public function login($module_id=0)
+    public function login()
     {
         $user=User_helper::get_user();
 
         if($user)
         {
-            $this->dashboard_page($module_id);
+            $this->dashboard_page();
         }
         else
         {
@@ -20,7 +20,7 @@ class Home extends Root_controller
             {
                 if(User_helper::login($this->input->post("username"),$this->input->post("password")))
                 {
-                    $this->dashboard_page($module_id,$this->lang->line("MSG_LOGIN_SUCCESS"));
+                    $this->dashboard_page($this->lang->line("MSG_LOGIN_SUCCESS"));
                 }
                 else
                 {

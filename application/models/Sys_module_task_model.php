@@ -13,7 +13,7 @@ class Sys_module_task_model extends CI_Model
     {
         $CI = & get_instance();
 
-        $this->db->from($CI->config->item('table_task'));
+        $this->db->from($CI->config->item('table_system_task'));
         //$this->db->order_by('order');
         $this->db->order_by('ordering');
         $results=$this->db->get()->result_array();
@@ -50,7 +50,7 @@ class Sys_module_task_model extends CI_Model
     public function get_module_task_info($id)
     {
         $CI = & get_instance();
-        $this->db->from($CI->config->item('table_task'));
+        $this->db->from($CI->config->item('table_system_task'));
         $this->db->where('id',$id);
         $result=$this->db->get()->row_array();
         return $result;
@@ -58,7 +58,7 @@ class Sys_module_task_model extends CI_Model
     public function get_modules()
     {
         $CI = & get_instance();
-        $this->db->from($CI->config->item('table_task'));
+        $this->db->from($CI->config->item('table_system_task'));
         //$this->db->order_by('order');
         $this->db->order_by('ordering');
         $this->db->where('type','Module');

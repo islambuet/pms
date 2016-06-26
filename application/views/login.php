@@ -9,7 +9,7 @@
     <div class="col-sm-3">&nbsp;</div>
     <div class="col-sm-6">
         <div class="login-wrapper">
-            <form action="<?php echo base_url();?>home/login" class="form-horizontal form_valid" method="post">
+            <form action="<?php echo base_url();?>home/login" class="form-horizontal" method="post">
                 <div class="login_header">
                     <h3>
                         AR Malik
@@ -23,7 +23,6 @@
                 </div>
                 <div class="login_action">
                     <input type="submit"  value="Login" name="Login" class="btn btn-danger pull-right">
-                    <a href="#" class="btn pull-right">Forgot Password?</a>
                     <div class="clearfix"></div>
                 </div>
             </form>

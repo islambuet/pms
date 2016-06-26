@@ -1,56 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['table_users'] = 'ait_user_login';
-$config['table_user_group'] = 'pms_user_group';
-$config['table_task'] = 'pms_task';
-$config['table_user_group_role'] = 'pms_user_group_role';
+//those tables from login site
+$config['table_setup_user'] = 'setup_user';
+$config['table_setup_user_info'] = 'setup_user_info';
+$config['table_setup_users_other_sites'] = 'setup_users_other_sites';
+$config['table_system_other_sites'] = 'system_other_sites';
+$config['table_other_sites_visit'] = 'other_sites_visit';
+$config['table_setup_designation'] = 'setup_designation';
+
+
+//pms system setup tables
+$config['table_system_assigned_group'] = 'pms_system_assigned_group';
+$config['table_system_user_group'] = 'pms_system_user_group';
+$config['table_system_task'] = 'pms_system_task';
+$config['table_system_user_group_role'] = 'pms_system_user_group_role';
 $config['table_history'] = 'pms_history';
+$config['table_history_hack'] = 'pms_history_hack';
+//$config['table_system_assigned_area'] = 'bms_system_assigned_area';
+$config['table_system_site_offline'] = 'pms_system_site_offline';
 
-//setup tables
-$config['table_crops'] = 'pms_crops';
-$config['table_classifications'] = 'pms_classifications';
-$config['table_types'] = 'pms_types';
-$config['table_skin_types'] = 'pms_skin_types';
-$config['table_varieties'] = 'pms_varieties';
-$config['table_consignment'] = 'pms_consignment';
-$config['table_container'] = 'pms_container';
-$config['table_container_varieties'] = 'pms_container_varieties';
-$config['table_variety_price'] = 'pms_variety_price';
-$config['table_setup_container_arrival'] = 'pms_setup_container_arrival';
-$config['table_setup_container_opening'] = 'pms_setup_container_opening';
-$config['table_setup_vehicle_loading'] = 'pms_setup_vehicle_loading';
-$config['table_setup_product_receiving'] = 'pms_setup_product_receiving';
-$config['table_setup_invoice'] = 'pms_setup_invoice';
-$config['table_setup_vehicle_no'] = 'pms_setup_vehicle_no';
-
-//location setup tables
-$config['table_zones'] = 'pms_zones';
-$config['table_territories'] = 'pms_territories';
-$config['table_districts'] = 'pms_districts';
-$config['table_upazilas'] = 'pms_upazilas';
-$config['table_unions'] = 'pms_unions';
-$config['table_customers'] = 'pms_customers';
-
-//bookings
-$config['table_bookings'] = 'pms_bookings';
-$config['table_preliminary_varieties'] = 'pms_preliminary_varieties';
-$config['table_permanent_varieties'] = 'pms_permanent_varieties';
-$config['table_payments'] = 'pms_payments';
-
-//allocation
-$config['table_allocation_varieties'] = 'pms_allocation_varieties';
-$config['table_quantity_color'] = 'pms_quantity_color';
-
-//delivery allocation
-$config['table_delivery_allocation_varieties'] = 'pms_delivery_allocation_varieties';
-$config['table_delivery_container_id_no'] = 'pms_delivery_container_id_no';
-
-$config['table_data_container_arrival'] = 'pms_data_container_arrival';
-$config['table_data_container_opening'] = 'pms_data_container_opening';
-
-$config['table_delivery_vehicle_allocation'] = 'pms_delivery_vehicle_allocation';
-$config['table_data_vehicle_info_loading'] = 'pms_data_vehicle_info_loading';
-
-
-$config['table_data_product_receiving'] = 'pms_data_product_receiving';
+//pms site tables

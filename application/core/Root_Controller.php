@@ -15,6 +15,16 @@ abstract class Root_Controller extends CI_Controller
                     $this->login_page("Time out");
                 }
             }
+            else
+            {
+                if($this->is_site_offline()&&(!(in_array($user->user_group,array(1,2)))))
+                {
+                    if(!in_array(strtolower($this->router->class),$this->config->item('offline_controllers')))
+                    {
+                        $this->dashboard_page();
+                    }
+                }
+            }
         }
         else
         {
@@ -28,12 +38,31 @@ abstract class Root_Controller extends CI_Controller
         echo json_encode($array);
         exit();
     }
+    public function is_site_offline()
+    {
+        $info=Query_helper::get_info($this->config->item('table_system_site_offline'),'*',array(),1,0,array('id DESC'));
+        if($info)
+        {
+            if($info['status']==$this->config->item('system_status_active'))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+    }
     public function login_page($message="")
     {
         $ajax['status']=true;
         $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("login","",true));
-        $ajax['system_content'][]=array("id"=>"#right_side","html"=>$this->load->view("login_right","",true));
-        $ajax['system_content'][]=array("id"=>"#user_info","html"=>"");
+        $ajax['system_content'][]=array("id"=>"#system_menus","html"=>'');
         if($message)
         {
             $ajax['system_message']=$message;
@@ -41,24 +70,12 @@ abstract class Root_Controller extends CI_Controller
         $ajax['system_page_url']=base_url()."home/login";
         $this->jsonReturn($ajax);
     }
-    public function dashboard_page($module_id=0,$message="")
+    public function dashboard_page($message="")
     {
         $ajax['status']=true;
-        $this->load->model("root_model");
-        $data['modules']=$this->root_model->get_modules();
-        if($module_id)
-        {
-            $this->load->model("dashboard_model");
-            $data['tasks']=$this->dashboard_model->get_tasks($module_id);
-        }
-        else
-        {
-            $data['tasks']=array();
-        }
 
-        $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("dashboard",$data,true));
-        $ajax['system_content'][]=array("id"=>"#user_info","html"=>$this->load->view("user_info","",true));
-        $ajax['system_content'][]=array("id"=>"#right_side","html"=>$this->load->view("dashboard_right","",true));
+        $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("dashboard",array(),true));
+        $ajax['system_content'][]=array("id"=>"#system_menus","html"=>$this->load->view("menu",array(),true));
         if($message)
         {
             $ajax['system_message']=$message;
