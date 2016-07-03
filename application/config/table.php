@@ -21,3 +21,5 @@ $config['table_history_hack'] = 'pms_history_hack';
 $config['table_system_site_offline'] = 'pms_system_site_offline';
 
 //pms site tables
+//location
+$config['table_location_zones'] = 'pms_location_zones';

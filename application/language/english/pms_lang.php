@@ -1,5 +1,4 @@
 <?php
-
 //login
 $lang['MSG_USERNAME_PASSWORD_INVALID'] = 'Username and Password did not match or Invalid';
 $lang['MSG_LOGIN_SUCCESS'] = 'Successfully Logged In';
@@ -19,7 +18,10 @@ $lang['ACTION_DETAILS'] = 'Details';
 $lang['ACTION_REFRESH'] = 'Refresh';
 $lang['ACTION_CLEAR'] = 'Clear';
 $lang['ACTION_DELETE'] = 'Delete';
+$lang['ACTION_PRINT'] = 'Print';
+$lang['ACTION_CSV'] = 'Download';
 $lang['DELETE_CONFIRM'] = 'Are You sure to delete?';
+$lang['MSG_ROLE_ASSIGN_SUCCESS'] = 'Role Assign Successful.';
 
 //****MODULE TASK//
 
@@ -40,6 +42,13 @@ $lang['LABEL_SP3'] = 'Sp 3';
 $lang['LABEL_SP4'] = 'Sp 4';
 $lang['LABEL_SP5'] = 'Sp 5';
 //*****//
+
+//locations
+$lang['LABEL_ZONE_NAME'] = 'Zone';
+$lang['LABEL_TERRITORY_NAME'] = 'Territory';
+$lang['LABEL_DISTRICT_NAME'] = 'District';
+$lang['LABEL_UPAZILA_NAME'] = 'Upazila';
+$lang['LABEL_UNION_NAME'] = 'Union';
 
 //common
 $lang['YOU_DONT_HAVE_ACCESS'] = 'You cannot access this page';
