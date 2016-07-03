@@ -24,3 +24,4 @@ $config['table_system_site_offline'] = 'pms_system_site_offline';
 //location
 $config['table_location_zones'] = 'pms_location_zones';
 $config['table_location_territories'] = 'pms_location_territories';
+$config['table_location_districts'] = 'pms_location_districts';
