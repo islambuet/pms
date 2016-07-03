@@ -199,7 +199,7 @@ class Setup_location_zone extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('zone[zone_name]',$this->lang->line('LABEL_ZONE_NAME'),'required');
+        $this->form_validation->set_rules('zone[name]',$this->lang->line('LABEL_ZONE_NAME'),'required');
 
         if($this->form_validation->run() == FALSE)
         {
