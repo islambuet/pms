@@ -65,7 +65,7 @@ class Setup_location_zone extends Root_Controller
     }
     private function get_items()
     {
-        $crops=Query_helper::get_info($this->config->item('table_location_zones'),array('id','zone_name','remarks','status','ordering'),array('status !="'.$this->config->item('system_status_delete').'"'));
+        $crops=Query_helper::get_info($this->config->item('table_location_zones'),array('id','name','remarks','status','ordering'),array('status !="'.$this->config->item('system_status_delete').'"'));
         $this->jsonReturn($crops);
 
     }
@@ -76,7 +76,7 @@ class Setup_location_zone extends Root_Controller
         {
             $data['title']="Create New Zone";
             $data['zone']['id']=0;
-            $data['zone']['zone_name']='';
+            $data['zone']['name']='';
             $data['zone']['remarks']='';
             $data['zone']['ordering']=99;
             $data['zone']['status']=$this->config->item('system_status_active');
@@ -109,7 +109,7 @@ class Setup_location_zone extends Root_Controller
             }
 
             $data['zone']=Query_helper::get_info($this->config->item('table_location_zones'),'*',array('id ='.$zone_id),1);
-            $data['title']="Edit Zone (".$data['zone']['zone_name'].')';
+            $data['title']="Edit Zone (".$data['zone']['name'].')';
             $ajax['status']=true;
             $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_zone/add_edit",$data,true));
             if($this->message)
