@@ -38,6 +38,7 @@
                 <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="territory_name"><?php echo $CI->lang->line('LABEL_TERRITORY_NAME'); ?></label>
                 <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="district_name"><?php echo $CI->lang->line('LABEL_DISTRICT_NAME'); ?></label>
                 <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="upazila_name"><?php echo $CI->lang->line('LABEL_UPAZILA_NAME'); ?></label>
+                <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="union_name"><?php echo $CI->lang->line('LABEL_UNION_NAME'); ?></label>
                 <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="remarks"><?php echo $CI->lang->line('LABEL_REMARKS'); ?></label>
                 <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="ordering"><?php echo $CI->lang->line('LABEL_ORDER'); ?></label>
                 <label class="checkbox-inline"><input type="checkbox" class="system_jqx_column"  checked value="status"><?php echo $CI->lang->line('STATUS'); ?></label>
@@ -63,6 +64,7 @@
             dataType: "json",
             dataFields: [
                 { name: 'id', type: 'int' },
+                { name: 'union_name', type: 'string' },
                 { name: 'upazila_name', type: 'string' },
                 { name: 'district_name', type: 'string' },
                 { name: 'territory_name', type: 'string' },
@@ -98,6 +100,7 @@
                     { text: '<?php echo $CI->lang->line('LABEL_TERRITORY_NAME'); ?>', dataField: 'territory_name',width:'100',pinned:true},
                     { text: '<?php echo $CI->lang->line('LABEL_DISTRICT_NAME'); ?>', dataField: 'district_name',width:'100',pinned:true},
                     { text: '<?php echo $CI->lang->line('LABEL_UPAZILA_NAME'); ?>', dataField: 'upazila_name',width:'100',pinned:true},
+                    { text: '<?php echo $CI->lang->line('LABEL_UNION_NAME'); ?>', dataField: 'union_name',width:'100',pinned:true},
                     { text: '<?php echo $CI->lang->line('LABEL_REMARKS'); ?>', dataField: 'remarks'},
                     { text: '<?php echo $CI->lang->line('LABEL_ORDER'); ?>', dataField: 'ordering',cellsalign: 'right',width:'100'},
                     { text: '<?php echo $CI->lang->line('STATUS'); ?>', dataField: 'status',filtertype: 'list',width:'150',cellsalign: 'right'}

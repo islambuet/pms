@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Setup_location_upazila extends Root_Controller
+class Setup_location_union extends Root_Controller
 {
     private  $message;
     public $permissions;
@@ -9,8 +9,8 @@ class Setup_location_upazila extends Root_Controller
     {
         parent::__construct();
         $this->message="";
-        $this->permissions=User_helper::get_permission('Setup_location_upazila');
-        $this->controller_url='setup_location_upazila';
+        $this->permissions=User_helper::get_permission('Setup_location_union');
+        $this->controller_url='setup_location_union';
     }
 
     public function index($action="list",$id=0)
@@ -46,9 +46,9 @@ class Setup_location_upazila extends Root_Controller
 
         if(isset($this->permissions['view'])&&($this->permissions['view']==1))
         {
-            $data['title']="Upazila List";
+            $data['title']="Union List";
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_upazila/list",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_union/list",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
@@ -64,21 +64,26 @@ class Setup_location_upazila extends Root_Controller
     }
     private function get_items()
     {
-        //$this->db->from($this->config->item('table_districts').' districts');
-        $this->db->from($this->config->item('table_location_upazilas').' upazilas');
-        $this->db->select('upazilas.id id,upazilas.name upazila_name');
-        $this->db->select('upazilas.remarks remarks,upazilas.status status,upazilas.ordering ordering');
+        //$this->db->from($this->config->item('table_upazilas').' upazilas');
+        $this->db->from($this->config->item('table_location_unions').' unions');
+        $this->db->select('unions.id id,unions.name union_name');
+        $this->db->select('unions.remarks remarks,unions.status status,unions.ordering ordering');
         $this->db->select('zones.name zone_name');
         $this->db->select('territories.name territory_name');
         $this->db->select('districts.name district_name');
+        $this->db->select('upazilas.name upazila_name');
+        $this->db->join($this->config->item('table_location_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
         $this->db->join($this->config->item('table_location_districts').' districts','districts.id = upazilas.district_id','INNER');
         $this->db->join($this->config->item('table_location_territories').' territories','territories.id = districts.territory_id','INNER');
         $this->db->join($this->config->item('table_location_zones').' zones','zones.id = territories.zone_id','INNER');
-        $this->db->where('upazilas.status !=',$this->config->item('system_status_delete'));
+
         $this->db->order_by('zones.ordering');
         $this->db->order_by('territories.ordering');
         $this->db->order_by('districts.ordering');
         $this->db->order_by('upazilas.ordering');
+        $this->db->order_by('unions.ordering');
+
+        $this->db->where('unions.status !=',$this->config->item('system_status_delete'));
         $districts=$this->db->get()->result_array();
         $this->jsonReturn($districts);
 
@@ -88,20 +93,22 @@ class Setup_location_upazila extends Root_Controller
     {
         if(isset($this->permissions['add'])&&($this->permissions['add']==1))
         {
-            $data['title']="Create New Upazila";
-            $data['upazila']['id']=0;
-            $data['upazila']['zone_id']=0;
-            $data['upazila']['territory_id']=0;
-            $data['upazila']['district_id']=0;
-            $data['upazila']['name']='';
-            $data['upazila']['remarks']='';
-            $data['upazila']['ordering']=999;
-            $data['upazila']['status']=$this->config->item('system_status_active');
+            $data['title']="Create New Union";
+            $data['union']['id']=0;
+            $data['union']['zone_id']=0;
+            $data['union']['territory_id']=0;
+            $data['union']['district_id']=0;
+            $data['union']['upazila_id']=0;
+            $data['union']['name']='';
+            $data['union']['remarks']='';
+            $data['union']['ordering']=999;
+            $data['union']['status']=$this->config->item('system_status_active');
             $data['zones']=Query_helper::get_info($this->config->item('table_location_zones'),array('id value','name text'),array('status ="'.$this->config->item('system_status_active').'"'));
             $data['territories']=array();
             $data['districts']=array();
+            $data['upazilas']=array();
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_upazila/add_edit",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_union/add_edit",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
@@ -121,37 +128,37 @@ class Setup_location_upazila extends Root_Controller
         {
             if(($this->input->post('id')))
             {
-                $upazila_id=$this->input->post('id');
+                $union_id=$this->input->post('id');
             }
             else
             {
-                $upazila_id=$id;
+                $union_id=$id;
             }
 
-            $this->db->from($this->config->item('table_location_upazilas').' upazilas');
-            $this->db->select('upazilas.*');
-
+            //$data['union']=Query_helper::get_info($this->config->item('table_unions'),'*',array('id ='.$union_id),1);
+            $this->db->from($this->config->item('table_location_unions').' unions');
+            $this->db->select('unions.*');
             $this->db->select('territories.zone_id zone_id');
             $this->db->select('districts.territory_id territory_id');
+            $this->db->select('upazilas.district_id district_id');
+            $this->db->join($this->config->item('table_location_upazilas').' upazilas','upazilas.id = unions.upazila_id','INNER');
             $this->db->join($this->config->item('table_location_districts').' districts','districts.id = upazilas.district_id','INNER');
             $this->db->join($this->config->item('table_location_territories').' territories','territories.id = districts.territory_id','INNER');
-
-
-            $this->db->where('upazilas.id',$upazila_id);
-            $data['upazila']=$this->db->get()->row_array();
-
+            $this->db->where('unions.id',$union_id);
+            $data['union']=$this->db->get()->row_array();
 
             $data['zones']=Query_helper::get_info($this->config->item('table_location_zones'),array('id value','name text'),array('status ="'.$this->config->item('system_status_active').'"'));
-            $data['territories']=Query_helper::get_info($this->config->item('table_location_territories'),array('id value','name text'),array('zone_id ='.$data['upazila']['zone_id']));
-            $data['districts']=Query_helper::get_info($this->config->item('table_location_districts'),array('id value','name text'),array('territory_id ='.$data['upazila']['territory_id']));
-            $data['title']="Edit Upazila (".$data['upazila']['name'].')';
+            $data['territories']=Query_helper::get_info($this->config->item('table_location_territories'),array('id value','name text'),array('zone_id ='.$data['union']['zone_id']));
+            $data['districts']=Query_helper::get_info($this->config->item('table_location_districts'),array('id value','name text'),array('territory_id ='.$data['union']['territory_id']));
+            $data['upazilas']=Query_helper::get_info($this->config->item('table_location_upazilas'),array('id value','name text'),array('district_id ='.$data['union']['district_id']));
+            $data['title']="Edit Union (".$data['union']['name'].')';
             $ajax['status']=true;
-            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_upazila/add_edit",$data,true));
+            $ajax['system_content'][]=array("id"=>"#system_content","html"=>$this->load->view("setup_location_union/add_edit",$data,true));
             if($this->message)
             {
                 $ajax['system_message']=$this->message;
             }
-            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$upazila_id);
+            $ajax['system_page_url']=site_url($this->controller_url.'/index/edit/'.$union_id);
             $this->jsonReturn($ajax);
         }
         else
@@ -195,21 +202,21 @@ class Setup_location_upazila extends Root_Controller
         }
         else
         {
-            $data = $this->input->post('upazila');
+            $data = $this->input->post('union');
 
             $this->db->trans_start();  //DB Transaction Handle START
             if($id>0)
             {
                 $data['user_updated']=$user->user_id;
                 $data['date_updated']=$time;
-                Query_helper::update($this->config->item('table_location_upazilas'),$data,array("id = ".$id));
+                Query_helper::update($this->config->item('table_location_unions'),$data,array("id = ".$id));
 
             }
             else
             {
                 $data['user_created'] = $user->user_id;
                 $data['date_created'] = $time;
-                Query_helper::add($this->config->item('table_location_upazilas'),$data);
+                Query_helper::add($this->config->item('table_location_unions'),$data);
             }
             $this->db->trans_complete();   //DB Transaction Handle END
             if ($this->db->trans_status() === TRUE)
@@ -236,8 +243,8 @@ class Setup_location_upazila extends Root_Controller
     private function check_validation()
     {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('upazila[name]',$this->lang->line('LABEL_UPAZILA_NAME'),'required');
-        $this->form_validation->set_rules('upazila[district_id]',$this->lang->line('LABEL_DISTRICT_NAME'),'required');
+        $this->form_validation->set_rules('union[upazila_id]',$this->lang->line('LABEL_UPAZILA_NAME'),'required');
+        $this->form_validation->set_rules('union[name]',$this->lang->line('LABEL_UNION_NAME'),'required');
 
         if($this->form_validation->run() == FALSE)
         {
