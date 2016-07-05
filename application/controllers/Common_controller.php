@@ -10,16 +10,21 @@ class Common_controller extends Root_Controller
 
     }
 
-    /*public function get_dropdown_classifications_by_cropid()
+    public function get_dropdown_classifications_by_cropid()
     {
         $crop_id = $this->input->post('crop_id');
-        $data['items']=Query_helper::get_info($this->config->item('table_classifications'),array('id value','classification_name text'),array('crop_id ='.$crop_id,'status ="'.$this->config->item('system_status_active').'"'));
+        $html_container_id='#classification_id';
+        if($this->input->post('html_container_id'))
+        {
+            $html_container_id=$this->input->post('html_container_id');
+        }
+        $data['items']=Query_helper::get_info($this->config->item('table_cc_classifications'),array('id value','name text'),array('crop_id ='.$crop_id,'status ="'.$this->config->item('system_status_active').'"'),0,0,array('ordering ASC'));
         $ajax['status']=true;
-        $ajax['system_content'][]=array("id"=>"#classification_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+        $ajax['system_content'][]=array("id"=>$html_container_id,"html"=>$this->load->view("dropdown_with_select",$data,true));
 
         $this->jsonReturn($ajax);
     }
-    public function get_dropdown_types_by_classificationid()
+    /*public function get_dropdown_types_by_classificationid()
     {
         $classification_id = $this->input->post('classification_id');
         $data['items']=Query_helper::get_info($this->config->item('table_types'),array('id value','type_name text'),array('classification_id ='.$classification_id,'status ="'.$this->config->item('system_status_active').'"'));
