@@ -77,7 +77,7 @@ class Common_controller extends Root_Controller
     public function get_dropdown_upazilas_by_districtid()
     {
         $district_id = $this->input->post('district_id');
-        $html_container_id='#upazilla_id';
+        $html_container_id='#upazila_id';
         if($this->input->post('html_container_id'))
         {
             $html_container_id=$this->input->post('html_container_id');
