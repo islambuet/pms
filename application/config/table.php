@@ -33,3 +33,5 @@ $config['table_cc_classifications'] = 'pms_cc_classifications';
 $config['table_cc_types'] = 'pms_cc_types';
 $config['table_cc_skin_types'] = 'pms_cc_skin_types';
 $config['table_cc_varieties'] = 'pms_cc_varieties';
+//customers
+$config['table_cus_customer'] = 'pms_cus_customer';

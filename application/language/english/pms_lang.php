@@ -57,6 +57,16 @@ $lang['LABEL_TYPE_NAME'] = 'Type Name';
 $lang['LABEL_SKIN_TYPE_NAME'] = 'Skin Type Name';
 $lang['LABEL_VARIETY_NAME'] = 'Variety Name';
 $lang['LABEL_UNIT_PRICE'] = 'Price/Box';
+
+//Customer
+$lang['LABEL_CUSTOMER_ID'] = 'Customer Id';
+$lang['LABEL_CUSTOMER_NAME'] = 'Customer Name';
+$lang['LABEL_OWNER_NAME'] = 'Owner name';
+$lang['LABEL_FATHER_NAME'] = 'Father\'s name';
+$lang['LABEL_EMAIL'] = 'E-mail';
+$lang['LABEL_CONTACT_NO'] = 'Contact No.';
+$lang['LABEL_ADDRESS'] = 'Address';
+
 //Consignment
 $lang['LABEL_CONSIGNMENT_NAME'] = 'Consignment Name';
 //common
