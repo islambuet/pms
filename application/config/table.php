@@ -29,3 +29,4 @@ $config['table_location_upazilas'] = 'pms_location_upazilas';
 $config['table_location_unions'] = 'pms_location_unions';
 //Crop Classifications
 $config['table_cc_crops'] = 'pms_cc_crops';
+$config['table_cc_classifications'] = 'pms_cc_classifications';
