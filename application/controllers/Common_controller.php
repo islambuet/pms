@@ -38,16 +38,21 @@ class Common_controller extends Root_Controller
 
         $this->jsonReturn($ajax);
     }
-    /*public function get_dropdown_skintypes_by_typeid()
+    public function get_dropdown_skintypes_by_typeid()
     {
         $type_id = $this->input->post('type_id');
-        $data['items']=Query_helper::get_info($this->config->item('table_skin_types'),array('id value','skin_type_name text'),array('type_id ='.$type_id,'status ="'.$this->config->item('system_status_active').'"'));
+        $html_container_id='#skin_type_id';
+        if($this->input->post('html_container_id'))
+        {
+            $html_container_id=$this->input->post('html_container_id');
+        }
+        $data['items']=Query_helper::get_info($this->config->item('table_cc_skin_types'),array('id value','name text'),array('type_id ='.$type_id,'status ="'.$this->config->item('system_status_active').'"'),0,0,array('ordering ASC'));
         $ajax['status']=true;
-        $ajax['system_content'][]=array("id"=>"#skin_type_id","html"=>$this->load->view("dropdown_with_select",$data,true));
+        $ajax['system_content'][]=array("id"=>$html_container_id,"html"=>$this->load->view("dropdown_with_select",$data,true));
 
         $this->jsonReturn($ajax);
     }
-    public function get_dropdown_varieties_by_skintypeid()
+    /*public function get_dropdown_varieties_by_skintypeid()
     {
         $skin_type_id = $this->input->post('skin_type_id');
         $data['items']=Query_helper::get_info($this->config->item('table_varieties'),array('id value','variety_name text'),array('skin_type_id ='.$skin_type_id,'status ="'.$this->config->item('system_status_active').'"'));

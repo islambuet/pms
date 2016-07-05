@@ -32,3 +32,4 @@ $config['table_cc_crops'] = 'pms_cc_crops';
 $config['table_cc_classifications'] = 'pms_cc_classifications';
 $config['table_cc_types'] = 'pms_cc_types';
 $config['table_cc_skin_types'] = 'pms_cc_skin_types';
+$config['table_cc_varieties'] = 'pms_cc_varieties';
