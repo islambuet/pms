@@ -27,3 +27,5 @@ $config['table_location_territories'] = 'pms_location_territories';
 $config['table_location_districts'] = 'pms_location_districts';
 $config['table_location_upazilas'] = 'pms_location_upazilas';
 $config['table_location_unions'] = 'pms_location_unions';
+//Crop Classifications
+$config['table_cc_crops'] = 'pms_cc_crops';

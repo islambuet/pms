@@ -50,6 +50,15 @@ $lang['LABEL_DISTRICT_NAME'] = 'District';
 $lang['LABEL_UPAZILA_NAME'] = 'Upazila';
 $lang['LABEL_UNION_NAME'] = 'Union';
 
+//CC
+$lang['LABEL_CROP_NAME'] = 'Crop Name';
+$lang['LABEL_CLASSIFICATION_NAME'] = 'Classification Name';
+$lang['LABEL_TYPE_NAME'] = 'Type Name';
+$lang['LABEL_SKIN_TYPE_NAME'] = 'Skin Type Name';
+$lang['LABEL_VARIETY_NAME'] = 'Variety Name';
+$lang['LABEL_UNIT_PRICE'] = 'Price/Box';
+//Consignment
+$lang['LABEL_CONSIGNMENT_NAME'] = 'Consignment Name';
 //common
 $lang['YOU_DONT_HAVE_ACCESS'] = 'You cannot access this page';
 $lang['ACTIVE'] = 'Active';
