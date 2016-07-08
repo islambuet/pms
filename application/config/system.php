@@ -5,8 +5,8 @@ $config['system_status_active']='Active';
 $config['system_status_inactive']='In-Active';
 $config['system_status_delete']='Deleted';
 
-/*$config['start_year']='2015';
-$config['booking_status_preliminary']='Preliminary';
+$config['system_pms_start_year']='2015';
+/*$config['booking_status_preliminary']='Preliminary';
 $config['booking_status_permanent']='Permanent';
 $config['booking_status_other']='Other';
 
