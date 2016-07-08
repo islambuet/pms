@@ -17,7 +17,7 @@ $config['table_system_task'] = 'pms_system_task';
 $config['table_system_user_group_role'] = 'pms_system_user_group_role';
 $config['table_history'] = 'pms_history';
 $config['table_history_hack'] = 'pms_history_hack';
-//$config['table_system_assigned_area'] = 'bms_system_assigned_area';
+$config['table_system_assigned_area'] = 'pms_system_assigned_area';
 $config['table_system_site_offline'] = 'pms_system_site_offline';
 
 //pms site tables

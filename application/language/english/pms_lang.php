@@ -107,3 +107,4 @@ $lang['MSG_BOOKING_NOT_FOUND'] = 'No Booking available';
 $lang['LABEL_USERNAME'] = 'User name';
 $lang['LABEL_EMPLOYEE_ID'] = 'Employee id';
 $lang['LABEL_USER_GROUP'] = 'User Group';
+$lang['LABEL_DESIGNATION_NAME'] = 'Designation';
