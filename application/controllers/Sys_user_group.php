@@ -40,7 +40,7 @@ class Sys_user_group extends Root_Controller
 
     private function system_list()
     {
-        if(isset($this->permissions['view'])&&($this->permissions['view']==1))
+        if(isset($this->permissions['action0'])&&($this->permissions['action0']==1))
         {
             $data['title']="User Groups";
             $ajax['status']=true;
@@ -63,7 +63,7 @@ class Sys_user_group extends Root_Controller
 
     private function system_add()
     {
-        if(isset($this->permissions['add'])&&($this->permissions['add']==1))
+        if(isset($this->permissions['action1'])&&($this->permissions['action1']==1))
         {
 
             $data['title']="Create New User Group";
@@ -93,7 +93,7 @@ class Sys_user_group extends Root_Controller
     }
     private function system_edit($id)
     {
-        if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+        if(isset($this->permissions['action2'])&&($this->permissions['action2']==1))
         {
             if(($this->input->post('id')))
             {
@@ -129,7 +129,7 @@ class Sys_user_group extends Root_Controller
         $user = User_helper::get_user();
         if($id>0)
         {
-            if(!(isset($this->permissions['edit'])&&($this->permissions['edit']==1)))
+            if(!(isset($this->permissions['action2'])&&($this->permissions['action2']==1)))
             {
                 $ajax['status']=false;
                 $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
@@ -139,7 +139,7 @@ class Sys_user_group extends Root_Controller
         }
         else
         {
-            if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
+            if(!(isset($this->permissions['action1'])&&($this->permissions['action1']==1)))
             {
                 $ajax['status']=false;
                 $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");

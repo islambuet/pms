@@ -29,18 +29,13 @@ $lang['LABEL_PARENT'] = 'Parent';
 $lang['LABEL_CONTROLLER_NAME'] = 'Controller';
 $lang['TOTAL_TASK'] = 'Number of Tasks';
 $lang['LABEL_TYPE'] = 'Type';
-$lang['LABEL_VIEW'] = 'View';
-$lang['LABEL_ADD'] = 'Add';
-$lang['LABEL_EDIT'] = 'Edit';
-$lang['LABEL_DELETE'] = 'Delete';
-$lang['LABEL_PRINT'] = 'Print';
-$lang['LABEL_DOWNLOAD'] = 'Download';
-$lang['LABEL_COLUMN_HEADERS'] = 'Column Headers';
-$lang['LABEL_SP1'] = 'Sp 1';
-$lang['LABEL_SP2'] = 'Sp 2';
-$lang['LABEL_SP3'] = 'Sp 3';
-$lang['LABEL_SP4'] = 'Sp 4';
-$lang['LABEL_SP5'] = 'Sp 5';
+$lang['LABEL_ACTION0'] = 'View';
+$lang['LABEL_ACTION1'] = 'Add';
+$lang['LABEL_ACTION2'] = 'Edit';
+$lang['LABEL_ACTION3'] = 'Delete';
+$lang['LABEL_ACTION4'] = 'Print';
+$lang['LABEL_ACTION5'] = 'Download';
+$lang['LABEL_ACTION6'] = 'Column Headers';
 //*****//
 
 //locations

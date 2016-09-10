@@ -21,19 +21,14 @@ $CI->load->view("action_buttons",$action_data);
                 <thead>
                 <tr>
                     <th><?php echo $CI->lang->line("NAME");?></th>
-                    <th><input type="checkbox" data-type='task_action_view' class="task_header_all"><?php echo $CI->lang->line('LABEL_VIEW'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_add' class="task_header_all"><?php echo $CI->lang->line('LABEL_ADD'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_edit' class="task_header_all"><?php echo $CI->lang->line('LABEL_EDIT'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_delete' class="task_header_all"><?php echo $CI->lang->line('LABEL_DELETE'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_print' class="task_header_all"><?php echo $CI->lang->line('LABEL_PRINT'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_download' class="task_header_all"><?php echo $CI->lang->line('LABEL_DOWNLOAD'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_column_headers' class="task_header_all"><?php echo $CI->lang->line('LABEL_COLUMN_HEADERS'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_sp1' class="task_header_all"><?php echo $CI->lang->line('LABEL_SP1'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_sp2' class="task_header_all"><?php echo $CI->lang->line('LABEL_SP2'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_sp3' class="task_header_all"><?php echo $CI->lang->line('LABEL_SP3'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_sp4' class="task_header_all"><?php echo $CI->lang->line('LABEL_SP4'); ?></th>
-                    <th><input type="checkbox" data-type='task_action_sp5' class="task_header_all"><?php echo $CI->lang->line('LABEL_SP5'); ?></th>
-
+                    <?php
+                    for($i=0;$i<$this->config->item('system_max_actions');$i++)
+                    {
+                        ?>
+                        <th><input type="checkbox" data-type='task_action<?php echo $i;?>' class="task_header_all"><?php echo $CI->lang->line('LABEL_ACTION'.$i); ?></th>
+                        <?php
+                    }
+                    ?>
 
                 </tr>
                 </thead>
@@ -57,126 +52,23 @@ $CI->load->view("action_buttons",$action_data);
                                 ?>
                                 <?php echo $module_task['module_task']['name'];?>
                             </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_VIEW'); ?>" class="task_action_view task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['view'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][view]'>
+                            <?php
+                            for($i=0;$i<$this->config->item('system_max_actions');$i++)
+                            {
+                                ?>
+                                <td>
                                     <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_ADD'); ?>" class="task_action_add task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['add'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][add]'>
+                                    if($module_task['module_task']['type']=='TASK')
+                                    {
+                                        ?>
+                                        <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_ACTION'.$i); ?>" class="task_action<?php echo $i;?> task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['action'.$i])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][action<?php echo $i; ?>]'>
                                     <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
+                                    }
                                     ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_EDIT'); ?>" class="task_action_edit task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['edit'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][edit]'>
-                                    <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
+                                </td>
                                 <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_DELETE'); ?>" class="task_action_delete task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['delete'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][delete]'>
-                                    <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_PRINT'); ?>" class="task_action_print task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['print'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][print]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_DOWNLOAD'); ?>" class="task_action_download task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['download'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][download]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_COLUMN_HEADERS'); ?>" class="task_action_column_headers task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['column_headers'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][column_headers]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_SP1'); ?>" class="task_action_sp1 task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['sp1'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][sp1]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_SP2'); ?>" class="task_action_sp2 task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['sp2'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][sp2]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_SP3'); ?>" class="task_action_sp3 task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['sp3'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][sp3]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_SP4'); ?>" class="task_action_sp4 task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['sp4'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][sp4]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($module_task['module_task']['type']=='TASK')
-                                {
-                                    ?>
-                                    <input type="checkbox" title="<?php echo $CI->lang->line('LABEL_SP5'); ?>" class="task_action_sp5 task_action_<?php echo $module_task['module_task']['id'];?>"  <?php if(in_array($module_task['module_task']['id'],$role_status['sp5'])){echo 'checked';}?> value="1" name='tasks[<?php echo $module_task['module_task']['id'];?>][sp5]'>
-                                <?php
-                                }
-                                ?>
-                            </td>
+                            }
+                            ?>
 
                         </tr>
                     <?php

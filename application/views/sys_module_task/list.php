@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     $CI = & get_instance();
     $action_data=array();
-    if(isset($CI->permissions['add'])&&($CI->permissions['add']==1))
+    if(isset($CI->permissions['action1'])&&($CI->permissions['action1']==1))
     {
         $action_data["action_new"]=base_url($CI->controller_url."/index/add");
     }

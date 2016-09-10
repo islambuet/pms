@@ -14,8 +14,8 @@ class Sys_user_role extends Root_Controller
         $this->permissions=User_helper::get_permission('Sys_user_role');
         if($user->user_group==1)
         {
-            $this->permissions['view']=1;
-            $this->permissions['edit']=1;
+            $this->permissions['action0']=1;
+            $this->permissions['action2']=1;
         }
         $this->controller_url='sys_user_role';
         $this->load->model("sys_user_role_model");
@@ -43,7 +43,7 @@ class Sys_user_role extends Root_Controller
 
     public function system_list()
     {
-        if(isset($this->permissions['view'])&&($this->permissions['view']==1))
+        if(isset($this->permissions['action0'])&&($this->permissions['action0']==1))
         {
             $data['title']="User Role";
             $ajax['status']=true;
@@ -65,7 +65,7 @@ class Sys_user_role extends Root_Controller
 
     public function system_edit($id)
     {
-        if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+        if(isset($this->permissions['action2'])&&($this->permissions['action2']==1))
         {
             if(($this->input->post('id')))
             {
@@ -102,7 +102,7 @@ class Sys_user_role extends Root_Controller
     {
         $group_id = $this->input->post("id");
         $user = User_helper::get_user();
-        if(!(isset($this->permissions['edit'])&&($this->permissions['edit']==1)))
+        if(!(isset($this->permissions['action2'])&&($this->permissions['action2']==1)))
         {
             $ajax['status']=false;
             $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
@@ -124,105 +124,25 @@ class Sys_user_role extends Root_Controller
             {
 
                 $data=array();
-                if(isset($task['view'])&& ($task['view']==1))
+                for($i=0;$i<$this->config->item('system_max_actions');$i++)
                 {
-                    $data['view']=1;
+                    if(isset($task['action'.$i])&& ($task['action'.$i]==1))
+                    {
+                        $data['action'.$i]=1;
+                    }
+                    else
+                    {
+                        $data['action'.$i]=0;
+                    }
                 }
-                else
+
+                for($i=0;$i<$this->config->item('system_max_actions');$i++)
                 {
-                    $data['view']=0;
-                }
-                if(isset($task['add'])&& ($task['add']==1))
-                {
-                    $data['add']=1;
-                }
-                else
-                {
-                    $data['add']=0;
-                }
-                if(isset($task['edit'])&& ($task['edit']==1))
-                {
-                    $data['edit']=1;
-                }
-                else
-                {
-                    $data['edit']=0;
-                }
-                if(isset($task['delete'])&& ($task['delete']==1))
-                {
-                    $data['delete']=1;
-                }
-                else
-                {
-                    $data['delete']=0;
-                }
-                if(isset($task['print'])&& ($task['print']==1))
-                {
-                    $data['print']=1;
-                }
-                else
-                {
-                    $data['print']=0;
-                }
-                if(isset($task['download'])&& ($task['download']==1))
-                {
-                    $data['download']=1;
-                }
-                else
-                {
-                    $data['download']=0;
-                }
-                if(isset($task['column_headers'])&& ($task['column_headers']==1))
-                {
-                    $data['column_headers']=1;
-                }
-                else
-                {
-                    $data['column_headers']=0;
-                }
-                if(isset($task['sp1'])&& ($task['sp1']==1))
-                {
-                    $data['sp1']=1;
-                }
-                else
-                {
-                    $data['sp1']=0;
-                }
-                if(isset($task['sp2'])&& ($task['sp2']==1))
-                {
-                    $data['sp2']=1;
-                }
-                else
-                {
-                    $data['sp2']=0;
-                }
-                if(isset($task['sp3'])&& ($task['sp3']==1))
-                {
-                    $data['sp3']=1;
-                }
-                else
-                {
-                    $data['sp3']=0;
-                }
-                if(isset($task['sp4'])&& ($task['sp4']==1))
-                {
-                    $data['sp4']=1;
-                }
-                else
-                {
-                    $data['sp4']=0;
-                }
-                if(isset($task['sp5'])&& ($task['sp5']==1))
-                {
-                    $data['sp5']=1;
-                }
-                else
-                {
-                    $data['sp5']=0;
-                }
-                if(($data['add'])||($data['edit'])||($data['delete'])||($data['print'])||($data['download'])||($data['column_headers'])||($data['sp1'])||($data['sp2'])||($data['sp3'])||($data['sp4'])||($data['sp5']))
-                {
-                    $data['view']=1;
+                    if($data['action'.$i])
+                    {
+                        $data['action0']=1;
+                        break;
+                    }
                 }
                 $data['task_id']=$task_id;
                 $data['user_group_id']=$group_id;

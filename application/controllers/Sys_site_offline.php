@@ -30,7 +30,7 @@ class Sys_site_offline extends Root_Controller
     }
     private function system_add()
     {
-        if(isset($this->permissions['add'])&&($this->permissions['add']==1))
+        if(isset($this->permissions['action1'])&&($this->permissions['action1']==1))
         {
 
             $data['title']="Site Offline";

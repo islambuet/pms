@@ -100,7 +100,7 @@ class User_helper
         $CI->db->order_by('ordering');
         $tasks=$CI->db->get($CI->config->item('table_system_task'))->result_array();
 
-        $roles=Query_helper::get_info($CI->config->item('table_system_user_group_role'),'*',array('revision =1','view =1','user_group_id ='.$user->user_group));
+        $roles=Query_helper::get_info($CI->config->item('table_system_user_group_role'),'*',array('revision =1','action0 =1','user_group_id ='.$user->user_group));
         $role_data=array();
         foreach($roles as $role)
         {
@@ -123,8 +123,6 @@ class User_helper
                 $menu_data['items'][$task['id']]=$task;
                 $menu_data['children'][$task['parent']][]=$task['id'];
             }
-
-
         }
 
         $html='';

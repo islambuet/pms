@@ -25,7 +25,7 @@ class Sys_user_role_model extends CI_Model
         $this->db->select('Count(ugr.id) total_task',false);
         $this->db->select('user_group_id');
         $this->db->where('ugr.revision',1);
-        $this->db->where('ugr.view',1);
+        $this->db->where('ugr.action0',1);
         $this->db->group_by('user_group_id');
         $results=$this->db->get()->result_array();
         $total_roles=array();
@@ -51,73 +51,25 @@ class Sys_user_role_model extends CI_Model
     {
         $CI = & get_instance();
         $this->db->from($CI->config->item('table_system_user_group_role').' ugr');
-        $this->db->select('ugr.view,ugr.add,ugr.edit,ugr.delete,ugr.print,ugr.download,ugr.column_headers,ugr.task_id');
-        $this->db->select('ugr.sp1,ugr.sp2,ugr.sp3,ugr.sp4,ugr.sp5');
+        //$this->db->select('ugr.view,ugr.add,ugr.edit,ugr.delete,ugr.print,ugr.download,ugr.column_headers,ugr.task_id');
+        //$this->db->select('ugr.sp1,ugr.sp2,ugr.sp3,ugr.sp4,ugr.sp5');
+        $this->db->select('ugr.*');
         $this->db->where('ugr.user_group_id',$user_group_id);
         $this->db->where('ugr.revision',1);
         $results=$this->db->get()->result_array();
         $roles=array();
-        $roles['view']=array();
-        $roles['add']=array();
-        $roles['edit']=array();
-        $roles['delete']=array();
-        $roles['print']=array();
-        $roles['download']=array();
-        $roles['column_headers']=array();
-        $roles['sp1']=array();
-        $roles['sp2']=array();
-        $roles['sp3']=array();
-        $roles['sp4']=array();
-        $roles['sp5']=array();
+        for($i=0;$i<$this->config->item('system_max_actions');$i++)
+        {
+            $roles['action'.$i]=array();
+        }
         foreach($results as $result)
         {
-            if($result['view'])
+            for($i=0;$i<$this->config->item('system_max_actions');$i++)
             {
-                $roles['view'][]=$result['task_id'];
-            }
-            if($result['add'])
-            {
-                $roles['add'][]=$result['task_id'];
-            }
-            if($result['edit'])
-            {
-                $roles['edit'][]=$result['task_id'];
-            }
-            if($result['delete'])
-            {
-                $roles['delete'][]=$result['task_id'];
-            }
-            if($result['print'])
-            {
-                $roles['print'][]=$result['task_id'];
-            }
-            if($result['download'])
-            {
-                $roles['download'][]=$result['task_id'];
-            }
-            if($result['column_headers'])
-            {
-                $roles['column_headers'][]=$result['task_id'];
-            }
-            if($result['sp1'])
-            {
-                $roles['sp1'][]=$result['task_id'];
-            }
-            if($result['sp2'])
-            {
-                $roles['sp2'][]=$result['task_id'];
-            }
-            if($result['sp3'])
-            {
-                $roles['sp3'][]=$result['task_id'];
-            }
-            if($result['sp4'])
-            {
-                $roles['sp4'][]=$result['task_id'];
-            }
-            if($result['sp5'])
-            {
-                $roles['sp5'][]=$result['task_id'];
+                if($result['action'.$i])
+                {
+                    $roles['action'.$i][]=$result['task_id'];
+                }
             }
         }
 

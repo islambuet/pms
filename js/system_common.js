@@ -370,7 +370,7 @@ $(document).ready(function()
         newWindow.print();
 
     });
-    $(document).on("click", "#button_action_csv", function(event)
+    $(document).on("click", "#button_action_download", function(event)
     {
         //previous csv file
         /*var jqxgrid_id='#system_jqx_container';

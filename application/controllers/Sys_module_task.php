@@ -41,7 +41,7 @@ class Sys_module_task extends Root_Controller
     private function system_list()
     {
         $data['title']="Module and Task";
-        if(isset($this->permissions['view'])&&($this->permissions['view']==1))
+        if(isset($this->permissions['action0'])&&($this->permissions['action0']==1))
         {
             $data['modules_tasks']=$this->sys_module_task_model->get_modules_tasks_table_tree();
 
@@ -66,7 +66,7 @@ class Sys_module_task extends Root_Controller
 
     private function system_add()
     {
-        if(isset($this->permissions['add'])&&($this->permissions['add']==1))
+        if(isset($this->permissions['action1'])&&($this->permissions['action1']==1))
         {
 
             $data['title']="Create New Module/Task";
@@ -100,7 +100,7 @@ class Sys_module_task extends Root_Controller
     }
     private function system_edit($id)
     {
-        if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+        if(isset($this->permissions['action2'])&&($this->permissions['action2']==1))
         {
 
             $data['module_task'] = $this->sys_module_task_model->get_module_task_info($id);
@@ -131,7 +131,7 @@ class Sys_module_task extends Root_Controller
         $user = User_helper::get_user();
         if($id>0)
         {
-            if(!(isset($this->permissions['edit'])&&($this->permissions['edit']==1)))
+            if(!(isset($this->permissions['action2'])&&($this->permissions['action2']==1)))
             {
                 $ajax['status']=false;
                 $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
@@ -141,7 +141,7 @@ class Sys_module_task extends Root_Controller
         }
         else
         {
-            if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
+            if(!(isset($this->permissions['action1'])&&($this->permissions['action1']==1)))
             {
                 $ajax['status']=false;
                 $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
