@@ -1,21 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     $CI = & get_instance();
     $action_data=array();
-    if(isset($CI->permissions['add'])&&($CI->permissions['add']==1))
+    if(isset($CI->permissions['action1'])&&($CI->permissions['action1']==1))
     {
         $action_data["action_new"]=base_url($CI->controller_url."/index/add");
     }
-    if(isset($CI->permissions['edit'])&&($CI->permissions['edit']==1))
+    if(isset($CI->permissions['action2'])&&($CI->permissions['action2']==1))
     {
         $action_data["action_edit"]=base_url($CI->controller_url."/index/edit");
     }
-    if(isset($CI->permissions['print'])&&($CI->permissions['print']==1))
+    if(isset($CI->permissions['action4'])&&($CI->permissions['action4']==1))
     {
         $action_data["action_print"]='print';
     }
-    if(isset($CI->permissions['download'])&&($CI->permissions['download']==1))
+    if(isset($CI->permissions['action5'])&&($CI->permissions['action5']==1))
     {
-        $action_data["action_csv"]='download';
+        $action_data["action_download"]='download';
     }
     $action_data["action_refresh"]=base_url($CI->controller_url."/index/list");
     $CI->load->view("action_buttons",$action_data);
@@ -29,7 +29,7 @@
         <div class="clearfix"></div>
     </div>
     <?php
-    if(isset($CI->permissions['column_headers'])&&($CI->permissions['column_headers']==1))
+    if(isset($CI->permissions['action6'])&&($CI->permissions['action6']==1))
     {
         ?>
         <div class="col-xs-12" style="margin-bottom: 20px;">

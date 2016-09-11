@@ -47,7 +47,7 @@ class Setup_cc_variety_price extends Root_Controller
     private function system_list()
     {
 
-        if(isset($this->permissions['view'])&&($this->permissions['view']==1))
+        if(isset($this->permissions['action0'])&&($this->permissions['action0']==1))
         {
             $data['title']="Variety Price List";
             $ajax['status']=true;
@@ -93,7 +93,7 @@ class Setup_cc_variety_price extends Root_Controller
     }
     private function system_add()
     {
-        if(isset($this->permissions['add'])&&($this->permissions['add']==1))
+        if(isset($this->permissions['action1'])&&($this->permissions['action1']==1))
         {
             $data['title']="Set Variety Price";
             $data['price']['year']=date('Y');
@@ -125,7 +125,7 @@ class Setup_cc_variety_price extends Root_Controller
 
     private function system_edit($id)
     {
-        if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+        if(isset($this->permissions['action2'])&&($this->permissions['action2']==1))
         {
             if(($this->input->post('id')))
             {
@@ -173,7 +173,7 @@ class Setup_cc_variety_price extends Root_Controller
     }
     private function system_load_price()
     {
-        if(isset($this->permissions['edit'])&&($this->permissions['edit']==1))
+        if(isset($this->permissions['action2'])&&($this->permissions['action2']==1))
         {
             $variety_id=$this->input->post('variety_id');
             $year=$this->input->post('year');
@@ -208,6 +208,7 @@ class Setup_cc_variety_price extends Root_Controller
         }
         else
         {
+            $ajax['status']=false;
             $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
             $this->jsonReturn($ajax);
         }
@@ -216,7 +217,7 @@ class Setup_cc_variety_price extends Root_Controller
     {
         $user=User_helper::get_user();
         $time=time();
-        if(!(isset($this->permissions['add'])&&($this->permissions['add']==1)))
+        if(!(isset($this->permissions['action1'])&&($this->permissions['action1']==1)))
         {
             $ajax['status']=false;
             $ajax['system_message']=$this->lang->line("YOU_DONT_HAVE_ACCESS");
